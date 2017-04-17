@@ -1,0 +1,17 @@
+body{
+    background-color: #ECECEC;
+}
+#login{
+    width: 360px;
+    margin: 0 auto;
+    top: 25vh;
+    
+    h1{
+        text-align: center;
+        padding-bottom: 1em;
+    }
+
+    @media screen and ( max-width: 480px ){
+        width: 90vw;
+    }
+}
