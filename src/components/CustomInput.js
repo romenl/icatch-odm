@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Select, Switch, Radio, DatePicker } from 'antd';
+import { Modal, Form, Input, Select, Switch, Radio, DatePicker, Button, Upload, Icon, message } from 'antd';
 import moment from 'moment';
 
 const FormItem    = Form.Item,
@@ -193,7 +193,7 @@ class UserModal extends Component {
                 onCancel={ onCancel } >
                 <Form>
                     <FormItemInput 
-                        label='User name' id='user_name' value={ modify_user.name } placeholder='user name' layout={formItemLayout} decorator={getFieldDecorator} 
+                        label='User name' id='user_name' value={ modify_user.name } placeholder='User Name' layout={formItemLayout} decorator={getFieldDecorator} 
                         rules={[{
                             required: true, message: 'Please input user name!'
                         }]}/>
@@ -202,14 +202,14 @@ class UserModal extends Component {
                         label='User level' id='user_level' value={ modify_user.level !== '' ? modify_user.level : 'operator' } options={ userlevels } layout={formItemLayout} decorator={getFieldDecorator}/>
 
                     <FormItemInput 
-                        label='User password' id='user_password' type='password' hasFeedback={true} layout={formItemLayout} decorator={getFieldDecorator}
+                        label='User password' id='user_password' type='password' hasFeedback={true} placeholder='User Password' layout={formItemLayout} decorator={getFieldDecorator}
                         rules={[{
                             required: true, message: 'Please input user password!'
                         },{
                             validator: this.checkConfirm.bind(this),
                         }]}/>
                     <FormItemInput 
-                        label='Password confirm' id='password_confirm' type='password' hasFeedback={true} layout={formItemLayout} decorator={getFieldDecorator}
+                        label='Password confirm' id='password_confirm' type='password' hasFeedback={true} placeholder='Confirm User Password' layout={formItemLayout} decorator={getFieldDecorator}
                         onBlur={this.handleConfirmBlur.bind(this)}
                         rules={[{
                             required: true, message: 'Please confirm the password!'
@@ -231,6 +231,7 @@ class FormItemInput extends Component {
                 hasFeedback=false, 
                 disabled=false,
                 placeholder,
+                prefix,
                 rules,
                 onBlur,
                 value } = this.props;
@@ -241,7 +242,7 @@ class FormItemInput extends Component {
                 valuePropName: 'value', 
                 initialValue: value,
                 rules:rules
-            })( <Input type={ type } placeholder={ placeholder } disabled={ disabled } onBlur={ onBlur } style={{textAlign:'center'}} /> ) }
+            })( <Input type={ type } placeholder={ placeholder } disabled={ disabled } prefix={ prefix } onBlur={ onBlur } style={{textAlign:'center'}} /> ) }
             </FormItem>
         );
     }
@@ -378,6 +379,84 @@ class FormItemDatePicker extends Component {
     }
 }
 
+class FormItemUpdateFirmware extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            disabled: true
+        };
+    }
+    handleChange(info){
+        if (info.file.status !== 'uploading')
+            if ( info.fileList.length > 0 )
+                this.setState({disabled: false});
+            else
+                this.setState({disabled: true});
+
+        if (info.file.status === 'done')
+            message.success(`${info.file.name} file uploaded successfully`);
+        else if (info.file.status === 'error'){
+            message.error(`${info.file.name} file upload failed.`);
+            this.setState({disabled: true});
+        }
+    }
+    handleClick(){
+        const { onClick } = this.props;
+        
+        if ( onClick )
+            onClick();
+    }
+    render(){
+        const { label, layout, id, decorator, loading } = this.props;
+        const { disabled } = this.state;
+
+        const settings = {
+            name: 'file',
+            action: '//jsonplaceholder.typicode.com/posts/',
+            headers: {
+                authorization: 'authorization-text',
+            }
+        };
+
+        return (        
+            <FormItem label={ label } {...layout} colon={false}>
+                { decorator(id, {
+                })(
+                    <div>
+                        <Upload {...settings} onChange={this.handleChange.bind(this)}>
+                            <Button type='dashed'>
+                                <Icon type="upload" /> Click to upload firmware
+                            </Button>
+                        </Upload>
+                        <Button type='primary' loading={ loading } disabled={ disabled } onClick={this.handleClick.bind(this)}>update</Button>
+                    </div>
+                ) }
+            </FormItem>
+        );
+    }
+}
+
+class FormItemButtom extends Component {
+    handleClick(){
+        const { onClick } = this.props;
+
+        if ( onClick )
+            onClick();
+    }
+    render(){
+        const { label, layout,
+                type,
+                loading=false,
+                context } = this.props;
+
+        return (        
+            <FormItem label={ label } {...layout} colon={false}>
+                <Button type={ type } loading={ loading } onClick={this.handleClick.bind(this)}>{ context }</Button>
+            </FormItem>
+        );
+    }
+}
+
 
 const FormItemUserModal = Form.create()(UserModal);
 
@@ -389,5 +468,7 @@ export {
     FormItemRadio,
     FormItemSelect,
     FormItemDatePicker,
-    FormItemUserModal
+    FormItemUserModal,
+    FormItemButtom,
+    FormItemUpdateFirmware
 } ;

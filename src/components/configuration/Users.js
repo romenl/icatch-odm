@@ -64,6 +64,9 @@ export default class Users extends Component{
         this.setState({
             isOpen: false
         });
+
+        // Initial modal form
+        this.form.resetFields();
     }
     handleModify(index){
         const datas = [...this.state.datas];
