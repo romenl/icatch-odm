@@ -4,6 +4,12 @@ import { FormItemInput, FormItemSelect, FormItemSwitch, FormItemRadio, FormItemD
 import { timezone } from '../tools/';
 import moment from 'moment';
 
+// Onvif API
+import { 
+    GetSystemDateAndTime,
+    GetNTP
+} from '../../onvif/';
+
 const FormItem = Form.Item;
 let   timer;
 
@@ -14,7 +20,7 @@ class TimeSettings extends Component{
         this.state ={
             datas: [],
             time_zone: 'Asia/Taipei',
-            sync: 'manual',
+            sync_type: 'Manual',
             sync_pc: false,
             manual_time: moment(),
             currentTime: moment(),
@@ -22,6 +28,21 @@ class TimeSettings extends Component{
             spin_tip: 'Loading ...',
             isSpinning: true
         };
+    }
+    async refreshInformation() {
+        try {
+            // Get Information from devise.
+            let sdt = await GetSystemDateAndTime();
+            let ntp = await GetNTP();
+            
+            this.setState({
+                sync_type: sdt.sync_type,
+                ntp_server: ntp[0].DNSname.v,
+                isSpinning: false
+            });
+        } catch(e) {
+            console.log( '[ERROR] Users: ', e );
+        }
     }
     componentDidMount(){
         // current timer start
@@ -31,10 +52,7 @@ class TimeSettings extends Component{
             })
         }, 500);
 
-        // Close Spinning
-        setTimeout(() => {
-            this.setState({ isSpinning: false });
-        }, 500);
+        this.refreshInformation();
     }
     componentWillUnmount(){
         clearInterval(timer);
@@ -57,7 +75,7 @@ class TimeSettings extends Component{
         });
     }
     render() {
-        const { time_zone, sync, sync_pc, manual_time, currentTime, ntp_server, spin_tip, isSpinning } = this.state;
+        const { time_zone, sync_type, sync_pc, manual_time, currentTime, ntp_server, spin_tip, isSpinning } = this.state;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
@@ -70,17 +88,17 @@ class TimeSettings extends Component{
                     <FormItemSelect label='Time zone' id='time_zone' showSearch={true} value={ time_zone } options={ timezone } layout={formItemLayout} decorator={getFieldDecorator}/>
 
                     <FormItemRadio label='Sync with' 
-                                id='sync'
-                                value={ sync }
+                                id='sync_type'
+                                value={ sync_type }
                                 options={[{
-                                        value:'manual', 
+                                        value:'Manual', 
                                         content:'Manual Settings'
                                     },{
-                                        value:'ntp', 
+                                        value:'NTP', 
                                         content:'NTP Server'
                                     }]} layout={formItemLayout} decorator={getFieldDecorator} />
                     {
-                        (getFieldValue('sync') || sync) === 'manual' ?
+                        (getFieldValue('sync_type') || sync_type) === 'Manual' ?
                         <div>
                             <FormItemSwitch label='Sync with Computer' id='sync_pc' value={ sync_pc } layout={formItemLayout} decorator={getFieldDecorator} />
                             <FormItemDatePicker label='Current time (PC)' id='current_time' value={ currentTime } disabled={true}layout={formItemLayout} decorator={getFieldDecorator} />

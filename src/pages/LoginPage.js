@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Spin, Card, Form, Icon, Button } from 'antd';
 import cookie from 'react-cookie';
 
+// Custom component
 import { FormItemInput } from '../components/CustomInput';
 
+// Styles
 import '../styles/loginPage.scss';
 
 const FormItem = Form.Item;
@@ -36,6 +38,7 @@ class LoginPage extends Component {
 
     handleLogin(){
         const { onLogin } = this.props;
+        
         if ( onLogin ){
             // Save cookie for user login 3 min.
             cookie.save('usrLogin', true, {path: '/', maxAge: 180});

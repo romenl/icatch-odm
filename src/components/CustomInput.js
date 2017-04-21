@@ -80,7 +80,7 @@ class SelectInput extends CustomInputComponent {
         const value = this.props.value || {};
 
         this.state = {
-            enable: value.enable || 'disable',
+            enable: value.enable || false,
             content: value.content || '80'
         };
     }
@@ -96,6 +96,8 @@ class SelectInput extends CustomInputComponent {
         this.triggerChange({ content: value });
     }
     handleEnableChange(value){
+        value = value === 'enable' ? true : false;
+
         if (!('value' in this.props))
             this.setState({ enable: value });
 
@@ -103,20 +105,22 @@ class SelectInput extends CustomInputComponent {
     }
 
     render(){
-        const state = this.state;
+        let { enable, content } = this.state;
+        enable = enable ? 'enable' : 'disable';
+        
         return(
             <Input 
-                value={state.content}
+                value={ content }
                 style={{width:'100%', textAlign:'center'}}
-                disabled={state.enable === 'disable' ? true : false}
+                disabled={ enable === 'disable' ? true : false }
                 onChange={this.handleContentChange.bind(this)}
                 addonBefore={
                     <Select
-                        value={state.enable}
+                        value={ enable }
                         style={{ width: 80 }}
                         onChange={this.handleEnableChange.bind(this)}>
-                        <Option value="enable">Enable</Option>
-                        <Option value="disable">Disable</Option>
+                        <Option value='enable'>Enable</Option>
+                        <Option value='disable'>Disable</Option>
                     </Select>
                 }
             />
@@ -178,10 +182,10 @@ class UserModal extends Component {
         };
         const userlevels = [{
             name: 'Operator',
-            value: 'operator'
+            value: 'Operator'
         },{
             name: 'User',
-            value: 'user'
+            value: 'User'
         }];
 
         return (
@@ -199,7 +203,7 @@ class UserModal extends Component {
                         }]}/>
 
                     <FormItemSelect 
-                        label='User level' id='user_level' value={ modify_user.level !== '' ? modify_user.level : 'operator' } options={ userlevels } layout={formItemLayout} decorator={getFieldDecorator}/>
+                        label='User level' id='user_level' value={ modify_user.level !== '' ? modify_user.level : 'Operator' } options={ userlevels } layout={formItemLayout} decorator={getFieldDecorator}/>
 
                     <FormItemInput 
                         label='User password' id='user_password' type='password' hasFeedback={true} placeholder='User Password' layout={formItemLayout} decorator={getFieldDecorator}
@@ -227,12 +231,12 @@ class UserModal extends Component {
 class FormItemInput extends Component {
     render(){
         const { label, id, layout, decorator, 
-                type='text',
                 hasFeedback=false, 
+                rules,
+                type='text',
                 disabled=false,
                 placeholder,
                 prefix,
-                rules,
                 onBlur,
                 value } = this.props;
 
@@ -242,7 +246,12 @@ class FormItemInput extends Component {
                 valuePropName: 'value', 
                 initialValue: value,
                 rules:rules
-            })( <Input type={ type } placeholder={ placeholder } disabled={ disabled } prefix={ prefix } onBlur={ onBlur } style={{textAlign:'center'}} /> ) }
+            })( 
+                prefix ?
+                <Input type={ type } placeholder={ placeholder } disabled={ disabled } prefix={ prefix } onBlur={ onBlur } />
+                :
+                <Input type={ type } placeholder={ placeholder } disabled={ disabled } onBlur={ onBlur } style={{textAlign:'center'}} /> 
+            )}
             </FormItem>
         );
     }
@@ -275,14 +284,23 @@ class FormItemIPInput extends Component {
 }
 
 class FormItemSelectInput extends Component {
+    validatePort(rule, value, callback) {
+        for( let k of Object.keys(value) ){
+            if (value[k] < 0 || value[k] > 65535)
+                callback('Out of range, please check. (0 - 65535)');
+        }
+        
+        callback();
+    }
     render(){
         const { label, layout, id, decorator, 
-                value={enable: 'disable', content: '80'} } = this.props;
+                value={enable: false, content: 80} } = this.props;
 
         return (
             <FormItem label={label} {...layout} colon={false}>
                 {decorator( id, {
-                    initialValue: {...value}
+                    initialValue: {...value},
+                    rules: [{ validator: this.validatePort }]
                 })(<SelectInput />)}
             </FormItem>
         );

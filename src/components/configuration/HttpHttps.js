@@ -2,21 +2,48 @@ import React, { Component } from 'react';
 import { Spin, Form, Button } from 'antd';
 import { FormItemSelectInput } from '../CustomInput';
 
+// Onvif API
+import { 
+    GetNetworkProtocols
+} from '../../onvif/';
+
 const FormItem = Form.Item;
 
 class HttpHttps extends Component{
     constructor(props){
         super(props);
         this.state ={
-            datas: [],
+            HTTP:{
+                enable: false,
+                port: []
+            },
+            HTTPS:{
+                enable: false,
+                port: []
+            },
+            RTSP:{
+                enable: false,
+                port: []
+            },
             spin_tip: 'Loading ...',
             isSpinning: true
         };
     }
+    async refreshInformation() {
+        try {
+            // Get Information from devise.
+            let protocols = await GetNetworkProtocols();
+            
+            this.setState({
+                ...protocols,
+                isSpinning: false
+            });
+        } catch(e) {
+            console.log( '[ERROR] Users: ', e );
+        }
+    }
     componentDidMount(){
-        setTimeout(() => {
-            this.setState({ isSpinning: false });
-        }, 500);
+        this.refreshInformation();
     }
     handleSubmit(e){
         e.preventDefault();
@@ -27,6 +54,8 @@ class HttpHttps extends Component{
                     isSpinning: true
                 });
 
+                console.log(values);
+
                 // Close Spinning
                 setTimeout(() => {
                     this.setState({ isSpinning: false });
@@ -35,19 +64,20 @@ class HttpHttps extends Component{
         });
     }
     render() {
-        const { spin_tip, isSpinning } = this.state;
+        const { HTTP, HTTPS, RTSP, spin_tip, isSpinning } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 6 },
         };
+        
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
 
-                    <FormItemSelectInput label='HTTP ports' id='http_ports' layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemSelectInput label='HTTPs ports' id='https_ports' layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemSelectInput label='RTSP ports' id='rtsp_ports' layout={formItemLayout} decorator={getFieldDecorator} />
+                    <FormItemSelectInput label='HTTP ports' id='http_ports' value={{enable: HTTP.enable, content: HTTP.port[0]}} layout={formItemLayout} decorator={getFieldDecorator} />
+                    <FormItemSelectInput label='HTTPs ports' id='https_ports' value={{enable: HTTPS.enable, content: HTTPS.port[0]}} layout={formItemLayout} decorator={getFieldDecorator} />
+                    <FormItemSelectInput label='RTSP ports' id='rtsp_ports' value={{enable: RTSP.enable, content: RTSP.port[0]}} layout={formItemLayout} decorator={getFieldDecorator} />
 
                     <FormItem wrapperCol={{ span: 12, offset: 8 }}>
                         <Button type="primary" htmlType="submit">Save</Button>

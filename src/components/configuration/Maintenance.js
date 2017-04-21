@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Form, Spin } from 'antd';
+import { Form, Spin, message } from 'antd';
 import { FormItemInput, FormItemButtom, FormItemUpdateFirmware } from '../CustomInput';
+
+// Onvif API
+import { GetDeviceInformation, SystemReboot } from '../../onvif/';
 
 class Maintenance extends Component{
     constructor(props){
         super(props);
 
         this.state ={
-            firmware: '123456',
+            firmware: '',
             spin_tip: 'Loading ...',
             isSpinning: true,
             rebooting: false,
@@ -16,11 +19,21 @@ class Maintenance extends Component{
             updating: false
         };
     }
+    async refreshInformation() {
+        try {
+            // Get Information from devise.
+            let info = await GetDeviceInformation();
+            
+            this.setState({
+                firmware: info.FirmwareVersion,
+                isSpinning: false
+            });
+        } catch(e) {
+            console.log( '[ERROR] Users: ', e );
+        }
+    }
     componentDidMount(){
-        // Close Spinning
-        setTimeout(() => {
-            this.setState({ isSpinning: false });
-        }, 500);
+        this.refreshInformation();
     }
     handleSubmit(e){
         e.preventDefault();
@@ -38,14 +51,11 @@ class Maintenance extends Component{
             }
         });
     }
-    handleReboot(){
-        this.setState({
-            rebooting: true
-        });
+    async handleReboot(){
 
-        setTimeout(() => {
-            this.setState({ rebooting: false });
-        }, 3000);
+        await SystemReboot();
+        
+        message.warning('Device reboot, please reload later ...', 20);
     }
     handleRestore(){
         this.setState({

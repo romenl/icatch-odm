@@ -3,6 +3,9 @@ import update from 'react/lib/update';
 import { Spin, Table, Button, Icon, Popconfirm, message } from 'antd';
 import { FormItemUserModal } from '../CustomInput';
 
+// Onvif API
+import { GetUsers, CreateUsers, SetUser, DeleteUsers } from '../../onvif/';
+
 export default class Users extends Component{
     constructor(props){
         super(props);
@@ -12,7 +15,7 @@ export default class Users extends Component{
             dataIndex: 'user_name',
             key: 'user_name',
             width: '30%',
-            render: text => <b>{text}</b>,
+            render: text => <b>{text}</b>
         }, {
             title: 'User Level',
             dataIndex: 'user_level',
@@ -32,11 +35,7 @@ export default class Users extends Component{
         }];
 
         this.state = {
-            datas: [{
-                key:0,
-                user_name: 'admin',
-                user_level: 'Administrator'
-            }],
+            datas: [],
             isOpen: false,
             modify_user: {
                 name: '',
@@ -46,10 +45,21 @@ export default class Users extends Component{
             isSpinning: true
         };
     }
+    async refreshUsers() {
+        try {
+            // Get Users from devise.
+            let datas = await GetUsers();
+            
+            this.setState({
+                datas,
+                isSpinning: false
+            });
+        } catch(e) {
+            console.log( '[ERROR] Users: ', e );
+        }
+    }
     componentDidMount(){
-        setTimeout(() => {
-            this.setState({ isSpinning: false });
-        }, 500);
+        this.refreshUsers();
     }
     handleCreate(){
         this.setState(update( this.state, {
@@ -79,24 +89,39 @@ export default class Users extends Component{
             }
         }));
     }
-    handleDelete(index){
-        const datas = [...this.state.datas];
-        datas.splice(index, 1);
-        this.setState({ datas });
+    async handleDelete(index){
+        
+        const { datas } = this.state;
+        let userName = datas[index].user_name;
+
+        await DeleteUsers( userName );
+
+        message.success(`Delete ${ userName }.`);
+
+        this.refreshUsers();
     }
     handleSubmit(e){
-        this.form.validateFields((err, values) => {
+        const { modify_user } = this.state;
+
+        this.form.validateFields( async (err, user) => {
             if (!err) {
+                if ( modify_user.name === '' )
+                    await CreateUsers( user );
+                else
+                    await SetUser( user );
+                    
                 this.setState({
                     isOpen: false
                 });
 
-                message.success('Update users list success.');
-            }
-        });
+                this.refreshUsers();
 
-        // Initial modal form
-        this.form.resetFields();
+                message.success('Update users list.');
+            }
+
+            // Initial modal form
+            this.form.resetFields();
+        });
     }
     saveFormRef(form) {
         this.form = form;
@@ -111,7 +136,7 @@ export default class Users extends Component{
                 <Button onClick={this.handleCreate.bind(this)} style={{marginBottom: 5}}>Add</Button>
                 <Table columns={this.columns} dataSource={ datas } locale={{emptyText: <span><Icon type="info-circle" />Have no any users now.</span>}}></Table>
                 <FormItemUserModal 
-                    title="Create a new User"
+                    title={modify_user.name === '' ? "Create a new User" : `Modify ${ modify_user.name }`}
                     visible={this.state.isOpen}
                     modify_user={modify_user}
                     onOk={this.handleSubmit.bind(this)}
