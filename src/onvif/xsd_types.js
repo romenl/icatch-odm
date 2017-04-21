@@ -74,12 +74,12 @@ export class xsd_boolean extends primitive
   constructor(v) { super(); this.v = v; }
   parse(proxy, s)
   {
-    if (s == "0" || s == "false")
+    if (s === "0" || s === "false")
     {
       this.v = false;
       return true;
     }
-    if (s == "1" || s == "true")
+    if (s === "1" || s === "true")
     {
       this.v = true;
       return true;
@@ -95,7 +95,7 @@ export class xsd_int extends primitive
   parse(proxy, s)
   {
     this.v = parseInt(s, 10);
-    return s.slice(-1) == s[s.length - 1];
+    return s.slice(-1) === s[s.length - 1];
   }
   to_string() { return this.v.toString(); }
 }
@@ -106,7 +106,7 @@ export class xsd_integer extends primitive
   parse(proxy, s)
   {
     this.v = parseInt(s, 10);
-    return s.slice(-1) == s[s.length - 1];
+    return s.slice(-1) === s[s.length - 1];
   }
   to_string() { return this.v.toString(); }
 }
@@ -329,7 +329,7 @@ export class xsd_list extends xsd_type
 {
   constructor(type){
     super();
-    this.v = new Array();
+    this.v = [];
     this.type = type;
   }
   write(obj, writer) {}
@@ -340,7 +340,7 @@ export class xsd_simplelist extends primitive
 {
   constructor(type){
     super();
-    this.v = new Array();
+    this.v = [];
     this.type = type;
   }
   write(obj, writer) {}

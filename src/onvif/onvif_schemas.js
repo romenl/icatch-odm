@@ -197,7 +197,7 @@ export class soap_faultcodeEnum extends types.xsd_enum // enum
         if (s.indexOf(":") >= 0) {
             let s0 = parser.find_namespace(s.split(":")[0]);
             let s1 = s.split(":")[1];
-            if (s0 == "http://www.w3.org/2003/05/soap-envelope" && s1 == "DataEncodingUnknown") {
+            if (s0 === "http://www.w3.org/2003/05/soap-envelope" && s1 === "DataEncodingUnknown") {
                 this.v = this.DataEncodingUnknown;
                 return true;
             }
@@ -205,7 +205,7 @@ export class soap_faultcodeEnum extends types.xsd_enum // enum
         if (s.indexOf(":") >= 0) {
             let s0 = parser.find_namespace(s.split(":")[0]);
             let s1 = s.split(":")[1];
-            if (s0 == "http://www.w3.org/2003/05/soap-envelope" && s1 == "MustUnderstand") {
+            if (s0 === "http://www.w3.org/2003/05/soap-envelope" && s1 === "MustUnderstand") {
                 this.v = this.MustUnderstand;
                 return true;
             }
@@ -213,7 +213,7 @@ export class soap_faultcodeEnum extends types.xsd_enum // enum
         if (s.indexOf(":") >= 0) {
             let s0 = parser.find_namespace(s.split(":")[0]);
             let s1 = s.split(":")[1];
-            if (s0 == "http://www.w3.org/2003/05/soap-envelope" && s1 == "Receiver") {
+            if (s0 === "http://www.w3.org/2003/05/soap-envelope" && s1 === "Receiver") {
                 this.v = this.Receiver;
                 return true;
             }
@@ -221,7 +221,7 @@ export class soap_faultcodeEnum extends types.xsd_enum // enum
         if (s.indexOf(":") >= 0) {
             let s0 = parser.find_namespace(s.split(":")[0]);
             let s1 = s.split(":")[1];
-            if (s0 == "http://www.w3.org/2003/05/soap-envelope" && s1 == "Sender") {
+            if (s0 === "http://www.w3.org/2003/05/soap-envelope" && s1 === "Sender") {
                 this.v = this.Sender;
                 return true;
             }
@@ -229,7 +229,7 @@ export class soap_faultcodeEnum extends types.xsd_enum // enum
         if (s.indexOf(":") >= 0) {
             let s0 = parser.find_namespace(s.split(":")[0]);
             let s1 = s.split(":")[1];
-            if (s0 == "http://www.w3.org/2003/05/soap-envelope" && s1 == "VersionMismatch") {
+            if (s0 === "http://www.w3.org/2003/05/soap-envelope" && s1 === "VersionMismatch") {
                 this.v = this.VersionMismatch;
                 return true;
             }
@@ -238,11 +238,11 @@ export class soap_faultcodeEnum extends types.xsd_enum // enum
     }
 
     to_string(){
-        if (this.v == this.DataEncodingUnknown) { return "soap:DataEncodingUnknown"; }
-        if (this.v == this.MustUnderstand) { return "soap:MustUnderstand"; }
-        if (this.v == this.Receiver) { return "soap:Receiver"; }
-        if (this.v == this.Sender) { return "soap:Sender"; }
-        if (this.v == this.VersionMismatch) { return "soap:VersionMismatch"; }
+        if (this.v === this.DataEncodingUnknown) { return "soap:DataEncodingUnknown"; }
+        if (this.v === this.MustUnderstand) { return "soap:MustUnderstand"; }
+        if (this.v === this.Receiver) { return "soap:Receiver"; }
+        if (this.v === this.Sender) { return "soap:Sender"; }
+        if (this.v === this.VersionMismatch) { return "soap:VersionMismatch"; }
         return "";
     }
 }
@@ -720,10 +720,6 @@ export class wsrf_bf_BaseFaultType extends types.xsd_type
 }
 export class wsrf_r_ResourceUnknownFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -916,10 +912,6 @@ export class wsnt_InvalidFilterFaultType extends wsrf_bf_BaseFaultType
 export const wsnt_InvalidFilterFault = wsnt_InvalidFilterFaultType; // using elem "FilterType"
 export class wsnt_TopicExpressionDialectUnknownFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -933,10 +925,6 @@ export class wsnt_TopicExpressionDialectUnknownFaultType extends wsrf_bf_BaseFau
 export const wsnt_TopicExpressionDialectUnknownFault = wsnt_TopicExpressionDialectUnknownFaultType; // using elem "FilterType"
 export class wsnt_InvalidTopicExpressionFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -950,10 +938,6 @@ export class wsnt_InvalidTopicExpressionFaultType extends wsrf_bf_BaseFaultType
 export const wsnt_InvalidTopicExpressionFault = wsnt_InvalidTopicExpressionFaultType; // using elem "FilterType"
 export class wsnt_TopicNotSupportedFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -967,10 +951,6 @@ export class wsnt_TopicNotSupportedFaultType extends wsrf_bf_BaseFaultType
 export const wsnt_TopicNotSupportedFault = wsnt_TopicNotSupportedFaultType; // using elem "FilterType"
 export class wsnt_InvalidProducerPropertiesExpressionFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -984,10 +964,6 @@ export class wsnt_InvalidProducerPropertiesExpressionFaultType extends wsrf_bf_B
 export const wsnt_InvalidProducerPropertiesExpressionFault = wsnt_InvalidProducerPropertiesExpressionFaultType; // using elem "FilterType"
 export class wsnt_InvalidMessageContentExpressionFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1064,10 +1040,6 @@ export class wsnt_UnsupportedPolicyRequestFaultType extends wsrf_bf_BaseFaultTyp
 export const wsnt_UnsupportedPolicyRequestFault = wsnt_UnsupportedPolicyRequestFaultType; // using elem "FilterType"
 export class wsnt_NotifyMessageNotSupportedFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1081,10 +1053,6 @@ export class wsnt_NotifyMessageNotSupportedFaultType extends wsrf_bf_BaseFaultTy
 export const wsnt_NotifyMessageNotSupportedFault = wsnt_NotifyMessageNotSupportedFaultType; // using elem "FilterType"
 export class wsnt_SubscribeCreationFailedFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1196,10 +1164,6 @@ export class wsnt_UnsubscribeResponse extends types.xsd_type
 }
 export class wsnt_UnableToDestroySubscriptionFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1317,10 +1281,6 @@ export class wsnt_GetCurrentMessageResponse extends types.xsd_type
 }
 export class wsnt_NoCurrentMessageOnTopicFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1334,10 +1294,6 @@ export class wsnt_NoCurrentMessageOnTopicFaultType extends wsrf_bf_BaseFaultType
 export const wsnt_NoCurrentMessageOnTopicFault = wsnt_NoCurrentMessageOnTopicFaultType; // using elem "GetCurrentMessageResponse"
 export class wsnt_MultipleTopicsSpecifiedFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1414,10 +1370,6 @@ export class wsnt_GetMessagesResponse extends types.xsd_type
 }
 export class wsnt_UnableToGetMessagesFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1469,10 +1421,6 @@ export class wsnt_DestroyPullPointResponse extends types.xsd_type
 }
 export class wsnt_UnableToDestroyPullPointFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1527,10 +1475,6 @@ export class wsnt_CreatePullPointResponse extends types.xsd_type
 }
 export class wsnt_UnableToCreatePullPointFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1576,10 +1520,6 @@ export class wsnt_PauseSubscriptionResponse extends types.xsd_type
 }
 export class wsnt_PauseFailedFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1625,10 +1565,6 @@ export class wsnt_ResumeSubscriptionResponse extends types.xsd_type
 }
 export class wsnt_ResumeFailedFaultType extends wsrf_bf_BaseFaultType
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
         wsrf_bf_BaseFaultType.prototype.write.call(this, obj, w);
     }
@@ -1689,14 +1625,14 @@ export class tt_SetDateTimeType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Manual") { this.v = this.Manual; return true; }
-        if (s == "NTP") { this.v = this.NTP; return true; }
+        if (s === "Manual") { this.v = this.Manual; return true; }
+        if (s === "NTP") { this.v = this.NTP; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Manual) { return "Manual"; }
-        if (this.v == this.NTP) { return "NTP"; }
+        if (this.v === this.Manual) { return "Manual"; }
+        if (this.v === this.NTP) { return "NTP"; }
         return "";
     }
 }
@@ -1839,14 +1775,14 @@ export class tt_FactoryDefaultType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Hard") { this.v = this.Hard; return true; }
-        if (s == "Soft") { this.v = this.Soft; return true; }
+        if (s === "Hard") { this.v = this.Hard; return true; }
+        if (s === "Soft") { this.v = this.Soft; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Hard) { return "Hard"; }
-        if (this.v == this.Soft) { return "Soft"; }
+        if (this.v === this.Hard) { return "Hard"; }
+        if (this.v === this.Soft) { return "Soft"; }
         return "";
     }
 }
@@ -1898,14 +1834,14 @@ export class tt_SystemLogType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "System") { this.v = this.System; return true; }
-        if (s == "Access") { this.v = this.Access; return true; }
+        if (s === "System") { this.v = this.System; return true; }
+        if (s === "Access") { this.v = this.Access; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.System) { return "System"; }
-        if (this.v == this.Access) { return "Access"; }
+        if (this.v === this.System) { return "System"; }
+        if (this.v === this.Access) { return "Access"; }
         return "";
     }
 }
@@ -1957,14 +1893,14 @@ export class tt_ScopeDefinition extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Fixed") { this.v = this.Fixed; return true; }
-        if (s == "Configurable") { this.v = this.Configurable; return true; }
+        if (s === "Fixed") { this.v = this.Fixed; return true; }
+        if (s === "Configurable") { this.v = this.Configurable; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Fixed) { return "Fixed"; }
-        if (this.v == this.Configurable) { return "Configurable"; }
+        if (this.v === this.Fixed) { return "Fixed"; }
+        if (this.v === this.Configurable) { return "Configurable"; }
         return "";
     }
 }
@@ -1997,14 +1933,14 @@ export class tt_DiscoveryMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Discoverable") { this.v = this.Discoverable; return true; }
-        if (s == "NonDiscoverable") { this.v = this.NonDiscoverable; return true; }
+        if (s === "Discoverable") { this.v = this.Discoverable; return true; }
+        if (s === "NonDiscoverable") { this.v = this.NonDiscoverable; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Discoverable) { return "Discoverable"; }
-        if (this.v == this.NonDiscoverable) { return "NonDiscoverable"; }
+        if (this.v === this.Discoverable) { return "Discoverable"; }
+        if (this.v === this.NonDiscoverable) { return "NonDiscoverable"; }
         return "";
     }
 }
@@ -2019,16 +1955,16 @@ export class tt_NetworkHostType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "IPv4") { this.v = this.IPv4; return true; }
-        if (s == "IPv6") { this.v = this.IPv6; return true; }
-        if (s == "DNS") { this.v = this.DNS; return true; }
+        if (s === "IPv4") { this.v = this.IPv4; return true; }
+        if (s === "IPv6") { this.v = this.IPv6; return true; }
+        if (s === "DNS") { this.v = this.DNS; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.IPv4) { return "IPv4"; }
-        if (this.v == this.IPv6) { return "IPv6"; }
-        if (this.v == this.DNS) { return "DNS"; }
+        if (this.v === this.IPv4) { return "IPv4"; }
+        if (this.v === this.IPv6) { return "IPv6"; }
+        if (this.v === this.DNS) { return "DNS"; }
         return "";
     }
 }
@@ -2123,20 +2059,20 @@ export class tt_UserLevel extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Administrator") { this.v = this.Administrator; return true; }
-        if (s == "Operator") { this.v = this.Operator; return true; }
-        if (s == "User") { this.v = this.User; return true; }
-        if (s == "Anonymous") { this.v = this.Anonymous; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "Administrator") { this.v = this.Administrator; return true; }
+        if (s === "Operator") { this.v = this.Operator; return true; }
+        if (s === "User") { this.v = this.User; return true; }
+        if (s === "Anonymous") { this.v = this.Anonymous; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Administrator) { return "Administrator"; }
-        if (this.v == this.Operator) { return "Operator"; }
-        if (this.v == this.User) { return "User"; }
-        if (this.v == this.Anonymous) { return "Anonymous"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.Administrator) { return "Administrator"; }
+        if (this.v === this.Operator) { return "Operator"; }
+        if (this.v === this.User) { return "User"; }
+        if (this.v === this.Anonymous) { return "Anonymous"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -2199,24 +2135,24 @@ export class tt_CapabilityCategory extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "All") { this.v = this.All; return true; }
-        if (s == "Analytics") { this.v = this.Analytics; return true; }
-        if (s == "Device") { this.v = this.Device; return true; }
-        if (s == "Events") { this.v = this.Events; return true; }
-        if (s == "Imaging") { this.v = this.Imaging; return true; }
-        if (s == "Media") { this.v = this.Media; return true; }
-        if (s == "PTZ") { this.v = this.PTZ; return true; }
+        if (s === "All") { this.v = this.All; return true; }
+        if (s === "Analytics") { this.v = this.Analytics; return true; }
+        if (s === "Device") { this.v = this.Device; return true; }
+        if (s === "Events") { this.v = this.Events; return true; }
+        if (s === "Imaging") { this.v = this.Imaging; return true; }
+        if (s === "Media") { this.v = this.Media; return true; }
+        if (s === "PTZ") { this.v = this.PTZ; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.All) { return "All"; }
-        if (this.v == this.Analytics) { return "Analytics"; }
-        if (this.v == this.Device) { return "Device"; }
-        if (this.v == this.Events) { return "Events"; }
-        if (this.v == this.Imaging) { return "Imaging"; }
-        if (this.v == this.Media) { return "Media"; }
-        if (this.v == this.PTZ) { return "PTZ"; }
+        if (this.v === this.All) { return "All"; }
+        if (this.v === this.Analytics) { return "Analytics"; }
+        if (this.v === this.Device) { return "Device"; }
+        if (this.v === this.Events) { return "Events"; }
+        if (this.v === this.Imaging) { return "Imaging"; }
+        if (this.v === this.Media) { return "Media"; }
+        if (this.v === this.PTZ) { return "PTZ"; }
         return "";
     }
 }
@@ -3170,14 +3106,14 @@ export class tt_IPType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "IPv4") { this.v = this.IPv4; return true; }
-        if (s == "IPv6") { this.v = this.IPv6; return true; }
+        if (s === "IPv4") { this.v = this.IPv4; return true; }
+        if (s === "IPv6") { this.v = this.IPv6; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.IPv4) { return "IPv4"; }
-        if (this.v == this.IPv6) { return "IPv6"; }
+        if (this.v === this.IPv4) { return "IPv4"; }
+        if (this.v === this.IPv6) { return "IPv6"; }
         return "";
     }
 }
@@ -3305,16 +3241,16 @@ export class tt_DynamicDNSType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "NoUpdate") { this.v = this.NoUpdate; return true; }
-        if (s == "ClientUpdates") { this.v = this.ClientUpdates; return true; }
-        if (s == "ServerUpdates") { this.v = this.ServerUpdates; return true; }
+        if (s === "NoUpdate") { this.v = this.NoUpdate; return true; }
+        if (s === "ClientUpdates") { this.v = this.ClientUpdates; return true; }
+        if (s === "ServerUpdates") { this.v = this.ServerUpdates; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.NoUpdate) { return "NoUpdate"; }
-        if (this.v == this.ClientUpdates) { return "ClientUpdates"; }
-        if (this.v == this.ServerUpdates) { return "ServerUpdates"; }
+        if (this.v === this.NoUpdate) { return "NoUpdate"; }
+        if (this.v === this.ClientUpdates) { return "ClientUpdates"; }
+        if (this.v === this.ServerUpdates) { return "ServerUpdates"; }
         return "";
     }
 }
@@ -3412,14 +3348,14 @@ export class tt_Duplex extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Full") { this.v = this.Full; return true; }
-        if (s == "Half") { this.v = this.Half; return true; }
+        if (s === "Full") { this.v = this.Full; return true; }
+        if (s === "Half") { this.v = this.Half; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Full) { return "Full"; }
-        if (this.v == this.Half) { return "Half"; }
+        if (this.v === this.Full) { return "Full"; }
+        if (this.v === this.Half) { return "Half"; }
         return "";
     }
 }
@@ -3549,18 +3485,18 @@ export class tt_IPv6DHCPConfiguration extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Auto") { this.v = this.Auto; return true; }
-        if (s == "Stateful") { this.v = this.Stateful; return true; }
-        if (s == "Stateless") { this.v = this.Stateless; return true; }
-        if (s == "Off") { this.v = this.Off; return true; }
+        if (s === "Auto") { this.v = this.Auto; return true; }
+        if (s === "Stateful") { this.v = this.Stateful; return true; }
+        if (s === "Stateless") { this.v = this.Stateless; return true; }
+        if (s === "Off") { this.v = this.Off; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Auto) { return "Auto"; }
-        if (this.v == this.Stateful) { return "Stateful"; }
-        if (this.v == this.Stateless) { return "Stateless"; }
-        if (this.v == this.Off) { return "Off"; }
+        if (this.v === this.Auto) { return "Auto"; }
+        if (this.v === this.Stateful) { return "Stateful"; }
+        if (this.v === this.Stateless) { return "Stateless"; }
+        if (this.v === this.Off) { return "Off"; }
         return "";
     }
 }
@@ -3686,16 +3622,16 @@ export class tt_Dot11StationMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Ad-hoc") { this.v = this.Ad_hoc; return true; }
-        if (s == "Infrastructure") { this.v = this.Infrastructure; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "Ad-hoc") { this.v = this.Ad_hoc; return true; }
+        if (s === "Infrastructure") { this.v = this.Infrastructure; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Ad_hoc) { return "Ad-hoc"; }
-        if (this.v == this.Infrastructure) { return "Infrastructure"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.Ad_hoc) { return "Ad-hoc"; }
+        if (this.v === this.Infrastructure) { return "Infrastructure"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -3714,20 +3650,20 @@ export class tt_Dot11SecurityMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "None") { this.v = this.None; return true; }
-        if (s == "WEP") { this.v = this.WEP; return true; }
-        if (s == "PSK") { this.v = this.PSK; return true; }
-        if (s == "Dot1X") { this.v = this.Dot1X; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "None") { this.v = this.None; return true; }
+        if (s === "WEP") { this.v = this.WEP; return true; }
+        if (s === "PSK") { this.v = this.PSK; return true; }
+        if (s === "Dot1X") { this.v = this.Dot1X; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.None) { return "None"; }
-        if (this.v == this.WEP) { return "WEP"; }
-        if (this.v == this.PSK) { return "PSK"; }
-        if (this.v == this.Dot1X) { return "Dot1X"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.None) { return "None"; }
+        if (this.v === this.WEP) { return "WEP"; }
+        if (this.v === this.PSK) { return "PSK"; }
+        if (this.v === this.Dot1X) { return "Dot1X"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -3743,18 +3679,18 @@ export class tt_Dot11Cipher extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "CCMP") { this.v = this.CCMP; return true; }
-        if (s == "TKIP") { this.v = this.TKIP; return true; }
-        if (s == "Any") { this.v = this.Any; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "CCMP") { this.v = this.CCMP; return true; }
+        if (s === "TKIP") { this.v = this.TKIP; return true; }
+        if (s === "Any") { this.v = this.Any; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.CCMP) { return "CCMP"; }
-        if (this.v == this.TKIP) { return "TKIP"; }
-        if (this.v == this.Any) { return "Any"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.CCMP) { return "CCMP"; }
+        if (this.v === this.TKIP) { return "TKIP"; }
+        if (this.v === this.Any) { return "Any"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -4099,16 +4035,16 @@ export class tt_NetworkProtocolType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "HTTP") { this.v = this.HTTP; return true; }
-        if (s == "HTTPS") { this.v = this.HTTPS; return true; }
-        if (s == "RTSP") { this.v = this.RTSP; return true; }
+        if (s === "HTTP") { this.v = this.HTTP; return true; }
+        if (s === "HTTPS") { this.v = this.HTTPS; return true; }
+        if (s === "RTSP") { this.v = this.RTSP; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.HTTP) { return "HTTP"; }
-        if (this.v == this.HTTPS) { return "HTTPS"; }
-        if (this.v == this.RTSP) { return "RTSP"; }
+        if (this.v === this.HTTP) { return "HTTP"; }
+        if (this.v === this.HTTPS) { return "HTTPS"; }
+        if (this.v === this.RTSP) { return "RTSP"; }
         return "";
     }
 }
@@ -4252,14 +4188,14 @@ export class tt_IPAddressFilterType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Allow") { this.v = this.Allow; return true; }
-        if (s == "Deny") { this.v = this.Deny; return true; }
+        if (s === "Allow") { this.v = this.Allow; return true; }
+        if (s === "Deny") { this.v = this.Deny; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Allow) { return "Allow"; }
-        if (this.v == this.Deny) { return "Deny"; }
+        if (this.v === this.Allow) { return "Allow"; }
+        if (this.v === this.Deny) { return "Deny"; }
         return "";
     }
 }
@@ -4380,14 +4316,14 @@ export class tt_RelayMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Monostable") { this.v = this.Monostable; return true; }
-        if (s == "Bistable") { this.v = this.Bistable; return true; }
+        if (s === "Monostable") { this.v = this.Monostable; return true; }
+        if (s === "Bistable") { this.v = this.Bistable; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Monostable) { return "Monostable"; }
-        if (this.v == this.Bistable) { return "Bistable"; }
+        if (this.v === this.Monostable) { return "Monostable"; }
+        if (this.v === this.Bistable) { return "Bistable"; }
         return "";
     }
 }
@@ -4401,14 +4337,14 @@ export class tt_RelayIdleState extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "closed") { this.v = this.closed; return true; }
-        if (s == "open") { this.v = this.open; return true; }
+        if (s === "closed") { this.v = this.closed; return true; }
+        if (s === "open") { this.v = this.open; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.closed) { return "closed"; }
-        if (this.v == this.open) { return "open"; }
+        if (this.v === this.closed) { return "closed"; }
+        if (this.v === this.open) { return "open"; }
         return "";
     }
 }
@@ -4469,14 +4405,14 @@ export class tt_RelayLogicalState extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "active") { this.v = this.active; return true; }
-        if (s == "inactive") { this.v = this.inactive; return true; }
+        if (s === "active") { this.v = this.active; return true; }
+        if (s === "inactive") { this.v = this.inactive; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.active) { return "active"; }
-        if (this.v == this.inactive) { return "inactive"; }
+        if (this.v === this.active) { return "active"; }
+        if (this.v === this.inactive) { return "inactive"; }
         return "";
     }
 }
@@ -4781,22 +4717,22 @@ export class tt_Dot11SignalStrength extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "None") { this.v = this.None; return true; }
-        if (s == "Very Bad") { this.v = this.Very_Bad; return true; }
-        if (s == "Bad") { this.v = this.Bad; return true; }
-        if (s == "Good") { this.v = this.Good; return true; }
-        if (s == "Very Good") { this.v = this.Very_Good; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "None") { this.v = this.None; return true; }
+        if (s === "Very Bad") { this.v = this.Very_Bad; return true; }
+        if (s === "Bad") { this.v = this.Bad; return true; }
+        if (s === "Good") { this.v = this.Good; return true; }
+        if (s === "Very Good") { this.v = this.Very_Good; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.None) { return "None"; }
-        if (this.v == this.Very_Bad) { return "Very Bad"; }
-        if (this.v == this.Bad) { return "Bad"; }
-        if (this.v == this.Good) { return "Good"; }
-        if (this.v == this.Very_Good) { return "Very Good"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.None) { return "None"; }
+        if (this.v === this.Very_Bad) { return "Very Bad"; }
+        if (this.v === this.Bad) { return "Bad"; }
+        if (this.v === this.Good) { return "Good"; }
+        if (this.v === this.Very_Good) { return "Very Good"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -4849,18 +4785,18 @@ export class tt_Dot11AuthAndMangementSuite extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "None") { this.v = this.None; return true; }
-        if (s == "Dot1X") { this.v = this.Dot1X; return true; }
-        if (s == "PSK") { this.v = this.PSK; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "None") { this.v = this.None; return true; }
+        if (s === "Dot1X") { this.v = this.Dot1X; return true; }
+        if (s === "PSK") { this.v = this.PSK; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.None) { return "None"; }
-        if (this.v == this.Dot1X) { return "Dot1X"; }
-        if (this.v == this.PSK) { return "PSK"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.None) { return "None"; }
+        if (this.v === this.Dot1X) { return "Dot1X"; }
+        if (this.v === this.PSK) { return "PSK"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -4968,14 +4904,14 @@ export class tt_BacklightCompensationMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "ON") { this.v = this.ON; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.ON) { return "ON"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.ON) { return "ON"; }
         return "";
     }
 }
@@ -5008,14 +4944,14 @@ export class tt_ExposureMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
-        if (s == "MANUAL") { this.v = this.MANUAL; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "MANUAL") { this.v = this.MANUAL; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.AUTO) { return "AUTO"; }
-        if (this.v == this.MANUAL) { return "MANUAL"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
+        if (this.v === this.MANUAL) { return "MANUAL"; }
         return "";
     }
 }
@@ -5029,14 +4965,14 @@ export class tt_ExposurePriority extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "LowNoise") { this.v = this.LowNoise; return true; }
-        if (s == "FrameRate") { this.v = this.FrameRate; return true; }
+        if (s === "LowNoise") { this.v = this.LowNoise; return true; }
+        if (s === "FrameRate") { this.v = this.FrameRate; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.LowNoise) { return "LowNoise"; }
-        if (this.v == this.FrameRate) { return "FrameRate"; }
+        if (this.v === this.LowNoise) { return "LowNoise"; }
+        if (this.v === this.FrameRate) { return "FrameRate"; }
         return "";
     }
 }
@@ -5124,14 +5060,14 @@ export class tt_AutoFocusMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
-        if (s == "MANUAL") { this.v = this.MANUAL; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "MANUAL") { this.v = this.MANUAL; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.AUTO) { return "AUTO"; }
-        if (this.v == this.MANUAL) { return "MANUAL"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
+        if (this.v === this.MANUAL) { return "MANUAL"; }
         return "";
     }
 }
@@ -5193,16 +5129,16 @@ export class tt_IrCutFilterMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "ON") { this.v = this.ON; return true; }
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.ON) { return "ON"; }
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.AUTO) { return "AUTO"; }
+        if (this.v === this.ON) { return "ON"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
         return "";
     }
 }
@@ -5216,14 +5152,14 @@ export class tt_WideDynamicMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "ON") { this.v = this.ON; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.ON) { return "ON"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.ON) { return "ON"; }
         return "";
     }
 }
@@ -5256,14 +5192,14 @@ export class tt_WhiteBalanceMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
-        if (s == "MANUAL") { this.v = this.MANUAL; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "MANUAL") { this.v = this.MANUAL; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.AUTO) { return "AUTO"; }
-        if (this.v == this.MANUAL) { return "MANUAL"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
+        if (this.v === this.MANUAL) { return "MANUAL"; }
         return "";
     }
 }
@@ -5323,18 +5259,18 @@ export class tt_ImageStabilizationMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "ON") { this.v = this.ON; return true; }
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.ON) { return "ON"; }
-        if (this.v == this.AUTO) { return "AUTO"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.ON) { return "ON"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -6240,16 +6176,16 @@ export class tt_MoveStatus extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "IDLE") { this.v = this.IDLE; return true; }
-        if (s == "MOVING") { this.v = this.MOVING; return true; }
-        if (s == "UNKNOWN") { this.v = this.UNKNOWN; return true; }
+        if (s === "IDLE") { this.v = this.IDLE; return true; }
+        if (s === "MOVING") { this.v = this.MOVING; return true; }
+        if (s === "UNKNOWN") { this.v = this.UNKNOWN; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.IDLE) { return "IDLE"; }
-        if (this.v == this.MOVING) { return "MOVING"; }
-        if (this.v == this.UNKNOWN) { return "UNKNOWN"; }
+        if (this.v === this.IDLE) { return "IDLE"; }
+        if (this.v === this.MOVING) { return "MOVING"; }
+        if (this.v === this.UNKNOWN) { return "UNKNOWN"; }
         return "";
     }
 }
@@ -6815,16 +6751,16 @@ export class tt_RotateMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "ON") { this.v = this.ON; return true; }
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.ON) { return "ON"; }
-        if (this.v == this.AUTO) { return "AUTO"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.ON) { return "ON"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
         return "";
     }
 }
@@ -7055,16 +6991,16 @@ export class tt_VideoEncoding extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "JPEG") { this.v = this.JPEG; return true; }
-        if (s == "MPEG4") { this.v = this.MPEG4; return true; }
-        if (s == "H264") { this.v = this.H264; return true; }
+        if (s === "JPEG") { this.v = this.JPEG; return true; }
+        if (s === "MPEG4") { this.v = this.MPEG4; return true; }
+        if (s === "H264") { this.v = this.H264; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.JPEG) { return "JPEG"; }
-        if (this.v == this.MPEG4) { return "MPEG4"; }
-        if (this.v == this.H264) { return "H264"; }
+        if (this.v === this.JPEG) { return "JPEG"; }
+        if (this.v === this.MPEG4) { return "MPEG4"; }
+        if (this.v === this.H264) { return "H264"; }
         return "";
     }
 }
@@ -7100,14 +7036,14 @@ export class tt_Mpeg4Profile extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "SP") { this.v = this.SP; return true; }
-        if (s == "ASP") { this.v = this.ASP; return true; }
+        if (s === "SP") { this.v = this.SP; return true; }
+        if (s === "ASP") { this.v = this.ASP; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.SP) { return "SP"; }
-        if (this.v == this.ASP) { return "ASP"; }
+        if (this.v === this.SP) { return "SP"; }
+        if (this.v === this.ASP) { return "ASP"; }
         return "";
     }
 }
@@ -7142,18 +7078,18 @@ export class tt_H264Profile extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Baseline") { this.v = this.Baseline; return true; }
-        if (s == "Main") { this.v = this.Main; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
-        if (s == "High") { this.v = this.High; return true; }
+        if (s === "Baseline") { this.v = this.Baseline; return true; }
+        if (s === "Main") { this.v = this.Main; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
+        if (s === "High") { this.v = this.High; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Baseline) { return "Baseline"; }
-        if (this.v == this.Main) { return "Main"; }
-        if (this.v == this.Extended) { return "Extended"; }
-        if (this.v == this.High) { return "High"; }
+        if (this.v === this.Baseline) { return "Baseline"; }
+        if (this.v === this.Main) { return "Main"; }
+        if (this.v === this.Extended) { return "Extended"; }
+        if (this.v === this.High) { return "High"; }
         return "";
     }
 }
@@ -7264,16 +7200,16 @@ export class tt_AudioEncoding extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "G711") { this.v = this.G711; return true; }
-        if (s == "G726") { this.v = this.G726; return true; }
-        if (s == "AAC") { this.v = this.AAC; return true; }
+        if (s === "G711") { this.v = this.G711; return true; }
+        if (s === "G726") { this.v = this.G726; return true; }
+        if (s === "AAC") { this.v = this.AAC; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.G711) { return "G711"; }
-        if (this.v == this.G726) { return "G726"; }
-        if (this.v == this.AAC) { return "AAC"; }
+        if (this.v === this.G711) { return "G711"; }
+        if (this.v === this.G726) { return "G726"; }
+        if (this.v === this.AAC) { return "AAC"; }
         return "";
     }
 }
@@ -7663,16 +7599,16 @@ export class tt_EFlipMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "ON") { this.v = this.ON; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.ON) { return "ON"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.ON) { return "ON"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -7710,18 +7646,18 @@ export class tt_ReverseMode extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "OFF") { this.v = this.OFF; return true; }
-        if (s == "ON") { this.v = this.ON; return true; }
-        if (s == "AUTO") { this.v = this.AUTO; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "OFF") { this.v = this.OFF; return true; }
+        if (s === "ON") { this.v = this.ON; return true; }
+        if (s === "AUTO") { this.v = this.AUTO; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.OFF) { return "OFF"; }
-        if (this.v == this.ON) { return "ON"; }
-        if (this.v == this.AUTO) { return "AUTO"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.OFF) { return "OFF"; }
+        if (this.v === this.ON) { return "ON"; }
+        if (this.v === this.AUTO) { return "AUTO"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -8908,14 +8844,14 @@ export class tt_StreamType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "RTP-Unicast") { this.v = this.RTP_Unicast; return true; }
-        if (s == "RTP-Multicast") { this.v = this.RTP_Multicast; return true; }
+        if (s === "RTP-Unicast") { this.v = this.RTP_Unicast; return true; }
+        if (s === "RTP-Multicast") { this.v = this.RTP_Multicast; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.RTP_Unicast) { return "RTP-Unicast"; }
-        if (this.v == this.RTP_Multicast) { return "RTP-Multicast"; }
+        if (this.v === this.RTP_Unicast) { return "RTP-Unicast"; }
+        if (this.v === this.RTP_Multicast) { return "RTP-Multicast"; }
         return "";
     }
 }
@@ -8931,18 +8867,18 @@ export class tt_TransportProtocol extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "UDP") { this.v = this.UDP; return true; }
-        if (s == "TCP") { this.v = this.TCP; return true; }
-        if (s == "RTSP") { this.v = this.RTSP; return true; }
-        if (s == "HTTP") { this.v = this.HTTP; return true; }
+        if (s === "UDP") { this.v = this.UDP; return true; }
+        if (s === "TCP") { this.v = this.TCP; return true; }
+        if (s === "RTSP") { this.v = this.RTSP; return true; }
+        if (s === "HTTP") { this.v = this.HTTP; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.UDP) { return "UDP"; }
-        if (this.v == this.TCP) { return "TCP"; }
-        if (this.v == this.RTSP) { return "RTSP"; }
-        if (this.v == this.HTTP) { return "HTTP"; }
+        if (this.v === this.UDP) { return "UDP"; }
+        if (this.v === this.TCP) { return "TCP"; }
+        if (this.v === this.RTSP) { return "RTSP"; }
+        if (this.v === this.HTTP) { return "HTTP"; }
         return "";
     }
 }
@@ -9052,16 +8988,16 @@ export class tt_OSDType extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Text") { this.v = this.Text; return true; }
-        if (s == "Image") { this.v = this.Image; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "Text") { this.v = this.Text; return true; }
+        if (s === "Image") { this.v = this.Image; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Text) { return "Text"; }
-        if (this.v == this.Image) { return "Image"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.Text) { return "Text"; }
+        if (this.v === this.Image) { return "Image"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -9977,18 +9913,18 @@ export class tt_PTZPresetTourOperation extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Start") { this.v = this.Start; return true; }
-        if (s == "Stop") { this.v = this.Stop; return true; }
-        if (s == "Pause") { this.v = this.Pause; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "Start") { this.v = this.Start; return true; }
+        if (s === "Stop") { this.v = this.Stop; return true; }
+        if (s === "Pause") { this.v = this.Pause; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Start) { return "Start"; }
-        if (this.v == this.Stop) { return "Stop"; }
-        if (this.v == this.Pause) { return "Pause"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.Start) { return "Start"; }
+        if (this.v === this.Stop) { return "Stop"; }
+        if (this.v === this.Pause) { return "Pause"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -10290,18 +10226,18 @@ export class tt_PTZPresetTourState extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Idle") { this.v = this.Idle; return true; }
-        if (s == "Touring") { this.v = this.Touring; return true; }
-        if (s == "Paused") { this.v = this.Paused; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "Idle") { this.v = this.Idle; return true; }
+        if (s === "Touring") { this.v = this.Touring; return true; }
+        if (s === "Paused") { this.v = this.Paused; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Idle) { return "Idle"; }
-        if (this.v == this.Touring) { return "Touring"; }
-        if (this.v == this.Paused) { return "Paused"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.Idle) { return "Idle"; }
+        if (this.v === this.Touring) { return "Touring"; }
+        if (this.v === this.Paused) { return "Paused"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -10448,16 +10384,16 @@ export class tt_PTZPresetTourDirection extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Forward") { this.v = this.Forward; return true; }
-        if (s == "Backward") { this.v = this.Backward; return true; }
-        if (s == "Extended") { this.v = this.Extended; return true; }
+        if (s === "Forward") { this.v = this.Forward; return true; }
+        if (s === "Backward") { this.v = this.Backward; return true; }
+        if (s === "Extended") { this.v = this.Extended; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Forward) { return "Forward"; }
-        if (this.v == this.Backward) { return "Backward"; }
-        if (this.v == this.Extended) { return "Extended"; }
+        if (this.v === this.Forward) { return "Forward"; }
+        if (this.v === this.Backward) { return "Backward"; }
+        if (this.v === this.Extended) { return "Extended"; }
         return "";
     }
 }
@@ -10987,16 +10923,16 @@ export class tt_ModeOfOperation extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "Idle") { this.v = this.Idle; return true; }
-        if (s == "Active") { this.v = this.Active; return true; }
-        if (s == "Unknown") { this.v = this.Unknown; return true; }
+        if (s === "Idle") { this.v = this.Idle; return true; }
+        if (s === "Active") { this.v = this.Active; return true; }
+        if (s === "Unknown") { this.v = this.Unknown; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.Idle) { return "Idle"; }
-        if (this.v == this.Active) { return "Active"; }
-        if (this.v == this.Unknown) { return "Unknown"; }
+        if (this.v === this.Idle) { return "Idle"; }
+        if (this.v === this.Active) { return "Active"; }
+        if (this.v === this.Unknown) { return "Unknown"; }
         return "";
     }
 }
@@ -11410,10 +11346,6 @@ export class tds_GetServicesResponse extends types.xsd_type
 }
 export class tds_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11646,10 +11578,6 @@ export class tds_GetServiceCapabilitiesResponse extends types.xsd_type
 }
 export class tds_GetDeviceInformation extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11712,10 +11640,6 @@ export class tds_SetSystemDateAndTime extends types.xsd_type
 }
 export class tds_SetSystemDateAndTimeResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11725,10 +11649,6 @@ export class tds_SetSystemDateAndTimeResponse extends types.xsd_type
 }
 export class tds_GetSystemDateAndTime extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11770,10 +11690,6 @@ export class tds_SetSystemFactoryDefault extends types.xsd_type
 }
 export class tds_SetSystemFactoryDefaultResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11815,10 +11731,6 @@ export class tds_UpgradeSystemFirmwareResponse extends types.xsd_type
 }
 export class tds_SystemReboot extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11860,10 +11772,6 @@ export class tds_RestoreSystem extends types.xsd_type
 }
 export class tds_RestoreSystemResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11873,10 +11781,6 @@ export class tds_RestoreSystemResponse extends types.xsd_type
 }
 export class tds_GetSystemBackup extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11934,10 +11838,6 @@ export class tds_GetSystemLogResponse extends types.xsd_type
 }
 export class tds_GetSystemSupportInformation extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -11963,10 +11863,6 @@ export class tds_GetSystemSupportInformationResponse extends types.xsd_type
 }
 export class tds_GetScopes extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12008,10 +11904,6 @@ export class tds_SetScopes extends types.xsd_type
 }
 export class tds_SetScopesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12037,10 +11929,6 @@ export class tds_AddScopes extends types.xsd_type
 }
 export class tds_AddScopesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12082,10 +11970,6 @@ export class tds_RemoveScopesResponse extends types.xsd_type
 }
 export class tds_GetDiscoveryMode extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12127,10 +12011,6 @@ export class tds_SetDiscoveryMode extends types.xsd_type
 }
 export class tds_SetDiscoveryModeResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12140,10 +12020,6 @@ export class tds_SetDiscoveryModeResponse extends types.xsd_type
 }
 export class tds_GetRemoteDiscoveryMode extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12185,10 +12061,6 @@ export class tds_SetRemoteDiscoveryMode extends types.xsd_type
 }
 export class tds_SetRemoteDiscoveryModeResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12198,10 +12070,6 @@ export class tds_SetRemoteDiscoveryModeResponse extends types.xsd_type
 }
 export class tds_GetDPAddresses extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12227,10 +12095,6 @@ export class tds_GetDPAddressesResponse extends types.xsd_type
 }
 export class tds_GetEndpointReference extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12259,10 +12123,6 @@ export class tds_GetEndpointReferenceResponse extends types.xsd_type
 }
 export class tds_GetRemoteUser extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12304,10 +12164,6 @@ export class tds_SetRemoteUser extends types.xsd_type
 }
 export class tds_SetRemoteUserResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12317,10 +12173,6 @@ export class tds_SetRemoteUserResponse extends types.xsd_type
 }
 export class tds_GetUsers extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12362,10 +12214,6 @@ export class tds_CreateUsers extends types.xsd_type
 }
 export class tds_CreateUsersResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12391,10 +12239,6 @@ export class tds_DeleteUsers extends types.xsd_type
 }
 export class tds_DeleteUsersResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12420,10 +12264,6 @@ export class tds_SetUser extends types.xsd_type
 }
 export class tds_SetUserResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12433,10 +12273,6 @@ export class tds_SetUserResponse extends types.xsd_type
 }
 export class tds_GetWsdlUrl extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12510,10 +12346,6 @@ export class tds_SetDPAddresses extends types.xsd_type
 }
 export class tds_SetDPAddressesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12523,10 +12355,6 @@ export class tds_SetDPAddressesResponse extends types.xsd_type
 }
 export class tds_GetHostname extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12568,10 +12396,6 @@ export class tds_SetHostname extends types.xsd_type
 }
 export class tds_SetHostnameResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12613,10 +12437,6 @@ export class tds_SetHostnameFromDHCPResponse extends types.xsd_type
 }
 export class tds_GetDNS extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12664,10 +12484,6 @@ export class tds_SetDNS extends types.xsd_type
 }
 export class tds_SetDNSResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12677,10 +12493,6 @@ export class tds_SetDNSResponse extends types.xsd_type
 }
 export class tds_GetNTP extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12725,10 +12537,6 @@ export class tds_SetNTP extends types.xsd_type
 }
 export class tds_SetNTPResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12738,10 +12546,6 @@ export class tds_SetNTPResponse extends types.xsd_type
 }
 export class tds_GetDynamicDNS extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12789,10 +12593,6 @@ export class tds_SetDynamicDNS extends types.xsd_type
 }
 export class tds_SetDynamicDNSResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12802,10 +12602,6 @@ export class tds_SetDynamicDNSResponse extends types.xsd_type
 }
 export class tds_GetNetworkInterfaces extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12866,10 +12662,6 @@ export class tds_SetNetworkInterfacesResponse extends types.xsd_type
 }
 export class tds_GetNetworkProtocols extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12911,10 +12703,6 @@ export class tds_SetNetworkProtocols extends types.xsd_type
 }
 export class tds_SetNetworkProtocolsResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12924,10 +12712,6 @@ export class tds_SetNetworkProtocolsResponse extends types.xsd_type
 }
 export class tds_GetNetworkDefaultGateway extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12972,10 +12756,6 @@ export class tds_SetNetworkDefaultGateway extends types.xsd_type
 }
 export class tds_SetNetworkDefaultGatewayResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -12985,10 +12765,6 @@ export class tds_SetNetworkDefaultGatewayResponse extends types.xsd_type
 }
 export class tds_GetZeroConfiguration extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13033,10 +12809,6 @@ export class tds_SetZeroConfiguration extends types.xsd_type
 }
 export class tds_SetZeroConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13046,10 +12818,6 @@ export class tds_SetZeroConfigurationResponse extends types.xsd_type
 }
 export class tds_GetIPAddressFilter extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13091,10 +12859,6 @@ export class tds_SetIPAddressFilter extends types.xsd_type
 }
 export class tds_SetIPAddressFilterResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13120,10 +12884,6 @@ export class tds_AddIPAddressFilter extends types.xsd_type
 }
 export class tds_AddIPAddressFilterResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13149,10 +12909,6 @@ export class tds_RemoveIPAddressFilter extends types.xsd_type
 }
 export class tds_RemoveIPAddressFilterResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13162,10 +12918,6 @@ export class tds_RemoveIPAddressFilterResponse extends types.xsd_type
 }
 export class tds_GetAccessPolicy extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13207,10 +12959,6 @@ export class tds_SetAccessPolicy extends types.xsd_type
 }
 export class tds_SetAccessPolicyResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13261,10 +13009,6 @@ export class tds_CreateCertificateResponse extends types.xsd_type
 }
 export class tds_GetCertificates extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13290,10 +13034,6 @@ export class tds_GetCertificatesResponse extends types.xsd_type
 }
 export class tds_GetCertificatesStatus extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13335,10 +13075,6 @@ export class tds_SetCertificatesStatus extends types.xsd_type
 }
 export class tds_SetCertificatesStatusResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13364,10 +13100,6 @@ export class tds_DeleteCertificates extends types.xsd_type
 }
 export class tds_DeleteCertificatesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13431,10 +13163,6 @@ export class tds_LoadCertificates extends types.xsd_type
 }
 export class tds_LoadCertificatesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13444,10 +13172,6 @@ export class tds_LoadCertificatesResponse extends types.xsd_type
 }
 export class tds_GetClientCertificateMode extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13489,10 +13213,6 @@ export class tds_SetClientCertificateMode extends types.xsd_type
 }
 export class tds_SetClientCertificateModeResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13502,10 +13222,6 @@ export class tds_SetClientCertificateModeResponse extends types.xsd_type
 }
 export class tds_GetRelayOutputs extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13550,10 +13266,6 @@ export class tds_SetRelayOutputSettings extends types.xsd_type
 }
 export class tds_SetRelayOutputSettingsResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13582,10 +13294,6 @@ export class tds_SetRelayOutputState extends types.xsd_type
 }
 export class tds_SetRelayOutputStateResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13627,10 +13335,6 @@ export class tds_SendAuxiliaryCommandResponse extends types.xsd_type
 }
 export class tds_GetCACertificates extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13672,10 +13376,6 @@ export class tds_LoadCertificateWithPrivateKey extends types.xsd_type
 }
 export class tds_LoadCertificateWithPrivateKeyResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13733,10 +13433,6 @@ export class tds_LoadCACertificates extends types.xsd_type
 }
 export class tds_LoadCACertificatesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13762,10 +13458,6 @@ export class tds_CreateDot1XConfiguration extends types.xsd_type
 }
 export class tds_CreateDot1XConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13791,10 +13483,6 @@ export class tds_SetDot1XConfiguration extends types.xsd_type
 }
 export class tds_SetDot1XConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13836,10 +13524,6 @@ export class tds_GetDot1XConfigurationResponse extends types.xsd_type
 }
 export class tds_GetDot1XConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13881,10 +13565,6 @@ export class tds_DeleteDot1XConfiguration extends types.xsd_type
 }
 export class tds_DeleteDot1XConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -13990,10 +13670,6 @@ export class tds_ScanAvailableDot11NetworksResponse extends types.xsd_type
 }
 export class tds_GetSystemUris extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14044,10 +13720,6 @@ export class tds_GetSystemUrisResponse extends types.xsd_type
 }
 export class tds_StartFirmwareUpgrade extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14079,10 +13751,6 @@ export class tds_StartFirmwareUpgradeResponse extends types.xsd_type
 }
 export class tds_StartSystemRestore extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14111,10 +13779,6 @@ export class tds_StartSystemRestoreResponse extends types.xsd_type
 }
 export class tds_GetStorageConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14292,10 +13956,6 @@ export class tds_SetStorageConfiguration extends types.xsd_type
 }
 export class tds_SetStorageConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14321,10 +13981,6 @@ export class tds_DeleteStorageConfiguration extends types.xsd_type
 }
 export class tds_DeleteStorageConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14422,10 +14078,6 @@ export class tev_Seek extends types.xsd_type
 }
 export class tev_SeekResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14435,10 +14087,6 @@ export class tev_SeekResponse extends types.xsd_type
 }
 export class tev_SetSynchronizationPoint extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14448,10 +14096,6 @@ export class tev_SetSynchronizationPoint extends types.xsd_type
 }
 export class tev_SetSynchronizationPointResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14461,10 +14105,6 @@ export class tev_SetSynchronizationPointResponse extends types.xsd_type
 }
 export class tev_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14593,10 +14233,6 @@ export class tev_CreatePullPointSubscriptionResponse extends types.xsd_type
 }
 export class tev_GetEventProperties extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14643,10 +14279,6 @@ export class tev_GetEventPropertiesResponse extends types.xsd_type
 }
 export class timg_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14748,10 +14380,6 @@ export class timg_SetImagingSettings extends types.xsd_type
 }
 export class timg_SetImagingSettingsResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14812,10 +14440,6 @@ export class timg_Move extends types.xsd_type
 }
 export class timg_MoveResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14841,10 +14465,6 @@ export class timg_Stop extends types.xsd_type
 }
 export class timg_StopResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -14918,10 +14538,6 @@ export class timg_GetMoveOptionsResponse extends types.xsd_type
 }
 export class trt_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15043,10 +14659,6 @@ export class trt_GetServiceCapabilitiesResponse extends types.xsd_type
 }
 export class trt_GetVideoSources extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15072,10 +14684,6 @@ export class trt_GetVideoSourcesResponse extends types.xsd_type
 }
 export class trt_GetAudioSources extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15101,10 +14709,6 @@ export class trt_GetAudioSourcesResponse extends types.xsd_type
 }
 export class trt_GetAudioOutputs extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15197,10 +14801,6 @@ export class trt_GetProfileResponse extends types.xsd_type
 }
 export class trt_GetProfiles extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15245,10 +14845,6 @@ export class trt_AddVideoEncoderConfiguration extends types.xsd_type
 }
 export class trt_AddVideoEncoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15277,10 +14873,6 @@ export class trt_AddVideoSourceConfiguration extends types.xsd_type
 }
 export class trt_AddVideoSourceConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15309,10 +14901,6 @@ export class trt_AddAudioEncoderConfiguration extends types.xsd_type
 }
 export class trt_AddAudioEncoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15341,10 +14929,6 @@ export class trt_AddAudioSourceConfiguration extends types.xsd_type
 }
 export class trt_AddAudioSourceConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15373,10 +14957,6 @@ export class trt_AddPTZConfiguration extends types.xsd_type
 }
 export class trt_AddPTZConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15405,10 +14985,6 @@ export class trt_AddVideoAnalyticsConfiguration extends types.xsd_type
 }
 export class trt_AddVideoAnalyticsConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15437,10 +15013,6 @@ export class trt_AddMetadataConfiguration extends types.xsd_type
 }
 export class trt_AddMetadataConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15469,10 +15041,6 @@ export class trt_AddAudioOutputConfiguration extends types.xsd_type
 }
 export class trt_AddAudioOutputConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15501,10 +15069,6 @@ export class trt_AddAudioDecoderConfiguration extends types.xsd_type
 }
 export class trt_AddAudioDecoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15530,10 +15094,6 @@ export class trt_RemoveVideoEncoderConfiguration extends types.xsd_type
 }
 export class trt_RemoveVideoEncoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15559,10 +15119,6 @@ export class trt_RemoveVideoSourceConfiguration extends types.xsd_type
 }
 export class trt_RemoveVideoSourceConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15588,10 +15144,6 @@ export class trt_RemoveAudioEncoderConfiguration extends types.xsd_type
 }
 export class trt_RemoveAudioEncoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15617,10 +15169,6 @@ export class trt_RemoveAudioSourceConfiguration extends types.xsd_type
 }
 export class trt_RemoveAudioSourceConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15646,10 +15194,6 @@ export class trt_RemovePTZConfiguration extends types.xsd_type
 }
 export class trt_RemovePTZConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15675,10 +15219,6 @@ export class trt_RemoveVideoAnalyticsConfiguration extends types.xsd_type
 }
 export class trt_RemoveVideoAnalyticsConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15704,10 +15244,6 @@ export class trt_RemoveMetadataConfiguration extends types.xsd_type
 }
 export class trt_RemoveMetadataConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15733,10 +15269,6 @@ export class trt_RemoveAudioOutputConfiguration extends types.xsd_type
 }
 export class trt_RemoveAudioOutputConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15762,10 +15294,6 @@ export class trt_RemoveAudioDecoderConfiguration extends types.xsd_type
 }
 export class trt_RemoveAudioDecoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15791,10 +15319,6 @@ export class trt_DeleteProfile extends types.xsd_type
 }
 export class trt_DeleteProfileResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15804,10 +15328,6 @@ export class trt_DeleteProfileResponse extends types.xsd_type
 }
 export class trt_GetVideoSourceConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15833,10 +15353,6 @@ export class trt_GetVideoSourceConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetVideoEncoderConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15862,10 +15378,6 @@ export class trt_GetVideoEncoderConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetAudioSourceConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15891,10 +15403,6 @@ export class trt_GetAudioSourceConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetAudioEncoderConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15920,10 +15428,6 @@ export class trt_GetAudioEncoderConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetVideoAnalyticsConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15949,10 +15453,6 @@ export class trt_GetVideoAnalyticsConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetMetadataConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -15978,10 +15478,6 @@ export class trt_GetMetadataConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetAudioOutputConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16007,10 +15503,6 @@ export class trt_GetAudioOutputConfigurationsResponse extends types.xsd_type
 }
 export class trt_GetAudioDecoderConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16567,10 +16059,6 @@ export class trt_SetVideoSourceConfiguration extends types.xsd_type
 }
 export class trt_SetVideoSourceConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16599,10 +16087,6 @@ export class trt_SetVideoEncoderConfiguration extends types.xsd_type
 }
 export class trt_SetVideoEncoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16631,10 +16115,6 @@ export class trt_SetAudioSourceConfiguration extends types.xsd_type
 }
 export class trt_SetAudioSourceConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16663,10 +16143,6 @@ export class trt_SetAudioEncoderConfiguration extends types.xsd_type
 }
 export class trt_SetAudioEncoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16695,10 +16171,6 @@ export class trt_SetVideoAnalyticsConfiguration extends types.xsd_type
 }
 export class trt_SetVideoAnalyticsConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16727,10 +16199,6 @@ export class trt_SetMetadataConfiguration extends types.xsd_type
 }
 export class trt_SetMetadataConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16759,10 +16227,6 @@ export class trt_SetAudioOutputConfiguration extends types.xsd_type
 }
 export class trt_SetAudioOutputConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -16791,10 +16255,6 @@ export class trt_SetAudioDecoderConfiguration extends types.xsd_type
 }
 export class trt_SetAudioDecoderConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17141,10 +16601,6 @@ export class trt_StartMulticastStreaming extends types.xsd_type
 }
 export class trt_StartMulticastStreamingResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17170,10 +16626,6 @@ export class trt_StopMulticastStreaming extends types.xsd_type
 }
 export class trt_StopMulticastStreamingResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17199,10 +16651,6 @@ export class trt_SetSynchronizationPoint extends types.xsd_type
 }
 export class trt_SetSynchronizationPointResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17584,10 +17032,6 @@ export class trt_DeleteOSDResponse extends types.xsd_type
 }
 export class tr2_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17891,10 +17335,6 @@ export class tr2_AddConfiguration extends types.xsd_type
 }
 export class tr2_AddConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17923,10 +17363,6 @@ export class tr2_RemoveConfiguration extends types.xsd_type
 }
 export class tr2_RemoveConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -17952,10 +17388,6 @@ export class tr2_DeleteProfile extends types.xsd_type
 }
 export class tr2_DeleteProfileResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -18136,10 +17568,6 @@ export class tr2_SetVideoSourceConfiguration extends types.xsd_type
 }
 export class tr2_SetConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -18495,10 +17923,6 @@ export class tr2_StartStopMulticastStreaming extends types.xsd_type
 export const tr2_StartMulticastStreaming = tr2_StartStopMulticastStreaming; // using elem "StartStopMulticastStreaming"
 export class tr2_StartStopMulticastStreamingResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -18525,10 +17949,6 @@ export class tr2_SetSynchronizationPoint extends types.xsd_type
 }
 export class tr2_SetSynchronizationPointResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -18809,10 +18229,6 @@ export class tr2_DeleteOSD extends types.xsd_type
 }
 export class tptz_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -18872,10 +18288,6 @@ export class tptz_GetServiceCapabilitiesResponse extends types.xsd_type
 }
 export class tptz_GetConfigurations extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -18990,10 +18402,6 @@ export class tptz_RemovePreset extends types.xsd_type
 }
 export class tptz_RemovePresetResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19025,10 +18433,6 @@ export class tptz_GotoPreset extends types.xsd_type
 }
 export class tptz_GotoPresetResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19102,10 +18506,6 @@ export class tptz_GetConfigurationResponse extends types.xsd_type
 }
 export class tptz_GetNodes extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19182,10 +18582,6 @@ export class tptz_SetConfiguration extends types.xsd_type
 }
 export class tptz_SetConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19246,10 +18642,6 @@ export class tptz_GotoHomePosition extends types.xsd_type
 }
 export class tptz_GotoHomePositionResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19275,10 +18667,6 @@ export class tptz_SetHomePosition extends types.xsd_type
 }
 export class tptz_SetHomePositionResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19310,10 +18698,6 @@ export class tptz_ContinuousMove extends types.xsd_type
 }
 export class tptz_ContinuousMoveResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19345,10 +18729,6 @@ export class tptz_RelativeMove extends types.xsd_type
 }
 export class tptz_RelativeMoveResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19415,10 +18795,6 @@ export class tptz_AbsoluteMove extends types.xsd_type
 }
 export class tptz_AbsoluteMoveResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19450,10 +18826,6 @@ export class tptz_Stop extends types.xsd_type
 }
 export class tptz_StopResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19616,10 +18988,6 @@ export class tptz_ModifyPresetTour extends types.xsd_type
 }
 export class tptz_ModifyPresetTourResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19651,10 +19019,6 @@ export class tptz_OperatePresetTour extends types.xsd_type
 }
 export class tptz_OperatePresetTourResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19683,10 +19047,6 @@ export class tptz_RemovePresetTour extends types.xsd_type
 }
 export class tptz_RemovePresetTourResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19728,10 +19088,6 @@ export class tptz_GetCompatibleConfigurationsResponse extends types.xsd_type
 }
 export class tth_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -19941,14 +19297,14 @@ export class tth_Polarity extends types.xsd_enum // enum
     }
 
     parse(parser, s){
-        if (s == "WhiteHot") { this.v = this.WhiteHot; return true; }
-        if (s == "BlackHot") { this.v = this.BlackHot; return true; }
+        if (s === "WhiteHot") { this.v = this.WhiteHot; return true; }
+        if (s === "BlackHot") { this.v = this.BlackHot; return true; }
         return false;
     }
 
     to_string(){
-        if (this.v == this.WhiteHot) { return "WhiteHot"; }
-        if (this.v == this.BlackHot) { return "BlackHot"; }
+        if (this.v === this.WhiteHot) { return "WhiteHot"; }
+        if (this.v === this.BlackHot) { return "BlackHot"; }
         return "";
     }
 }
@@ -20042,10 +19398,6 @@ export class tth_SetConfiguration extends types.xsd_type
 }
 export class tth_SetConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20106,10 +19458,6 @@ export class tan__CreateRules extends types.xsd_type
 }
 export class tan__CreateRulesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20138,10 +19486,6 @@ export class tan__DeleteRules extends types.xsd_type
 }
 export class tan__DeleteRulesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20202,10 +19546,6 @@ export class tan__ModifyRules extends types.xsd_type
 }
 export class tan__ModifyRulesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20215,10 +19555,6 @@ export class tan__ModifyRulesResponse extends types.xsd_type
 }
 export class tan__GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20323,10 +19659,6 @@ export class tan__CreateAnalyticsModules extends types.xsd_type
 }
 export class tan__CreateAnalyticsModulesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20355,10 +19687,6 @@ export class tan__DeleteAnalyticsModules extends types.xsd_type
 }
 export class tan__DeleteAnalyticsModulesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20419,10 +19747,6 @@ export class tan__ModifyAnalyticsModules extends types.xsd_type
 }
 export class tan__ModifyAnalyticsModulesResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20432,10 +19756,6 @@ export class tan__ModifyAnalyticsModulesResponse extends types.xsd_type
 }
 export class tad_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20496,10 +19816,6 @@ export class tad_DeleteAnalyticsEngineControl extends types.xsd_type
 }
 export class tad_DeleteAnalyticsEngineControlResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20560,10 +19876,6 @@ export class tad_SetAnalyticsEngineControl extends types.xsd_type
 }
 export class tad_SetAnalyticsEngineControlResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20605,10 +19917,6 @@ export class tad_GetAnalyticsEngineControlResponse extends types.xsd_type
 }
 export class tad_GetAnalyticsEngineControls extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20666,10 +19974,6 @@ export class tad_GetAnalyticsEngineResponse extends types.xsd_type
 }
 export class tad_GetAnalyticsEngines extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20714,10 +20018,6 @@ export class tad_SetVideoAnalyticsConfiguration extends types.xsd_type
 }
 export class tad_SetVideoAnalyticsConfigurationResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20746,10 +20046,6 @@ export class tad_SetAnalyticsEngineInput extends types.xsd_type
 }
 export class tad_SetAnalyticsEngineInputResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20791,10 +20087,6 @@ export class tad_GetAnalyticsEngineInputResponse extends types.xsd_type
 }
 export class tad_GetAnalyticsEngineInputs extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20938,10 +20230,6 @@ export class tad_DeleteAnalyticsEngineInputs extends types.xsd_type
 }
 export class tad_DeleteAnalyticsEngineInputsResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -20983,10 +20271,6 @@ export class tad_GetAnalyticsStateResponse extends types.xsd_type
 }
 export class tae_GetSupportedActions extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21078,10 +20362,6 @@ export class tae_GetSupportedActionsResponse extends types.xsd_type
 }
 export class tae_GetActions extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21208,10 +20488,6 @@ export class tae_DeleteActions extends types.xsd_type
 }
 export class tae_DeleteActionsResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21237,10 +20513,6 @@ export class tae_ModifyActions extends types.xsd_type
 }
 export class tae_ModifyActionsResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21250,10 +20522,6 @@ export class tae_ModifyActionsResponse extends types.xsd_type
 }
 export class tae_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21354,10 +20622,6 @@ export class tae_GetServiceCapabilitiesResponse extends types.xsd_type
 }
 export class tae_GetActionTriggers extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21503,10 +20767,6 @@ export class tae_DeleteActionTriggers extends types.xsd_type
 }
 export class tae_DeleteActionTriggersResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21532,10 +20792,6 @@ export class tae_ModifyActionTriggers extends types.xsd_type
 }
 export class tae_ModifyActionTriggersResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -21565,10 +20821,6 @@ export const pt_Name = xsd_string;
 export const pt_Description = xsd_string;
 export class tsc_GetServiceCapabilities extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -22049,10 +21301,6 @@ export class tsc_ModifySchedule extends types.xsd_type
 }
 export class tsc_ModifyScheduleResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -22078,10 +21326,6 @@ export class tsc_DeleteSchedule extends types.xsd_type
 }
 export class tsc_DeleteScheduleResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -22342,10 +21586,6 @@ export class tsc_ModifySpecialDayGroup extends types.xsd_type
 }
 export class tsc_ModifySpecialDayGroupResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -22371,10 +21611,6 @@ export class tsc_DeleteSpecialDayGroup extends types.xsd_type
 }
 export class tsc_DeleteSpecialDayGroupResponse extends types.xsd_type
 {
-    constructor(){
-        super();
-    }
-
     write(obj, w){
     }
 
@@ -22382,7 +21618,7 @@ export class tsc_DeleteSpecialDayGroupResponse extends types.xsd_type
         return true;
     }
 }
-export const tds =
+export const tds = 
 {
     message: {
         GetServicesRequest: tds_GetServices,
@@ -22561,7 +21797,7 @@ export const tds =
         DeleteStorageConfigurationResponse: tds_DeleteStorageConfigurationResponse,
     },
 }
-export const tev =
+export const tev = 
 {
     message: {
         PullMessagesRequest: tev_PullMessages,
@@ -22579,13 +21815,13 @@ export const tev =
         GetEventPropertiesResponse: tev_GetEventPropertiesResponse,
     },
 }
-export const wsrf_rw =
+export const wsrf_rw = 
 {
     message: {
         ResourceUnknownFault: wsrf_r_ResourceUnknownFault,
     },
 }
-export const wsntw =
+export const wsntw = 
 {
     message: {
         InvalidFilterFault: wsnt_InvalidFilterFault,
@@ -22629,7 +21865,7 @@ export const wsntw =
         ResumeFailedFault: wsnt_ResumeFailedFault,
     },
 }
-export const timg =
+export const timg = 
 {
     message: {
         GetServiceCapabilitiesRequest: timg_GetServiceCapabilities,
@@ -22650,7 +21886,7 @@ export const timg =
         GetMoveOptionsResponse: timg_GetMoveOptionsResponse,
     },
 }
-export const trt =
+export const trt = 
 {
     message: {
         GetServiceCapabilitiesRequest: trt_GetServiceCapabilities,
@@ -22813,7 +22049,7 @@ export const trt =
         DeleteOSDResponse: trt_DeleteOSDResponse,
     },
 }
-export const tr2 =
+export const tr2 = 
 {
     message: {
         GetServiceCapabilitiesRequest: tr2_GetServiceCapabilities,
@@ -22891,7 +22127,7 @@ export const tr2 =
         DeleteOSDRequest: tr2_DeleteOSD,
     },
 }
-export const tptz =
+export const tptz = 
 {
     message: {
         GetServiceCapabilitiesRequest: tptz_GetServiceCapabilities,
@@ -22950,7 +22186,7 @@ export const tptz =
         GetCompatibleConfigurationsResponse: tptz_GetCompatibleConfigurationsResponse,
     },
 }
-export const tth =
+export const tth = 
 {
     message: {
         GetServiceCapabilitiesRequest: tth_GetServiceCapabilities,
@@ -22963,7 +22199,7 @@ export const tth =
         SetConfigurationResponse: tth_SetConfigurationResponse,
     },
 }
-export const tan_ =
+export const tan_ = 
 {
     message: {
         GetSupportedRulesRequest: tan__GetSupportedRules,
@@ -22990,7 +22226,7 @@ export const tan_ =
         ModifyAnalyticsModulesResponse: tan__ModifyAnalyticsModulesResponse,
     },
 }
-export const tad =
+export const tad = 
 {
     message: {
         GetServiceCapabilitiesRequest: tad_GetServiceCapabilities,
@@ -23029,7 +22265,7 @@ export const tad =
         GetAnalyticsStateResponse: tad_GetAnalyticsStateResponse,
     },
 }
-export const tae =
+export const tae = 
 {
     message: {
         GetSupportedActionsRequest: tae_GetSupportedActions,
@@ -23054,7 +22290,7 @@ export const tae =
         ModifyActionTriggersResponse: tae_ModifyActionTriggersResponse,
     },
 }
-export const tsc =
+export const tsc = 
 {
     message: {
         GetServiceCapabilitiesRequest: tsc_GetServiceCapabilities,
