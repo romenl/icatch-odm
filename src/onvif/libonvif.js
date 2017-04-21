@@ -1,15 +1,13 @@
 import http from 'http';
-import events from 'events'; 
 import crypto from 'crypto';
 import * as schemas from "./onvif_schemas";
 import * as types from "./xsd_types";
-//import 'whatwg-fetch';
 
 class content {
   constructor(){
-    this.header   = new String();
-    this.buf      = new String();
-    this.buf_size = new Number();
+    this.header   = "";
+    this.buf      = "";
+    this.buf_size = Number();
     this.xml      = new window.DOMParser().parseFromString("<?xml version='1.0' encoding='UTF-8'?><ROOT></ROOT>", 'text/xml');
     this.enevlope = new schemas.soap_Envelope();
   }
@@ -20,11 +18,11 @@ export class soap_object
   constructor(){
 
     this.protocol  = "http";
-    this.host      = new String();
+    this.host      = "";
     this.port      = 80;
     this.url       = "/onvif/device_service";
-    this.username  = new String();
-    this.password  = new String();
+    this.username  = "";
+    this.password  = "";
     this.objs      = new Array(new types.xsd_type());
     this.input     = new content();
     this.output    = new content();
@@ -36,50 +34,49 @@ export class soap_object
     this.objs.push(obj);
     return obj;
   }
-/*
-  createFetchAPI(){
-    let request = new Request(
-                    location.origin + '/onvif/device_service', 
-                    {
-                      mode: 'no-cors',
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/soap+xml',
-                        'Content-Length': this.input.buf.length,
-                        charset: 'utf-8'
-                      },
-                      body: this.input.buf
-                    }
-                  );
+
+//   createFetchAPI(){
+//     let request = new Request(
+//                     location.origin + '/onvif/device_service', 
+//                     {
+//                       mode: 'no-cors',
+//                       method: 'POST',
+//                       headers: {
+//                         'Content-Type': 'application/soap+xml',
+//                         'Content-Length': this.input.buf.length,
+//                         charset: 'utf-8'
+//                       },
+//                       body: this.input.buf
+//                     }
+//                   );
                   
-    return fetch(request);
-  }
+//     return fetch(request);
+//   }
 
-  post(){
-    let api = this.createFetchAPI();
+//   post(){
+//     let api = this.createFetchAPI();
 
-    return new Promise((resolve, reject) => {
-      api.then((res) => {
-        if (res.ok){
-          res.text().then((data) => {
-            this.output.headers = res.headers;
-            this.output.buf = data;
-            this.output.buf_size = data.length;
-            console.log(data);
-          });
-        } else {
-          console.log('Fetch problame.');
-        }
+//     return new Promise((resolve, reject) => {
+//       api.then((res) => {
+//         if (res.ok){
+//           res.text().then((data) => {
+//             this.output.headers = res.headers;
+//             this.output.buf = data;
+//             this.output.buf_size = data.length;
+//           });
+//         } else {
+//           console.log('Fetch problame.');
+//         }
 
-        resolve(true);
-      }).catch((err) => {
-        console.log('Error with request: ' + err );
-        reject(false);
-      });
-    });
-}*/
+//         resolve(true);
+//       }).catch((err) => {
+//         console.log('Error with request: ' + err );
+//         reject(false);
+//       });
+//     });
+// }
 
-    create_req_options(){
+  create_req_options(){
     return {
       hostname: this.host,
       port: this.port,
@@ -109,6 +106,7 @@ export class soap_object
             this.output.headers = res.headers;
             this.output.buf = bufs;
             this.output.buf_size = length;
+            
             _done = true ;
           }
 
@@ -299,9 +297,9 @@ export class soap_reader extends types.parse_proxy
   check(ns, name)
   {
     let tag = this.get_tag(this.m_p);
-    if (tag[0] != schemas.NAMESPACES[ns])
+    if (tag[0] !== schemas.NAMESPACES[ns])
       return false;
-    if (tag[1] != name)
+    if (tag[1] !== name)
       return false;
     return true;
   }
@@ -315,11 +313,11 @@ export class soap_reader extends types.parse_proxy
     }
 
     let s = "xmlns";
-    if ( prefix != null )
+    if ( prefix !== null )
       s += ":" + prefix;
 
     let attr = elem.getAttribute(s);
-    if (attr != null)
+    if (attr !== null)
       return attr;
 
     return this.find_namespace(elem.parentNode, prefix);
@@ -328,7 +326,7 @@ export class soap_reader extends types.parse_proxy
   {
     let ns = schemas.NAMESPACES[prefix];
     let elem = this.m_p.firstElementChild;
-    while (elem != null)
+    while (elem !== null)
     {
       if (!this.m_deleted.has(elem))
       {
@@ -374,7 +372,7 @@ export class soap_reader extends types.parse_proxy
       else if (v.isP)
       {
         let _T = v.type ;
-        let _v = new Array();
+        let _v = [];
         while(true){
           let t = new _T();
           if (!this.read(obj, ns, name, t))
@@ -591,7 +589,7 @@ export function new_soap_envelope(obj, input_action)
   envelope.Header = new schemas.soap_Header() ;
   envelope.Header.any.v.push(new types.any_t( {ns:schemas.PREFIX_WSSE, name:"Security", v:security} ) );
 
-  if ( input_action != null )
+  if ( input_action !== null )
   {
     let action = obj.new_obj( schemas.wsa5_Action );
     action.v = input_action;
@@ -642,7 +640,7 @@ export function onvif_request_response_operation(
           if (!o_envelope.read(obj, reader))
             return false;
 
-          if (o_envelope.Body.any.v.length != 1)
+          if (o_envelope.Body.any.v.length !== 1)
             return false;
 
           let r = o_envelope.Body.any.v[0].v0;
@@ -722,7 +720,7 @@ export function onvif_dispatch_init(obj, input_ns, input_name)
   if (!envelope.read(obj, reader))
     return false;
 
-  if (envelope.Body.any.v.length != 1)
+  if (envelope.Body.any.v.length !== 1)
     return false;
 
   let r = envelope.Body.any.v[0].v0;
@@ -762,13 +760,15 @@ export function onvif_accessible(policy, classes)
   switch (policy)
   {
     case access_policy.Administrator:
-      return ADMINISTRATOR[classes] != ADMINISTRATOR[(Object.keys(ADMINISTRATOR).length-1)];
+      return ADMINISTRATOR[classes] !== ADMINISTRATOR[(Object.keys(ADMINISTRATOR).length-1)];
     case access_policy.Operator:
-      return OPERATOR[classes] != OPERATOR[(Object.keys(OPERATOR).length-1)];
+      return OPERATOR[classes] !== OPERATOR[(Object.keys(OPERATOR).length-1)];
     case access_policy.User:
-      return USER[classes] != USER[(Object.keys(USER).length-1)];
+      return USER[classes] !== USER[(Object.keys(USER).length-1)];
     case access_policy.Anonymous:
-      return ANONYMOUS[classes] != ANONYMOUS[(Object.keys(ANONYMOUS).length-1)];
+      return ANONYMOUS[classes] !== ANONYMOUS[(Object.keys(ANONYMOUS).length-1)];
+    default:
+      return false;
   }
 }
 
