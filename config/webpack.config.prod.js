@@ -111,7 +111,9 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
+          /\.sass$/,
+          /\.scss$/
         ],
         loader: 'url',
         query: {
@@ -156,11 +158,10 @@ module.exports = {
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
       {
-        test    : /\.scss$/,
+        test   : /\.scss$/,
         loader : ExtractTextPlugin.extract(
           'style',
-          'css',
-          'sass',
+          'css!sass',
           extractTextPluginOptions
         )
       },

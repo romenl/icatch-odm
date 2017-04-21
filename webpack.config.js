@@ -43,7 +43,9 @@ module.exports = {
           /\.(js|jsx)(\?.*)?$/,
           /\.css$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
+          /\.sass$/,
+          /\.scss$/
         ],
         loader: 'url',
         query: {
@@ -68,7 +70,7 @@ module.exports = {
       },
       {
         test    : /\.scss$/,
-        loaders : ["style-loader", "css-loader", "sass-loader"]
+        loaders : ["style", "css", "sass"]
       },
       {
         test    : /\.json$/,
