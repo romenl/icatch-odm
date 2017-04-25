@@ -32,8 +32,9 @@ class TimeSettings extends Component{
     async refreshInformation() {
         try {
             // Get Information from devise.
-            let sdt = await GetSystemDateAndTime();
-            let ntp = await GetNTP();
+            let data = await Promise.all([ GetSystemDateAndTime(), GetNTP() ]);
+            let sdt = data[0],
+                ntp = data[1];
             
             this.setState({
                 sync_type: sdt.sync_type,

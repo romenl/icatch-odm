@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Layout, Menu, LocaleProvider } from 'antd';
 import { Route, Redirect, Link } from 'react-router-dom';
 
-import { Configuration } from '../components/';
+import { 
+  Configuration, 
+  //LiveView 
+} from '../components/';
 
 const { Header, Content, Footer } = Layout;
 

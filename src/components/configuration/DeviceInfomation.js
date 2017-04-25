@@ -33,9 +33,10 @@ class DeviceInfomation extends Component{
     async refreshInformation() {
         try {
             // Get Information from devise.
-            let info = await GetDeviceInformation();
-            let hostname = await GetHostname();
-            let networkinterface = await GetNetworkInterfaces();
+            let data = await Promise.all([GetDeviceInformation(), GetHostname(), GetNetworkInterfaces()]);
+            let info = data[0],
+                hostname = data[1],
+                networkinterface = data[2];
 
             let ip = networkinterface.IPv4.Config.FromDHCP.Address.v.split('.');
             

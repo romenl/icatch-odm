@@ -29,10 +29,11 @@ class NetworkSettings extends Component{
     async refreshInformation() {
         try {
             // Get Information from devise.
-            let hostname = await GetHostname();
-            let networkinterface = await GetNetworkInterfaces();
-            let discovermode = await GetDiscoveryMode();
-            let dns_info = await GetDNS();
+            let data = await Promise.all([ GetHostname(), GetNetworkInterfaces(), GetDiscoveryMode(), GetDNS() ]);
+            let hostname = data[0],
+                networkinterface = data[1],
+                discovermode = data[2],
+                dns_info = data[3];
 
             let ip = networkinterface.IPv4.Config.FromDHCP.Address.v.split('.');
             let dns_address = dns_info[0].IPv4Address.v.split('.');
