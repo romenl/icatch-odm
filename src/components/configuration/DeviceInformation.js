@@ -12,7 +12,7 @@ import {
 
 const FormItem = Form.Item;
 
-class DeviceInfomation extends Component{
+class DeviceInformation extends Component{
     constructor(props){
         super(props);
         this.state ={
@@ -38,13 +38,13 @@ class DeviceInfomation extends Component{
                 hostname = data[1],
                 networkinterface = data[2];
 
-            let ip = networkinterface.IPv4.Config.FromDHCP.Address.v.split('.');
+            let ip = networkinterface[0].IPv4.Config.FromDHCP.Address.v.split('.');
             
             this.setState({
                 name: hostname,
                 model: info.Model,
                 firmware: info.FirmwareVersion,
-                mac_address: networkinterface.Info.HwAddress.v,
+                mac_address: networkinterface[0].Info.HwAddress.v,
                 ip_address: {
                     '1': ip[0],
                     '2': ip[1],
@@ -84,12 +84,13 @@ class DeviceInfomation extends Component{
         const { name, model, firmware, mac_address, ip_address, spin_tip, isSpinning } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 6 },
+            labelCol: { span: 8 },
+            wrapperCol: { span: 8 },
         };
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
+                <h1>Device Information</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <FormItemInput label='Name' id='name' value={ name } placeholder="Device's name" layout={formItemLayout} decorator={getFieldDecorator} />
                     
@@ -98,7 +99,7 @@ class DeviceInfomation extends Component{
                     <FormItemInput label='MAC Address' id='mac_address' value={ mac_address } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
                     <FormItemIPInput label='IP Address' id='ip_address' value={ ip_address } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
 
-                    <FormItem wrapperCol={{ span: 12, offset: 8 }}>
+                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 14 }}>
                         <Button type="primary" htmlType="submit">Save</Button>
                     </FormItem>
                 </Form>
@@ -107,4 +108,4 @@ class DeviceInfomation extends Component{
     }
 }
 
-export default DeviceInfomation = Form.create()(DeviceInfomation);
+export default DeviceInformation = Form.create()(DeviceInformation);
