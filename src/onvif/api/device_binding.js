@@ -62,9 +62,9 @@ export async function GetUsers() {
 export async function CreateUsers( user ) {
     try {
         let _user = new schemas.tt_User();
-        _user.Username.v = user.user_name;
-        _user.Password.v = user.user_password;
-        _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => v === user.user_level );
+        _user.Username.v = user.name;
+        _user.Password.v = user.password;
+        _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => v === user.level );
 
         await deviceCMD( 'CreateUsers', _user );
     } catch(e) {
@@ -81,9 +81,9 @@ export async function CreateUsers( user ) {
 export async function SetUser( user ) {
     try {
         let _user = new schemas.tt_User();
-        _user.Username.v = user.user_name;
-        _user.Password.v = user.user_password;
-        _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => user.user_level === v );
+        _user.Username.v = user.name;
+        _user.Password.v = user.password;
+        _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => user.level === v );
 
         await deviceCMD( 'SetUser', _user );
     } catch(e) {
@@ -181,7 +181,7 @@ export async function SystemReboot() {
 export async function GetNetworkInterfaces() {
     try {
         let res = await deviceCMD( 'GetNetworkInterfaces' );
-        let networkinterface = res.NetworkInterfaces.v[0];
+        let networkinterface = res.NetworkInterfaces.v;
     
         return networkinterface;
     } catch(e) {
@@ -210,7 +210,7 @@ export async function GetDiscoveryMode() {
  * GetNTP()
  * 
  * @export
- * @returns object ntp
+ * @returns array
  */
 export async function GetNTP() {
     try {
@@ -233,7 +233,7 @@ export async function GetNTP() {
  * GetDNS()
  * 
  * @export
- * @returns object ntp
+ * @returns array
  */
 export async function GetDNS() {
     try {
