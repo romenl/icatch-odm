@@ -88,12 +88,13 @@ class Maintenance extends Component{
         const { spin_tip, isSpinning, firmware, rebooting, restoring, defaulting, updating } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 6 },
+            labelCol: { span: 8 },
+            wrapperCol: { span: 8 },
         };
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
+                <h1>Maintenance</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <FormItemButtom label='Reboot device' type='primary' context='Reboot' loading={ rebooting } layout={formItemLayout} onClick={this.handleReboot.bind(this)} />
                     <FormItemButtom label='Recovery device parameters to the factory settings' context='Restore' loading={ restoring } layout={formItemLayout} onClick={this.handleRestore.bind(this)} />

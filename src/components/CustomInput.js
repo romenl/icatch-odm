@@ -159,7 +159,7 @@ class UserModal extends Component {
     }
     checkPassword(rule, value, callback){
         const form = this.props.form;
-        if (value && value !== form.getFieldValue('user_password')) {
+        if (value && value !== form.getFieldValue('password')) {
             callback('Two passwords that you enter is inconsistent!');
         } else {
             callback();
@@ -181,6 +181,9 @@ class UserModal extends Component {
             wrapperCol: { span: 14 },
         };
         const userlevels = [{
+            name: 'Administrator',
+            value: 'Administrator'
+        },{
             name: 'Operator',
             value: 'Operator'
         },{
@@ -197,16 +200,16 @@ class UserModal extends Component {
                 onCancel={ onCancel } >
                 <Form>
                     <FormItemInput 
-                        label='User name' id='user_name' value={ modify_user.name } placeholder='User Name' layout={formItemLayout} decorator={getFieldDecorator} 
+                        label='User name' id='name' value={ modify_user.name } placeholder='User Name' layout={formItemLayout} decorator={getFieldDecorator} 
                         rules={[{
                             required: true, message: 'Please input user name!'
                         }]}/>
 
                     <FormItemSelect 
-                        label='User level' id='user_level' value={ modify_user.level !== '' ? modify_user.level : 'Operator' } options={ userlevels } layout={formItemLayout} decorator={getFieldDecorator}/>
+                        label='User level' id='level' value={ modify_user.level !== '' ? modify_user.level : 'Operator' } options={ userlevels } layout={formItemLayout} decorator={getFieldDecorator}/>
 
                     <FormItemInput 
-                        label='User password' id='user_password' type='password' hasFeedback={true} placeholder='User Password' layout={formItemLayout} decorator={getFieldDecorator}
+                        label='User password' id='password' type='password' hasFeedback={true} placeholder='User Password' layout={formItemLayout} decorator={getFieldDecorator}
                         rules={[{
                             required: true, message: 'Please input user password!'
                         },{

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Button, Spin } from 'antd';
+import update from 'react/lib/update';
+import { Form, Button, Spin, Icon } from 'antd';
 import { FormItemInput, FormItemSelect, FormItemSwitch, FormItemRadio, FormItemDatePicker } from '../CustomInput';
 import { timezone } from '../tools/';
 import moment from 'moment';
@@ -24,21 +25,32 @@ class TimeSettings extends Component{
             sync_pc: false,
             manual_time: moment(),
             currentTime: moment(),
-            ntp_server: 'tick.stdtime.gov.tw',
+            ntp_uuid: 0,
+            ntp_server: [],
             spin_tip: 'Loading ...',
             isSpinning: true
         };
     }
     async refreshInformation() {
         try {
+            let { ntp_uuid } = this.state;
             // Get Information from devise.
             let data = await Promise.all([ GetSystemDateAndTime(), GetNTP() ]);
             let sdt = data[0],
                 ntp = data[1];
+
+            let ntp_server = [];
+            ntp.forEach( (n) => (
+                    ntp_server.push({
+                        key: ntp_uuid++,
+                        value: n.DNSname.v
+                    })
+            ));
             
             this.setState({
                 sync_type: sdt.sync_type,
-                ntp_server: ntp[0].DNSname.v,
+                ntp_uuid,
+                ntp_server,
                 isSpinning: false
             });
         } catch(e) {
@@ -58,6 +70,29 @@ class TimeSettings extends Component{
     componentWillUnmount(){
         clearInterval(timer);
     }
+    handleAddServer(){
+        let { ntp_uuid } = this.state;
+        ntp_uuid++;
+
+        this.setState( update( this.state, {
+            ntp_uuid: {
+                $set: ntp_uuid
+            },
+            ntp_server: {
+                $push: [{
+                    key: ntp_uuid,
+                    value: ''
+                }]
+            }
+        }))
+    }
+    handleRemoveServer( ntp ){
+        let { ntp_server } = this.state;
+
+        this.setState({
+            ntp_server: ntp_server.filter( (n) => n.key !== ntp.key )
+        });
+    }
     handleSubmit(e){
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -67,7 +102,7 @@ class TimeSettings extends Component{
                     spin_tip: 'Saving ...',
                     isSpinning: true
                 });
-
+                console.log( values );
                 // Close Spinning
                 setTimeout(() => {
                     this.setState({ isSpinning: false });
@@ -79,12 +114,15 @@ class TimeSettings extends Component{
         const { time_zone, sync_type, sync_pc, manual_time, currentTime, ntp_server, spin_tip, isSpinning } = this.state;
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 6 },
+            labelCol: { span: 8 },
+            wrapperCol: { span: 8 },
         };
+
+        const removeBTN = (ntp) => <Button shape="circle" icon="minus" size="small" onClick={this.handleRemoveServer.bind(this, ntp)}></Button>;
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
+                <h1>Time Settings</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <FormItemSelect label='Time zone' id='time_zone' showSearch={true} value={ time_zone } options={ timezone } layout={formItemLayout} decorator={getFieldDecorator}/>
 
@@ -107,10 +145,19 @@ class TimeSettings extends Component{
                         </div>
                         :
                         <div>
-                            <FormItemInput label='NTP server' id='ntp_server' value={ ntp_server } placeholder='NTP server address' layout={formItemLayout} decorator={getFieldDecorator} />
+                        {
+                            ntp_server.map( (ntp) => (
+                                <FormItemInput label={ ntp.key === 0 ? 'NTP server' : removeBTN(ntp) } id={ `ntp_server_${ ntp.key }` } key={ ntp.key } value={ ntp.value } placeholder='NTP server address' layout={formItemLayout} decorator={getFieldDecorator} />
+                            ))
+                        }
+                            <FormItem wrapperCol={{ span: 8, offset: 8 }}>
+                                <Button type="dashed" onClick={this.handleAddServer.bind(this)} style={{ width: '100%' }}>
+                                    <Icon type="plus" /> Add server
+                                </Button>
+                            </FormItem>
                         </div>
                     }
-                    <FormItem wrapperCol={{ span: 12, offset: 8 }}>
+                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 14 }}>
                         <Button type="primary" htmlType="submit">Save</Button>
                     </FormItem>
                 </Form>

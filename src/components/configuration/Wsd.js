@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
 import { Spin, Form, Button } from 'antd';
-import { FormItemSelectInput } from '../CustomInput';
+import { FormItemSwitch } from '../CustomInput';
 
 // Onvif API
-import { 
-    GetNetworkProtocols
+import {
+    GetDiscoveryMode,
 } from '../../onvif/';
 
 const FormItem = Form.Item;
 
-class HttpHttps extends Component{
+class Wsd extends Component{
     constructor(props){
         super(props);
         this.state ={
-            HTTP:{
-                enable: false,
-                port: []
-            },
-            HTTPS:{
-                enable: false,
-                port: []
-            },
-            RTSP:{
-                enable: false,
-                port: []
-            },
+            discoverable: false,
             spin_tip: 'Loading ...',
             isSpinning: true
         };
@@ -32,10 +21,12 @@ class HttpHttps extends Component{
     async refreshInformation() {
         try {
             // Get Information from devise.
-            let protocols = await GetNetworkProtocols();
+            let discovermode = await GetDiscoveryMode();
+
+            
             
             this.setState({
-                ...protocols,
+                discoverable: discovermode,
                 isSpinning: false
             });
         } catch(e) {
@@ -54,8 +45,6 @@ class HttpHttps extends Component{
                     isSpinning: true
                 });
 
-                console.log(values);
-
                 // Close Spinning
                 setTimeout(() => {
                     this.setState({ isSpinning: false });
@@ -64,7 +53,7 @@ class HttpHttps extends Component{
         });
     }
     render() {
-        const { HTTP, HTTPS, RTSP, spin_tip, isSpinning } = this.state;
+        const { discoverable, spin_tip, isSpinning } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
@@ -73,12 +62,10 @@ class HttpHttps extends Component{
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
-                <h1>Http/Https</h1>
+                <h1>WSD</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
 
-                    <FormItemSelectInput label='HTTP ports' id='http_ports' value={{enable: HTTP.enable, content: HTTP.port[0]}} layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemSelectInput label='HTTPs ports' id='https_ports' value={{enable: HTTPS.enable, content: HTTPS.port[0]}} layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemSelectInput label='RTSP ports' id='rtsp_ports' value={{enable: RTSP.enable, content: RTSP.port[0]}} layout={formItemLayout} decorator={getFieldDecorator} />
+                    <FormItemSwitch label='Discoverable' id='discoverable' value={ discoverable } layout={formItemLayout} decorator={getFieldDecorator} />
 
                     <FormItem className='submit' wrapperCol={{ span: 2, offset: 14 }}>
                         <Button type="primary" htmlType="submit">Save</Button>
@@ -89,4 +76,4 @@ class HttpHttps extends Component{
     }
 }
 
-export default HttpHttps = Form.create()(HttpHttps);
+export default Wsd = Form.create()(Wsd);

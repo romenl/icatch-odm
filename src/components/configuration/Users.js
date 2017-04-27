@@ -133,15 +133,17 @@ export default class Users extends Component{
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>User Management</h1>
                 <br />
-                <Button onClick={this.handleCreate.bind(this)} style={{marginBottom: 5}}>Add</Button>
-                <Table columns={this.columns} dataSource={ datas } locale={{emptyText: <span><Icon type="info-circle" />Have no any users now.</span>}}></Table>
-                <FormItemUserModal 
-                    title={modify_user.name === '' ? "Create a new User" : `Modify ${ modify_user.name }`}
-                    visible={this.state.isOpen}
-                    modify_user={modify_user}
-                    onOk={this.handleSubmit.bind(this)}
-                    onCancel={this.handleCancel.bind(this)}
-                    ref={this.saveFormRef.bind(this)} />
+                <section id='user-management'>
+                    <Button onClick={this.handleCreate.bind(this)} style={{marginBottom: 5}}>Add</Button>
+                    <Table columns={this.columns} dataSource={ datas } locale={{emptyText: <span><Icon type="info-circle" />Have no any users now.</span>}}></Table>
+                    <FormItemUserModal 
+                        title={modify_user.name === '' ? "Create a new User" : `Modify ${ modify_user.name }`}
+                        visible={this.state.isOpen}
+                        modify_user={modify_user}
+                        onOk={this.handleSubmit.bind(this)}
+                        onCancel={this.handleCancel.bind(this)}
+                        ref={this.saveFormRef.bind(this)} />
+                </section>
             </Spin>
         );
     }
