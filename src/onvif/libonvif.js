@@ -35,94 +35,94 @@ export class soap_object
     return obj;
   }
 
-//   createFetchAPI(){
-//     let request = new Request(
-//                     location.origin + '/onvif/device_service', 
-//                     {
-//                       mode: 'no-cors',
-//                       method: 'POST',
-//                       headers: {
-//                         'Content-Type': 'application/soap+xml',
-//                         'Content-Length': this.input.buf.length,
-//                         charset: 'utf-8'
-//                       },
-//                       body: this.input.buf
-//                     }
-//                   );
+  createFetchAPI(){
+    let request = new Request(
+                    location.origin + '/onvif/device_service', 
+                    {
+                      mode: 'no-cors',
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/soap+xml',
+                        'Content-Length': this.input.buf.length,
+                        charset: 'utf-8'
+                      },
+                      body: this.input.buf
+                    }
+                  );
                   
-//     return fetch(request);
-//   }
-
-//   post(){
-//     let api = this.createFetchAPI();
-
-//     return new Promise((resolve, reject) => {
-//       api.then((res) => {
-//         if (res.ok){
-//           res.text().then((data) => {
-//             this.output.headers = res.headers;
-//             this.output.buf = data;
-//             this.output.buf_size = data.length;
-//           });
-//         } else {
-//           console.log('Fetch problame.');
-//         }
-
-//         resolve(true);
-//       }).catch((err) => {
-//         console.log('Error with request: ' + err );
-//         reject(false);
-//       });
-//     });
-// }
-
-  create_req_options(){
-    return {
-      hostname: this.host,
-      port: this.port,
-      path: this.url,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/soap+xml',
-        'Content-Length': this.input.buf.length,
-        charset: 'utf-8',
-      }
-    };
+    return fetch(request);
   }
 
   post(){
+    let api = this.createFetchAPI();
+
     return new Promise((resolve, reject) => {
-      let reqOptions = this.create_req_options();
-      let _done = false;
-      let req = http.request(reqOptions, (res) => {
-        let bufs = [], length = 0;
-        res.on('data', (chunk) =>{
-          bufs.push(chunk);
-          length += chunk.length;
-        });
-        res.on('end', () => {
-          if (bufs.length !== 0 && length !== 0)
-          {
+      api.then( async (res) => {
+        if (res.ok){
+          await res.text().then((data) => {
             this.output.headers = res.headers;
-            this.output.buf = bufs;
-            this.output.buf_size = length;
-            
-            _done = true ;
-          }
+            this.output.buf = data;
+            this.output.buf_size = data.length;
+          });
+        } else {
+          console.log('Fetch problame.');
+        }
 
-          resolve(_done);
-        });
+        resolve(true);
+      }).catch((err) => {
+        console.log('Error with request: ' + err );
+        reject(false);
       });
-      req.on('error', (e) => {
-        console.log('Error with request: ' + e.message);
-
-        reject(_done);
-      });
-
-      req.write(this.input.buf);
-      req.end();
     });
-  }
+}
+
+  // create_req_options(){
+  //   return {
+  //     hostname: this.host,
+  //     port: this.port,
+  //     path: this.url,
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/soap+xml',
+  //       'Content-Length': this.input.buf.length,
+  //       charset: 'utf-8',
+  //     }
+  //   };
+  // }
+
+  // post(){
+  //   return new Promise((resolve, reject) => {
+  //     let reqOptions = this.create_req_options();
+  //     let _done = false;
+  //     let req = http.request(reqOptions, (res) => {
+  //       let bufs = [], length = 0;
+  //       res.on('data', (chunk) =>{
+  //         bufs.push(chunk);
+  //         length += chunk.length;
+  //       });
+  //       res.on('end', () => {
+  //         if (bufs.length !== 0 && length !== 0)
+  //         {
+  //           this.output.headers = res.headers;
+  //           this.output.buf = bufs;
+  //           this.output.buf_size = length;
+
+  //           _done = true ;
+  //         }
+
+  //         resolve(_done);
+  //       });
+  //     });
+  //     req.on('error', (e) => {
+  //       console.log('Error with request: ' + e.message);
+
+  //       reject(_done);
+  //     });
+
+  //     req.write(this.input.buf);
+  //     req.end();
+  //   });
+  // }
 
   xmlToJson(xml) {
     // Create the return object
