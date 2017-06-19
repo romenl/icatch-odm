@@ -3,6 +3,7 @@ import { Select } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import koKR from 'antd/lib/locale-provider/ko_KR';
 import jaJP from 'antd/lib/locale-provider/ja_JP';
+import zhTW from 'antd/lib/locale-provider/zh_TW';
 import cookie from 'react-cookie';
 
 const { Option } = Select;
@@ -50,8 +51,7 @@ export default class LocaleSelector extends Component {
             case 'en':
                 return enUS;
             case 'zh-tw':
-                console.log('繁體中文');
-                return {} ;
+                return zhTW ;
             case 'zh-cn':
                 return {} ;             
             case 'ko':

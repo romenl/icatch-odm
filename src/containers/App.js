@@ -8,14 +8,13 @@ import cookie from 'react-cookie';
 import { PrimaryPage, LoginPage } from '../pages/';
 import { LocaleSelector } from '../components/tools/';
 
-import './App.css';
-
 class App extends Component {
   constructor(props){
     super(props);
 
+    const isAuthenticated = cookie.load('usrLogin') || false;
     this.state={
-      isAuthenticated: cookie.load('usrLogin') || false,
+      isAuthenticated: isAuthenticated,
       localeProvider: enUS
     }
   }
@@ -30,15 +29,13 @@ class App extends Component {
     const routes={
       root: '/',
       web: '/web',
-      main: '/main',
       login: '/login'
     }
 
     return (
       <Router basename={ routes.web }>
-        <div>
-          <Route path={ routes.root } render={ ()=>( <Redirect to={ routes.main } /> ) } />
-          <Route path={ routes.main } render={
+        <div>          
+          <Route path={ routes.root } render={
             ({ match, location }) => ( 
               isAuthenticated ?
               <PrimaryPage match={match} localeProvider={localeProvider} /> :
@@ -51,7 +48,7 @@ class App extends Component {
             ({ location }) => (
               !isAuthenticated ?
               <LoginPage location={location} onLogin={this.handleLogin.bind(this)} /> :
-              <Redirect to={ routes.main } />
+              <Redirect to={ routes.root } />
             )} />
 
           <LocaleSelector

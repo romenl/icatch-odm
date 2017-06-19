@@ -1,11 +1,5 @@
-import React, {Component} from 'react';
+import LiveView from './LiveView';
+export default LiveView;
 
-export default class LiveView extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
-}
+// ICPlayer
+export { default as ICPlayer } from './ICPlayer';

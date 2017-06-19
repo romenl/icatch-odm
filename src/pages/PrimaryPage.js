@@ -4,18 +4,11 @@ import { Route, Redirect, Link } from 'react-router-dom';
 
 import { 
   Configuration, 
-  //LiveView 
+  LiveView
 } from '../components/';
 
 const { Header, Content, Footer } = Layout;
 
-const LiveView = () => (
-  <Layout style={{ margin: '24px 0', padding: '24px 0', background: '#fff' }}>
-    <Content style={{ padding: '0 24px', minHeight: 280 }}>
-      <h1>LiveView</h1>
-    </Content>
-  </Layout>
-)
 const About = () => (
   <Layout style={{ margin: '24px 0', padding: '24px 0', background: '#fff' }}>
     <Content style={{ padding: '0 24px', minHeight: 280 }}>
@@ -28,7 +21,6 @@ const Primary = (routes, locale) => (
     header:
       <LocaleProvider locale={locale}>
         <Header className="header">
-          <div className="logo" />
           <Menu
             theme="dark"
             mode="horizontal"
@@ -48,7 +40,7 @@ const Primary = (routes, locale) => (
     content: 
       <LocaleProvider locale={locale}>
         <Content style={{ padding: '0 50px', height:'100%' }}>
-          <Route path={ routes.main } render={ ()=>( <Redirect to={ routes.configuration } /> ) } />
+          <Route path={ routes.root } render={ ()=>( <Redirect to={ routes.liveView } /> ) } />
           <Route path={routes.liveView} component={LiveView}/>
           <Route path={routes.configuration} component={Configuration}/>
           <Route path={routes.about} component={About}/>
@@ -59,12 +51,12 @@ const Primary = (routes, locale) => (
 
 export default class PrimaryPage extends Component {
     render() {
-        const { localeProvider, match } = this.props;
+        const { localeProvider } = this.props;
         const routes = {
-            main: '/main',
-            liveView: `${match.url}/liveview`,
-            configuration: `${match.url}/config`,
-            about: `${match.url}/about`
+            root: '/',
+            liveView: `/liveview`,
+            configuration: `/config`,
+            about: `/about`
         };
         
         return(
