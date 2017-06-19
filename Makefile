@@ -6,6 +6,9 @@ DES_PATH		:= ../marble/source/$(MODULE_NAME)
 all: clean install
 
 install:
+	@echo '╔===============╗'
+	@echo '║ Installing... ║'
+	@echo '╚===============╝'
 	mkdir -p $(DES_PATH)
 	cp -a config/ $(DES_PATH)
 	cp -a public/ $(DES_PATH)
@@ -15,6 +18,9 @@ install:
 	cp -a yarn.lock $(DES_PATH)
 
 clean:
+	@echo '╔===========================╗'
+	@echo '║ Clean camweb in marble... ║'
+	@echo '╚===========================╝'
 	rm -rf $(DES_PATH)/config/
 	rm -rf $(DES_PATH)/public/
 	rm -rf $(DES_PATH)/scripts/
