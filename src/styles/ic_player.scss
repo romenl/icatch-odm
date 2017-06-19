@@ -1,0 +1,67 @@
+@mixin icp_button {
+    cursor: pointer;
+    opacity: .9;
+    transition: opacity 0.2s;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+#icplayer {
+    width : 1024px;
+    height: 512px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+
+    #nacl_module{
+        width: 100%;
+        height: 100%;
+    }
+    &:hover {
+        #icp_controller{ opacity: 1; }
+        #icp_gradient_bottom { opacity: .7; }
+    }
+    &:-webkit-full-screen {
+        width: 100%;
+        height: 100%;
+    }
+}
+#icp_cover {
+    display: 'block';
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    top: 0;
+}
+#icp_controller{
+    width: 100%;
+    padding: 10px 25px;
+    font-size: 1.7em;
+    color: white;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    #icp_play {
+        float: left;
+        @include icp_button;
+    }
+    #icp_fullscreen{
+        float: right;
+        @include icp_button;
+    }
+}
+#icp_gradient_bottom{
+    height: 98px;
+    width: 100%;
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADGCAYAAAAT+OqFAAAAdklEQVQoz42QQQ7AIAgEF/T/D+kbq/RWAlnQyyazA4aoAB4FsBSA/bFjuF1EOL7VbrIrBuusmrt4ZZORfb6ehbWdnRHEIiITaEUKa5EJqUakRSaEYBJSCY2dEstQY7AuxahwXFrvZmWl2rh4JZ07z9dLtesfNj5q0FU3A5ObbwAAAABJRU5ErkJggg==);
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
