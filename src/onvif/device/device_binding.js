@@ -1,6 +1,5 @@
-import * as schemas from "../onvif_schemas";
-import { deviceCMD } from '../onvify';
-
+import * as schemas from "../lib/onvif_schemas";
+import { deviceCMD } from './deviceCMD';
 
 /** User's Level **/
 const UserLevel = {

@@ -17,4 +17,9 @@ export {
     CreateUsers, 
     SetUser, 
     DeleteUsers
-} from './api/device_binding';
+} from './device/device_binding';
+/*
+export {
+    TestMedia
+} from './media/media_binding';
+*/

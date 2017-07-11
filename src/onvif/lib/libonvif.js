@@ -1,4 +1,4 @@
-import http from 'http';
+//import http from 'http';
 import crypto from 'crypto';
 import * as schemas from "./onvif_schemas";
 import * as types from "./xsd_types";
@@ -74,7 +74,7 @@ export class soap_object
         reject(false);
       });
     });
-}
+  }
 
   // create_req_options(){
   //   return {
