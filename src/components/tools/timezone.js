@@ -251,10 +251,17 @@ const timezone_json = {
   "(GMT+14:00) Kiritimati": "Pacific/Kiritimati"
 };
 
+// WARNING: NOT support in IE ...
+// const timezone = 
+//     Object.entries(timezone_json).map(([key, value]) => ({
+//         name: key,
+//         value: value
+//     }));
+
 const timezone = 
-    Object.entries(timezone_json).map(([key, value]) => ({
+    Object.keys(timezone_json).map(key => ({
         name: key,
-        value: value
+        value: timezone_json[key]
     }));
 
 export default timezone ;
