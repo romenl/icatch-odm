@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Select, Switch, Radio, DatePicker, Button, Upload, Icon, message } from 'antd';
+import { 
+    Modal, Form, 
+    Input, InputNumber, Select, Switch, Slider, Radio, 
+    DatePicker, Button, Upload, Icon, 
+    message 
+} from 'antd';
 import moment from 'moment';
 
 const FormItem    = Form.Item,
@@ -13,7 +18,7 @@ const FormItem    = Form.Item,
 class CustomInputComponent extends Component {
     componentWillReceiveProps(nextProps){
         if( 'value' in nextProps ){
-            const value = nextProps.value;
+            const value = {...nextProps.value};
             this.setState(value);
         }
     }
@@ -260,6 +265,23 @@ class FormItemInput extends Component {
     }
 }
 
+class FormItemInputNumber extends Component {
+    render(){
+        const { label, id, layout, decorator, 
+                hasFeedback=false,
+                min, max, value } = this.props;
+
+        return (
+            <FormItem label={ label } hasFeedback={hasFeedback} {...layout} colon={false}>
+            { decorator(id, { 
+                valuePropName: 'value', 
+                initialValue: value
+            })( <InputNumber min={min} max={max}/> )}
+            </FormItem>
+        );
+    }
+}
+
 class FormItemIPInput extends Component {
 
     validateIP(rule, value, callback) {
@@ -312,8 +334,15 @@ class FormItemSelectInput extends Component {
 
 class FormItemSwitch extends Component {
     render(){
-        const { label, layout, id, decorator,
-                value=false } = this.props;
+        const { label, layout, id, decorator } = this.props;
+
+        let { value=false } = this.props;
+        
+        if ( value === 'ON' )
+            value = true;
+        else 
+            value = false;
+
 
         return (        
             <FormItem label={ label } {...layout} colon={false}>
@@ -478,11 +507,32 @@ class FormItemButtom extends Component {
     }
 }
 
+class FormItemSlider extends Component {
+    render(){
+        const { label, layout, id, decorator,
+                min, max, value } = this.props;
+
+        return (        
+            <FormItem label={ label } {...layout} colon={false}>
+                { decorator(id, {
+                    initialValue :  value
+                })( 
+                    <Slider 
+                        min={min} 
+                        max={max} 
+                        marks={{ [min]: min, [max]: max }} />
+                ) }
+            </FormItem>
+        );
+    }
+}
+
 
 const FormItemUserModal = Form.create()(UserModal);
 
 export {
     FormItemInput,
+    FormItemInputNumber,
     FormItemIPInput, 
     FormItemSelectInput,
     FormItemSwitch,
@@ -491,5 +541,6 @@ export {
     FormItemDatePicker,
     FormItemUserModal,
     FormItemButtom,
-    FormItemUpdateFirmware
+    FormItemUpdateFirmware,
+    FormItemSlider
 } ;

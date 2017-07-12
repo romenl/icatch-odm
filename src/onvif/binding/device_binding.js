@@ -1,5 +1,5 @@
 import * as schemas from "../lib/onvif_schemas";
-import { deviceCMD } from './deviceCMD';
+import onvifCMD from './onvifCMD';
 
 /** User's Level **/
 const UserLevel = {
@@ -31,7 +31,7 @@ function getValue( obj ) {
  */
 export async function GetUsers() {
     try {
-        let res = await deviceCMD( 'GetUsers' );
+        let res = await onvifCMD( 'device', 'GetUsers' );
         let users = res.User.v;
         let datas = [];
 
@@ -65,7 +65,7 @@ export async function CreateUsers( user ) {
         _user.Password.v = user.password;
         _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => v === user.level );
 
-        await deviceCMD( 'CreateUsers', _user );
+        await onvifCMD( 'device', 'CreateUsers', _user );
     } catch(e) {
         console.log("[CreateUsers] ", e);
     }
@@ -84,7 +84,7 @@ export async function SetUser( user ) {
         _user.Password.v = user.password;
         _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => user.level === v );
 
-        await deviceCMD( 'SetUser', _user );
+        await onvifCMD( 'device', 'SetUser', _user );
     } catch(e) {
         console.log("[SetUser] ", e);
     }
@@ -98,7 +98,7 @@ export async function SetUser( user ) {
  */
 export async function DeleteUsers( userName ) {
     try {
-        await deviceCMD( 'DeleteUsers', userName );
+        await onvifCMD( 'device', 'DeleteUsers', userName );
     } catch(e) {
         console.log("[SetUser] ", e);
     }
@@ -112,7 +112,7 @@ export async function DeleteUsers( userName ) {
  */
 export async function GetDeviceInformation() {
     try {
-        let res = await deviceCMD( 'GetDeviceInformation' );
+        let res = await onvifCMD( 'device', 'GetDeviceInformation' );
         let info = {
             Model: res.Model.v,
             FirmwareVersion: res.FirmwareVersion.v,
@@ -135,7 +135,7 @@ export async function GetDeviceInformation() {
  */
 export async function GetHostname() {
     try {
-        let res = await deviceCMD( 'GetHostname' );
+        let res = await onvifCMD( 'device', 'GetHostname' );
         let hostname = res.HostnameInformation.Name.v;
         
         return hostname;
@@ -152,7 +152,7 @@ export async function GetHostname() {
  */
 export async function SetHostname( hostname ) {
     try {
-        await deviceCMD( 'SetHostname', hostname );
+        await onvifCMD( 'device', 'SetHostname', hostname );
     } catch(e) {
         console.log("[SetUser] ", e);
     }
@@ -165,7 +165,7 @@ export async function SetHostname( hostname ) {
  */
 export async function SystemReboot() {
     try {
-        await deviceCMD( 'SystemReboot' );
+        await onvifCMD( 'device', 'SystemReboot' );
     } catch(e) {
         console.log("[SystemReboot] ", e);
     }
@@ -179,7 +179,7 @@ export async function SystemReboot() {
  */
 export async function GetNetworkInterfaces() {
     try {
-        let res = await deviceCMD( 'GetNetworkInterfaces' );
+        let res = await onvifCMD( 'device', 'GetNetworkInterfaces' );
         let networkinterface = res.NetworkInterfaces.v;
     
         return networkinterface;
@@ -196,7 +196,7 @@ export async function GetNetworkInterfaces() {
  */
 export async function GetDiscoveryMode() {
     try {
-        let res = await deviceCMD( 'GetDiscoveryMode' );
+        let res = await onvifCMD( 'device', 'GetDiscoveryMode' );
         let discoveryMode = res.DiscoveryMode.v;
 
         return discoveryMode === 0 ? true : false;
@@ -213,7 +213,7 @@ export async function GetDiscoveryMode() {
  */
 export async function GetNTP() {
     try {
-        let res = await deviceCMD( 'GetNTP' );
+        let res = await onvifCMD( 'device', 'GetNTP' );
         let ntp = res.NTPInformation;
         let info = [];
 
@@ -236,7 +236,7 @@ export async function GetNTP() {
  */
 export async function GetDNS() {
     try {
-        let res = await deviceCMD( 'GetDNS' );
+        let res = await onvifCMD( 'device', 'GetDNS' );
         let dns = res.DNSInformation;
         let ip_address = [];
 
@@ -259,7 +259,7 @@ export async function GetDNS() {
  */
 export async function GetNetworkProtocols() {
     try {
-        let res = await deviceCMD( 'GetNetworkProtocols' );
+        let res = await onvifCMD( 'device', 'GetNetworkProtocols' );
         let protocols = {};
 
         res.NetworkProtocols.v.forEach((p) => {
@@ -288,7 +288,7 @@ export async function GetNetworkProtocols() {
  */
 export async function GetSystemDateAndTime() {
     try {
-        let res = await deviceCMD( 'GetSystemDateAndTime' );
+        let res = await onvifCMD( 'device', 'GetSystemDateAndTime' );
         let dt = res.SystemDateAndTime;
         let sdt = {
             sync_type: getValue(dt.DateTimeType),

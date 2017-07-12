@@ -17,9 +17,12 @@ export {
     CreateUsers, 
     SetUser, 
     DeleteUsers
-} from './device/device_binding';
-/*
+} from './binding/device_binding';
+
 export {
-    TestMedia
-} from './media/media_binding';
-*/
+    GetProfiles
+} from './binding/media_binding';
+
+export {
+    GetImagingSettings
+} from './binding/imaging_binding';
