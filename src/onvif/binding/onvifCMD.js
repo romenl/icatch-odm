@@ -14,9 +14,16 @@ function createInput(type, cmd, ...args){
     args.forEach((arg) => { input.Username.v.push(arg); });
   else if ( cmd === 'SetHostname' )
     args.forEach((arg) => { input.Name.v = arg; });
+  // Media
+  else if ( cmd === 'GetVideoEncoderConfiguration' || 
+            cmd === 'GetVideoEncoderConfigurationOptions' )
+    args.forEach(arg => { input.ConfigurationToken.v = arg });
   // Imaging
   else if ( cmd === 'GetImagingSettings' )
     args.forEach(arg => { input.VideoSourceToken.v = arg });
+  else if ( cmd === 'SetImagingSettings' ){
+    args.forEach(arg => { input = arg });
+  }
 
   return input;
 }

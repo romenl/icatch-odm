@@ -20,9 +20,12 @@ export {
 } from './binding/device_binding';
 
 export {
-    GetProfiles
+    GetVideoEncoderConfigurationOptions,
+    GetVideoEncoderConfiguration,
+    SetVideoEncoderConfiguration
 } from './binding/media_binding';
 
 export {
-    GetImagingSettings
+    GetImagingSettings,
+    SetImagingSettings
 } from './binding/imaging_binding';
