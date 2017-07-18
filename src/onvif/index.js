@@ -17,4 +17,15 @@ export {
     CreateUsers, 
     SetUser, 
     DeleteUsers
-} from './api/device_binding';
+} from './binding/device_binding';
+
+export {
+    GetVideoEncoderConfigurationOptions,
+    GetVideoEncoderConfiguration,
+    SetVideoEncoderConfiguration
+} from './binding/media_binding';
+
+export {
+    GetImagingSettings,
+    SetImagingSettings
+} from './binding/imaging_binding';

@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Route, Link, Switch } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd';
 
-import { DeviceInformation, TimeSettings, Maintenance,
-         NetworkSettings, HttpHttps, Wsd,
-         Users } from './';
+import { 
+    EncoderSettings, ImageSettings,
+    DeviceInformation, TimeSettings, Maintenance,
+    NetworkSettings, HttpHttps, Wsd,
+    Users 
+} from './';
 
 // Style
 import '../../styles/public.scss';
@@ -16,6 +19,10 @@ export default class Configuration extends Component{
     render(){
         const { match } = this.props;
         const routes = {
+            video: {
+                encoder_settings: `${match.url}/video_encoder_settings`,
+                image_settings: `${match.url}/video_image_settings`,
+            },
             system: {
                 device_infomation: `${match.url}/system_device_infomation`,
                 time_settings: `${match.url}/system_time_settings`,
@@ -39,8 +46,12 @@ export default class Configuration extends Component{
                         style={{ height: '100%' }}
                     >
                         <SubMenu key="video_image" title={<span><Icon type="video-camera" />Video & Image</span>}>
-                            <Menu.Item key="encoder_settings">Encoder Settings</Menu.Item>
-                            <Menu.Item key="display_settings">Display Settings</Menu.Item>
+                            <Menu.Item key="encoder_settings">
+                                <Link to={ routes.video.encoder_settings }>Encoder Settings</Link>
+                            </Menu.Item>
+                            <Menu.Item key="image_settings">
+                                <Link to={ routes.video.image_settings }>Image Settings</Link>
+                            </Menu.Item>
                             <Menu.Item key="osd_settings">OSD Settings</Menu.Item>
                         </SubMenu>
                         <SubMenu key="system" title={<span><Icon type="laptop" />System</span>}>
@@ -77,6 +88,8 @@ export default class Configuration extends Component{
                             <div style={{display:'flex', alignItems:'center', justifyContent:'center', fontSize:'2em', height:'100%' }}>
                                 <Icon type="setting" style={{marginRight:5}}/>Configure your settings.
                             </div>)} />
+                        <Route path={ routes.video.encoder_settings } component={EncoderSettings}/>
+                        <Route path={ routes.video.image_settings } component={ImageSettings}/>
                         <Route path={ routes.system.device_infomation } component={DeviceInformation}/>
                         <Route path={ routes.system.time_settings } component={TimeSettings}/>
                         <Route path={ routes.system.maintenance } component={Maintenance}/>
