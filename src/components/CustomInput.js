@@ -24,6 +24,7 @@ class CustomInputComponent extends Component {
     }
     triggerChange( changeValue ){
         const onChange = this.props.onChange;
+        
         if (onChange)
             onChange(Object.assign({}, this.state, changeValue));
     }
@@ -269,6 +270,7 @@ class FormItemInputNumber extends Component {
     render(){
         const { label, id, layout, decorator, 
                 hasFeedback=false,
+                placeholder,
                 min, max, value } = this.props;
 
         return (
@@ -276,7 +278,7 @@ class FormItemInputNumber extends Component {
             { decorator(id, { 
                 valuePropName: 'value', 
                 initialValue: value
-            })( <InputNumber min={min} max={max}/> )}
+            })( <InputNumber min={min} max={max} placeholder={ placeholder }/> )}
             </FormItem>
         );
     }
@@ -309,24 +311,32 @@ class FormItemIPInput extends Component {
 }
 
 class FormItemSelectInput extends Component {
+    handleChange(){
+        const { onChange } = this.props;
+        
+        if( onChange )
+            setTimeout(()=>{onChange();}, 250);
+    }
     validatePort(rule, value, callback) {
+        const { min=0, max=65535 } = this.props;
+
         for( let k of Object.keys(value) ){
-            if (value[k] < 0 || value[k] > 65535)
-                callback('Out of range, please check. (0 - 65535)');
+            if (value[k] < min || value[k] > max)
+                callback(`Out of range, please check. (${min} - ${max})`);
         }
         
         callback();
     }
     render(){
-        const { label, layout, id, decorator, 
+        const { label, layout, id, decorator,
                 value={enable: false, content: 80} } = this.props;
 
         return (
             <FormItem label={label} {...layout} colon={false}>
                 {decorator( id, {
                     initialValue: {...value},
-                    rules: [{ validator: this.validatePort }]
-                })(<SelectInput />)}
+                    rules: [{ validator: this.validatePort.bind(this) }]
+                })(<SelectInput onChange={this.handleChange.bind(this)}/>)}
             </FormItem>
         );
     }
@@ -381,6 +391,11 @@ class FormItemRadio extends Component {
 }
 
 class FormItemSelect extends Component {
+    handleChange(){
+        const { onChange } = this.props;
+        if (onChange)
+            setTimeout(()=>{onChange();}, 250);
+    }
     render(){
         const { label, layout, id, decorator,
                 showSearch = false,
@@ -392,10 +407,10 @@ class FormItemSelect extends Component {
                     valuePropName: 'value',
                     initialValue :  value
                 })( 
-                    <Select showSearch={showSearch}>
+                    <Select showSearch={showSearch} onChange={this.handleChange.bind(this)}>
                         {
                             options.map((opt)=>(
-                                <Option key={opt.value} value={ opt.value }>{ opt.name }</Option>
+                                <Option key={opt.value} value={ opt.name }>{ opt.name }</Option>
                             ))
                         }
                     </Select>
@@ -508,6 +523,11 @@ class FormItemButtom extends Component {
 }
 
 class FormItemSlider extends Component {
+    handleChange(){
+        const { onChange } = this.props;
+        if (onChange)
+            onChange();
+    }
     render(){
         const { label, layout, id, decorator,
                 min, max, value } = this.props;
@@ -520,7 +540,8 @@ class FormItemSlider extends Component {
                     <Slider 
                         min={min} 
                         max={max} 
-                        marks={{ [min]: min, [max]: max }} />
+                        marks={{ [min]: min, [max]: max }} 
+                        onAfterChange={this.handleChange.bind(this)}/>
                 ) }
             </FormItem>
         );
