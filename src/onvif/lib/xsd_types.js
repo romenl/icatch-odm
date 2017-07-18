@@ -97,7 +97,12 @@ export class xsd_int extends primitive
     this.v = parseInt(s, 10);
     return s.slice(-1) === s[s.length - 1];
   }
-  to_string() { return this.v.toString(); }
+  to_string() { 
+    if ( this.v )
+      return this.v.toString();
+    else
+      return '0';
+   }
 }
 
 export class xsd_integer extends primitive
@@ -108,7 +113,12 @@ export class xsd_integer extends primitive
     this.v = parseInt(s, 10);
     return s.slice(-1) === s[s.length - 1];
   }
-  to_string() { return this.v.toString(); }
+  to_string() { 
+    if ( this.v )
+      return this.v.toString();
+    else
+      return '0';
+   }
 }
 
 export class xsd_unsignedInt extends primitive
@@ -119,7 +129,12 @@ export class xsd_unsignedInt extends primitive
     this.v = parseInt(s, 10);
     return this.v >= 0;
   }
-  to_string() { return this.v.toString(); }
+  to_string() { 
+    if ( this.v )
+      return this.v.toString();
+    else
+      return '0';
+   }
 }
 
 export class xsd_positiveInteger extends primitive
@@ -130,7 +145,12 @@ export class xsd_positiveInteger extends primitive
     this.v = parseInt(s, 10);
     return this.v > 0;
   }
-  to_string() { return this.v.toString(); }
+  to_string() { 
+    if ( this.v )
+      return this.v.toString();
+    else
+      return '0';
+   }
 }
 
 export class xsd_nonNegativeInteger extends primitive
@@ -141,7 +161,12 @@ export class xsd_nonNegativeInteger extends primitive
     this.v = parseInt(s, 10);
     return this.v >= 0;
   }
-  to_string() { return this.v.toString(); }
+  to_string() { 
+    if ( this.v )
+      return this.v.toString();
+    else
+      return '0';
+   }
 }
 
 export class xsd_float extends primitive
@@ -152,7 +177,12 @@ export class xsd_float extends primitive
     this.v = parseFloat(s);
     return this.v >= 0;
   }
-  to_string() { return this.v.toString(); }
+  to_string() { 
+    if ( this.v )
+      return this.v.toString();
+    else
+      return '0';
+   }
 }
 
 export class xsd_string extends primitive

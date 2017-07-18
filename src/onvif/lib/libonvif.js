@@ -184,9 +184,8 @@ export class soap_writer
       s += p;
       root.setAttribute(s, schemas.NAMESPACES[p]);
     }
-
+    
     return this.m_xml.documentElement.innerHTML;
-
   }
   add_namespace(ns){ if(this.m_prefix[ns] === undefined) this.m_prefix[ns] = 1; else this.m_prefix[ns]++; }
   set(v){ let n = this.m_xml.createTextNode(v); this.m_p.appendChild(n); }
@@ -198,7 +197,7 @@ export class soap_writer
       for ( var m in v.v )
         this.write(obj, ns, name, v.v[m]);
     }
-    else if (v.constructor.prototype.__proto__.constructor.name === 'xsd_string')
+    else if (v && v.constructor.prototype.__proto__.constructor.name === 'xsd_string')
       this.write(obj, ns, name, v.to_string());
     else if (v instanceof types.any_t)
       v.write(obj, this);
@@ -355,7 +354,7 @@ export class soap_reader extends types.parse_proxy
       if (v.type === types.any_t)
       {
         let elem = this.m_p.firstElementChild;
-        while(true)
+        while(true && elem)
         {
           if (!this.m_deleted.has(elem))
           {
@@ -502,12 +501,13 @@ export class soap_reader extends types.parse_proxy
       }
     }
     else if (v.isP) {
-      let _v = obj.new_obj( v.type );
-      _v['isP'] = true;
-      if ( !this.read_attribute(obj, name, _v) )
-        return true;
+      let _v = v;
+      let attr = this.m_p.getAttribute(name);
+      if (!attr)
+        return false;
 
-      v = _v;
+      _v.v = attr ;
+      Object.assign(v, _v);
       return true;
     }
     else if ( v.isString )
@@ -630,6 +630,7 @@ export function onvif_request_response_operation(
   if( !obj.post()
         .then((done) => {
           let reader = new soap_reader(obj.output.xml);
+          
           if (!reader.parse(obj.output.buf_size, obj.output.buf))
             return false;
 
@@ -647,10 +648,10 @@ export function onvif_request_response_operation(
           reader.set_p(r);
           if (!reader.check(output_ns, output_name))
             return false;
-
+          
           if (!output.read(obj, reader))
             return false;
-
+          
           return true;
         })
       .catch((done) => {
