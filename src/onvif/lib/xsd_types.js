@@ -276,15 +276,25 @@ export class xsd_NCName extends primitive
 export class xsd_base64Binary extends primitive
 {
   constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { return false; }
+  parse(proxy, s) { 
+    this.v = window.btoa(s);
+    return true;
+  }
   to_string() { return window.atob(this.v); }
 }
 
 export class xsd_hexBinary extends primitive
 {
   constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { return false; }
-  to_string() { return ""; }
+  parse(proxy, s) { 
+    if (s.length % 2 !== 0)
+        return false;
+
+    this.v = parseInt(s, 16);
+    
+    return true;
+  }
+  to_string() { return this.v.toString(16); }
 }
 
 export class xsd_QName extends primitive
@@ -326,8 +336,87 @@ export class xsd_time extends primitive
 export class xsd_duration extends primitive
 {
   constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { return false; }
-  to_string() { return ""; }
+  parse(proxy, s) { 
+    if ( s.length === 0 || s[0] !== 'P' )
+      return false;
+
+    this.v = {
+      years: '',
+      months: '',
+      days: '',
+      hours: '',
+      minutes: '',
+      seconds: ''
+    };
+
+    let n = 0,
+        t = false;
+
+    [...s].forEach((_s) => {
+      switch(_s){
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            n = n * 10 + _s - '0';
+            break;
+        case 'Y':
+            this.v.years = n;
+            n = 0;
+            break;
+        case 'M':
+            if (t)
+                this.v.minutes = n;
+            else
+                this.v.months = n;
+            n = 0;
+            break;
+        case 'D':
+            this.v.days = n;
+            n = 0;
+            break;
+        case 'T':
+            t = true;
+            break;
+        case 'H':
+            this.v.hours = n;
+            n = 0;
+            break;
+        case 'S':
+            this.v.seconds = n;
+            n = 0;
+            break;
+        default:
+            return false;
+      }
+    });
+    return true;
+  }
+  to_string() {
+    let ss = 'P';
+
+    if ( this.v.years !== 0 )
+      ss += `${this.v.years}Y`;
+    if ( this.v.months !== 0 )
+      ss += `${this.v.months}M`;
+    if ( this.v.days !== 0 )
+      ss += `${this.v.days}D`;
+
+    ss += 'T';
+    if (this.v.hours !== 0)
+        ss += `${this.v.hours}H`;
+    if (this.v.minutes !== 0)
+        ss += `${this.v.minutes}M`;
+    ss += `${this.v.seconds}S`;
+
+    return ss;
+  }
 }
 
 export class any_t extends xsd_type
