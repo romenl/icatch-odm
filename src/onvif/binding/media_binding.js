@@ -35,7 +35,7 @@ export async function GetVideoEncoderConfigurationOptions( token ) {
     try {
         let res = await onvifCMD( 'media', 'GetVideoEncoderConfigurationOptions', token );
         let options = res.Options;
-
+        
         let resolutionAvailable = options.H264.ResolutionsAvailable.v,
             resoltionOptions = [];
 
@@ -47,16 +47,16 @@ export async function GetVideoEncoderConfigurationOptions( token ) {
         });
         
         return {
-            h264: {
-                resolution: resoltionOptions,
-                fps: {
-                    min: options.H264.FrameRateRange.Min.v,
-                    max: options.H264.FrameRateRange.Max.v
+            H264: {
+                Resolution: resoltionOptions,
+                FrameRateRange: {
+                    Min: options.H264.FrameRateRange.Min.v,
+                    Max: options.H264.FrameRateRange.Max.v
                 }
             },
-            quality: {
-                min: options.QualityRange.Min.v,
-                max: options.QualityRange.Max.v
+            Quality: {
+                Min: options.QualityRange.Min.v,
+                Max: options.QualityRange.Max.v
             }
         };
         
@@ -74,17 +74,17 @@ export async function SetVideoEncoderConfiguration( settings, nextSettings ) {
             subSettings  = settings.sub.setting.data;
         
         // Main Stream
-        mainSettings.Resolution.Width.v = nextSettings.main_resolution.split('x')[0];
-        mainSettings.Resolution.Width.v = nextSettings.main_resolution.split('x')[1];
-        mainSettings.RateControl.FrameRateLimit.v = nextSettings.main_fps;
-        mainSettings.Quality.v = nextSettings.main_quality;
+        mainSettings.Resolution.Width.v = parseInt(nextSettings.main_resolution.split('x')[0], 10);
+        mainSettings.Resolution.Height.v = parseInt(nextSettings.main_resolution.split('x')[1], 10);
+        mainSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.main_fps, 10);
+        mainSettings.Quality.v = parseFloat(nextSettings.main_quality);
         
         // Sub Stream
-        subSettings.Resolution.Width.v = nextSettings.sub_resolution.split('x')[0];
-        subSettings.Resolution.Width.v = nextSettings.sub_resolution.split('x')[1];
-        subSettings.RateControl.FrameRateLimit.v = nextSettings.sub_fps;
-        subSettings.Quality.v = nextSettings.sub_quality;
-
+        subSettings.Resolution.Width.v = parseInt(nextSettings.sub_resolution.split('x')[0], 10);
+        subSettings.Resolution.Height.v = parseInt(nextSettings.sub_resolution.split('x')[1], 10);
+        subSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.sub_fps, 10);
+        subSettings.Quality.v = parseFloat(nextSettings.sub_quality);
+        
         mainConfiguration.Configuration = mainSettings;
         subConfiguration.Configuration = subSettings;
 

@@ -26,6 +26,7 @@ export {
 } from './binding/media_binding';
 
 export {
+    GetOptions,
     GetImagingSettings,
     SetImagingSettings
 } from './binding/imaging_binding';

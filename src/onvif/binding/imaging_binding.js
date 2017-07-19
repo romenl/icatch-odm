@@ -17,6 +17,74 @@ function getKey( obj ) {
         return false;
 }
 
+export async function GetOptions( token ) {
+    try {
+        let res = await onvifCMD( 'imaging', 'GetOptions', token );
+        let options = res.ImagingOptions;
+        
+        const irCutOptions = [{
+            value: '0',
+            name: 'ON'
+        },{
+            value: '1',
+            name: 'OFF'
+        },{
+            value: '2',
+            name: 'AUTO'
+        }];
+
+        const onOffMode = {
+            OFF: 0,
+            ON: 1
+        };
+        
+        return {
+            BacklightCompensation: {
+                Mode: onOffMode,
+                Level: {
+                    Min: options.BacklightCompensation.Level.Min.v,
+                    Max: options.BacklightCompensation.Level.Max.v
+                }
+            },
+            Brightness: {
+                Min: options.Brightness.Min.v,
+                Max: options.Brightness.Max.v
+            },
+            ColorSaturation: {
+                Min: options.ColorSaturation.Min.v,
+                Max: options.ColorSaturation.Max.v
+            },
+            Contrast: {
+                Min: options.Contrast.Min.v,
+                Max: options.Contrast.Max.v
+            },
+            Exposure: {
+                Mode: onOffMode,
+                ExposureTime: {
+                    Min: options.Exposure.ExposureTime.Min.v,
+                    Max: options.Exposure.ExposureTime.Max.v
+                }
+            },            
+            IrCutFilter: irCutOptions,
+            Sharpness: {
+                Min: options.Sharpness.Min.v,
+                Max: options.Sharpness.Max.v
+            },
+            WideDynamicRange: {
+                Mode: onOffMode,
+                Level: {
+                    Min: options.WideDynamicRange.Level.Min.v,
+                    Max: options.WideDynamicRange.Level.Max.v
+                }
+            },
+            //Focus, WhiteBalance
+        }
+        
+    } catch(e) {
+        console.log("[GetOptions] ", e);
+    }
+}
+
 export async function GetImagingSettings( token ) {
     try {
         let res = await onvifCMD( 'imaging', 'GetImagingSettings', token );
@@ -25,8 +93,8 @@ export async function GetImagingSettings( token ) {
         return {
             data: settings,
             BacklightCompensation: {
-                mode: getKey(settings.BacklightCompensation.Mode),
-                level: settings.BacklightCompensation.Level.v
+                Mode: getKey(settings.BacklightCompensation.Mode),
+                Level: settings.BacklightCompensation.Level.v
             },
             Brightness: settings.Brightness.v,
             ColorSaturation: settings.ColorSaturation.v,
@@ -35,8 +103,8 @@ export async function GetImagingSettings( token ) {
             IrCutFilter: getKey(settings.IrCutFilter),
             Sharpness: settings.Sharpness.v,
             WideDynamicRange: {
-                mode: getKey(settings.WideDynamicRange.Mode),
-                level: settings.WideDynamicRange.Level.v
+                Mode: getKey(settings.WideDynamicRange.Mode),
+                Level: settings.WideDynamicRange.Level.v
             }
         };
     } catch(e) {
@@ -54,7 +122,7 @@ export async function SetImagingSettings( settings, nextSettings ) {
         settings.Brightness.v = nextSettings.brightness;
         settings.ColorSaturation.v = nextSettings.color_saturation;
         settings.Contrast.v = nextSettings.contrast;
-        settings.Exposure.ExposureTime.v = nextSettings.exposure;
+        //settings.Exposure.ExposureTime.v = nextSettings.exposure;
         settings.IrCutFilter.v = settings.IrCutFilter[ nextSettings.ircut_filter ];
         settings.Sharpness.v = nextSettings.sharpness;
         settings.WideDynamicRange.Mode.v = !nextSettings.wide_dynamic_range.enable ? 0 : 1;

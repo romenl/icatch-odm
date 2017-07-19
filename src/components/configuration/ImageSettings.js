@@ -4,6 +4,7 @@ import { FormItemInputNumber, FormItemSlider, FormItemSelect, FormItemSelectInpu
 
 // Onvif API
 import { 
+    GetOptions,
     GetImagingSettings,
     SetImagingSettings
 } from '../../onvif/';
@@ -13,33 +14,21 @@ const FormItem = Form.Item;
 class ImageSettings extends Component{
     constructor(props){
         super(props);
-        this.state ={
-            BacklightCompensation: {
-                mode: '',
-                level: 0
-            },
-            Brightness: 0,
-            ColorSaturation: 0,
-            Contrast: 0,
-            Exposure: 0,
-            IrCutFilter: '',
-            Sharpness: 0,
-            WideDynamicRange: {
-                mode: '',
-                level: 0
-            },
-
-            isModified: false,
+        this.state ={ 
             spin_tip: 'Loading ...',
             isSpinning: true
         };
     }
     async refreshInformation() {
         try {
-            let data = await GetImagingSettings( 0 );
+            let data = await Promise.all([
+                GetOptions(0),
+                GetImagingSettings(0)
+            ]);
 
             this.setState({
-                ...data,
+                options: data[0],
+                settings: data[1],
                 isSpinning: false
             });
         } catch(e) {
@@ -49,22 +38,40 @@ class ImageSettings extends Component{
     componentDidMount(){
         this.refreshInformation();
     }
-    handleSubmit(e){
-        e.preventDefault();
-        this.deliver('Saving ...', 'Saved your configuration.');
+    // handleSubmit(e){
+    //     e.preventDefault();
+    //     this.deliver('Saving ...', 'Saved your configuration.');
+    // }
+    handleReset(){
+        const defaultSettings = {
+            backlight_compensation: 0,
+            brightness: 50,
+            color_saturation: 50,
+            contrast: 50,
+            sharpness: 10,
+            ircut_filter: 'AUTO',
+            wide_dynamic_range: {
+                enable: false,
+                content: 100
+            }
+        };
 
-        this.setState({isModified: false});
+        this.deliver('Reset Default ...', 'Reset your configuration.', defaultSettings);
+
+        this.props.form.setFieldsValue(defaultSettings);
     }
-    deliver(tip, msg='Your configuration is changed.'){
+    deliver(tip, msg='Your configuration is changed.', reset){
         this.props.form.validateFields( async (err, values) => {
             if (!err) {
                 this.setState({
-                    isModified: true,
                     spin_tip: tip,
                     isSpinning: true
-                });
+                });                
                 
-                await SetImagingSettings( this.state.data, values );
+                await SetImagingSettings( 
+                    this.state.settings.data, 
+                    reset ? reset : values 
+                );                
                 
                 // Close Spinning
                 this.setState({ isSpinning: false });
@@ -76,60 +83,50 @@ class ImageSettings extends Component{
         });
     }
     render() {
-        const { isModified, spin_tip, isSpinning } = this.state;
+        const { spin_tip, isSpinning } = this.state;
+        const { settings, options } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
             wrapperCol: { span: 12 },
         };
         
-        let settings = [{
+        let settingList = [{
             label: 'Backlight Compensation',
             id: 'backlight_compensation',
-            value: this.state.BacklightCompensation.level,
-            min: 0,
-            max: 255
+            value: settings ? settings.BacklightCompensation.Level : 0,
+            min: options ? options.BacklightCompensation.Level.Min : 0,
+            max: options ? options.BacklightCompensation.Level.Max : 255
         },{
             label: 'Brightness',
             id: 'brightness',
-            value: this.state.Brightness,
-            min: 0,
-            max: 100
+            value: settings ? settings.Brightness : 0,
+            min: options ? options.Brightness.Min : 0,
+            max: options ? options.Brightness.Max : 100
         },{
             label: 'Color Saturation',
             id: 'color_saturation',
-            value: this.state.ColorSaturation,
-            min: 0,
-            max: 100
+            value: settings ? settings.ColorSaturation : 0,
+            min: options ? options.ColorSaturation.Min : 0,
+            max: options ? options.ColorSaturation.Max : 100
         },{
             label: 'Contrast',
             id: 'contrast',
-            value: this.state.Contrast,
-            min: 0,
-            max: 100
+            value: settings ? settings.Contrast : 0,
+            min: options ? options.Contrast.Min : 0,
+            max: options ? options.Contrast.Max : 100
         },{
             label: 'Sharpness',
             id: 'sharpness',
-            value: this.state.Sharpness,
-            min: 0,
-            max: 63
-        }];
-
-        const ircut_options = [{
-            value: '0',
-            name: 'ON'
-        },{
-            value: '1',
-            name: 'OFF'
-        },{
-            value: '2',
-            name: 'AUTO'
+            value: settings ? settings.Sharpness : 0,
+            min: options ? options.Sharpness.Min : 0,
+            max: options ? options.Sharpness.Max : 63
         }];
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>Image Settings</h1>
-                <Form onSubmit={this.handleSubmit.bind(this)}>
+                <Form>
                     <Row gutter={16}>
                         <Col span={12} offset={6}>
                             <Card>
@@ -137,8 +134,8 @@ class ImageSettings extends Component{
                                     label='IrCut Filter' 
                                     id='ircut_filter' 
                                     showSearch={true} 
-                                    value={ this.state.IrCutFilter } 
-                                    options={ ircut_options } 
+                                    value={ settings ? settings.IrCutFilter : 'OFF' } 
+                                    options={ options ? options.IrCutFilter : [{name: 'OFF', value: 0}, {name: 'ON', value: 1}] } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     onChange={this.deliver.bind(this)}/>
                                 {/*
@@ -155,15 +152,15 @@ class ImageSettings extends Component{
                                     label='Wide Dynamic Range' 
                                     id='wide_dynamic_range' 
                                     value={{
-                                        enable: this.state.WideDynamicRange.mode === 'ON' ? true : false, 
-                                        content: this.state.WideDynamicRange.level
+                                        enable: settings ? (settings.WideDynamicRange.Mode === 'ON' ? true : false) : true, 
+                                        content: settings ? settings.WideDynamicRange.Level : 0
                                     }} 
-                                    min={0}
-                                    max={4095}
+                                    min={options ? options.WideDynamicRange.Level.Min : 0}
+                                    max={options ? options.WideDynamicRange.Level.Max : 4095}
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     onChange={this.deliver.bind(this)}/>
                                 {
-                                    settings.map((s, index) => (
+                                    settingList.map((s, index) => (
                                         <FormItemSlider 
                                             key={index}
                                             label={s.label}
@@ -179,8 +176,8 @@ class ImageSettings extends Component{
                         </Col>
                     </Row>
 
-                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 14 }} style={{marginTop: 20}}>
-                        <Button type="primary" htmlType="submit" disabled={!isModified}>Save</Button>
+                    <FormItem wrapperCol={{ span: 2, offset: 16 }} style={{marginTop: 20}}>
+                        <Button onClick={this.handleReset.bind(this)}>Default</Button>
                     </FormItem>
                 </Form>
             </Spin>

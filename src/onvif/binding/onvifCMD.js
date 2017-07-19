@@ -6,7 +6,7 @@ import * as binding from "../lib/onvif_bindings";
 
 function createInput(type, cmd, ...args){
   let input = eval(`new schemas.${type}.message.${cmd}Request()`);
-
+  
   // Device
   if ( cmd === 'CreateUsers' || cmd === 'SetUser' )
     args.forEach((arg) => { input.User.v.push(arg); });
@@ -18,13 +18,16 @@ function createInput(type, cmd, ...args){
   else if ( cmd === 'GetVideoEncoderConfiguration' || 
             cmd === 'GetVideoEncoderConfigurationOptions' )
     args.forEach(arg => { input.ConfigurationToken.v = arg });
+  else if ( cmd === 'SetVideoEncoderConfiguration' )
+    args.forEach(arg => { input = arg });
   // Imaging
-  else if ( cmd === 'GetImagingSettings' )
+  else if ( cmd === 'GetImagingSettings' ||
+            cmd === 'GetOptions' )
     args.forEach(arg => { input.VideoSourceToken.v = arg });
   else if ( cmd === 'SetImagingSettings' ){
     args.forEach(arg => { input = arg });
   }
-
+  
   return input;
 }
 
@@ -60,11 +63,9 @@ export default function onvifCMD(type, cmd, ...args){
   let input  = createInput(onvif.schemas, cmd, ...args),
       output = eval(`new schemas.${onvif.schemas}.message.${cmd}Response()`);
 
-  let run = eval(`binding.${onvif.binding}.${cmd}(obj, input, output)`);
-
   return new Promise( async (resolve, reject) => {
     try {
-      await run ; 
+      await eval(`binding.${onvif.binding}.${cmd}(obj, input, output)`) ; 
     } catch(e) {
       reject(new Error('[Failed]'));
     }
