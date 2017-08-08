@@ -1,4 +1,24 @@
-//import {NS_PREFIX} from './onvif_schema';
+function SetText( elem, s ){
+    if ( elem.firstElementChild )
+        elem.childNodes[0].nodeValue = s;
+    else {
+        let xml = new window.DOMParser().parseFromString("<?xml version='1.0' encoding='UTF-8'?><ROOT></ROOT>", 'text/xml');
+        let theText = xml.createTextNode( s );
+        elem.appendChild( theText );
+    }
+}
+function string_join(s){
+    let ss = '';
+    s.forEach((_s, index) => {
+        if ( index === 0 )
+            ss += _s;
+        else
+            ss += ` ${_s}`;
+    });
+    if ( ss.length === 0 )
+        return '';
+    return ss;
+}
 
 export const NS_PREFIX = {
     "http://www.onvif.org/ver10/error": "ter",
@@ -45,423 +65,392 @@ export const NS_PREFIX = {
     "http://www.onvif.org/ver10/network/wsdl": "dn",
 };
 
-export class parse_proxy
-{
-  find_namespace(prefix) {}
+export class xsd_type {
+    save_elem(obj, elem) { }
+    load_elem(obj, elem) { }
+
+    save_attr(obj, elem, attr) { }
+    load_attr(obj, elem, attr) { }
+
+    //   save_json(obj, jv) {}
+    //   load_json(obj, jv) {}
 }
 
-export class xsd_type
-{
-  write(obj, writer) {}
+export const 
+    xsd_union = xsd_type,
+    xsd_choice = xsd_type;
 
-  read(obj, reader) {}
-}
-
-export class primitive extends xsd_type
-{
-  constructor(){
-    super();
-    this.v = {};
-  }
-  write(obj, writer) { writer.set(this.to_string()); }
-  read(obj, reader) { return false; }
-  parse(proxy, s) { }
-  to_string() { }
-}
-
-export class xsd_boolean extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    if (s === "0" || s === "false")
-    {
-      this.v = false;
-      return true;
+export class primitive extends xsd_type {
+    constructor() {
+        super();
+        this.v = {};
     }
-    if (s === "1" || s === "true")
-    {
-      this.v = true;
-      return true;
+    save_elem(obj, elem) {
+        let s = this.to_string();
+
+        SetText(elem, s);
     }
-    return false;
-  }
-  to_string() { return this.v ? "true" : "false" ; }
-}
-
-export class xsd_int extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = parseInt(s, 10);
-    return s.slice(-1) === s[s.length - 1];
-  }
-  to_string() { 
-    if ( this.v )
-      return this.v.toString();
-    else
-      return '0';
-   }
-}
-
-export class xsd_integer extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = parseInt(s, 10);
-    return s.slice(-1) === s[s.length - 1];
-  }
-  to_string() { 
-    if ( this.v )
-      return this.v.toString();
-    else
-      return '0';
-   }
-}
-
-export class xsd_unsignedInt extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = parseInt(s, 10);
-    return this.v >= 0;
-  }
-  to_string() { 
-    if ( this.v )
-      return this.v.toString();
-    else
-      return '0';
-   }
-}
-
-export class xsd_positiveInteger extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = parseInt(s, 10);
-    return this.v > 0;
-  }
-  to_string() { 
-    if ( this.v )
-      return this.v.toString();
-    else
-      return '0';
-   }
-}
-
-export class xsd_nonNegativeInteger extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = parseInt(s, 10);
-    return this.v >= 0;
-  }
-  to_string() { 
-    if ( this.v )
-      return this.v.toString();
-    else
-      return '0';
-   }
-}
-
-export class xsd_float extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = parseFloat(s);
-    return this.v >= 0;
-  }
-  to_string() { 
-    if ( this.v )
-      return this.v.toString();
-    else
-      return '0';
-   }
-}
-
-export class xsd_string extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_language extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_token extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_ID extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_anyURI extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_anySimpleType extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_anyType extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_NCName extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    this.v = s;
-    return true;
-  }
-  to_string() { return this.v; }
-}
-
-export class xsd_base64Binary extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { 
-    this.v = window.btoa(s);
-    return true;
-  }
-  to_string() { return window.atob(this.v); }
-}
-
-export class xsd_hexBinary extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { 
-    if (s.length % 2 !== 0)
-        return false;
-
-    this.v = parseInt(s, 16);
-    
-    return true;
-  }
-  to_string() { return this.v.toString(16); }
-}
-
-export class xsd_QName extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s)
-  {
-    let p = s.indexOf(":");
-    if (p < 0)
-      return false;
-
-    var s0 = proxy.find_namespace(s.split(":")[0]);
-    var s1 = s.split(":")[1];
-    this.v = {
-      [s0]: s1,
-    };
-    return true;
-  }
-  to_string()
-  {
-    return NS_PREFIX[Object.keys(this.v)[0]] + ":" + Object.values(this.v)[0];
-  }
-}
-
-export class xsd_dateTime extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { return false; }
-  to_string() { return ""; }
-}
-
-export class xsd_time extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { return false; }
-  to_string() { return ""; }
-}
-
-export class xsd_duration extends primitive
-{
-  constructor(v) { super(); this.v = v; }
-  parse(proxy, s) { 
-    if ( s.length === 0 || s[0] !== 'P' )
-      return false;
-
-    this.v = {
-      years: '',
-      months: '',
-      days: '',
-      hours: '',
-      minutes: '',
-      seconds: ''
-    };
-
-    let n = 0,
-        t = false;
-
-    [...s].forEach((_s) => {
-      switch(_s){
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            n = n * 10 + _s - '0';
-            break;
-        case 'Y':
-            this.v.years = n;
-            n = 0;
-            break;
-        case 'M':
-            if (t)
-                this.v.minutes = n;
-            else
-                this.v.months = n;
-            n = 0;
-            break;
-        case 'D':
-            this.v.days = n;
-            n = 0;
-            break;
-        case 'T':
-            t = true;
-            break;
-        case 'H':
-            this.v.hours = n;
-            n = 0;
-            break;
-        case 'S':
-            this.v.seconds = n;
-            n = 0;
-            break;
-        default:
+    load_elem(obj, elem) {
+        let p = elem.childNodes[0].nodeValue;
+        if ( !p )
             return false;
-      }
-    });
-    return true;
-  }
-  to_string() {
-    let ss = 'P';
+        return this.parse( obj, elem, p );
+    }
 
-    if ( this.v.years !== 0 )
-      ss += `${this.v.years}Y`;
-    if ( this.v.months !== 0 )
-      ss += `${this.v.months}M`;
-    if ( this.v.days !== 0 )
-      ss += `${this.v.days}D`;
-
-    ss += 'T';
-    if (this.v.hours !== 0)
-        ss += `${this.v.hours}H`;
-    if (this.v.minutes !== 0)
-        ss += `${this.v.minutes}M`;
-    ss += `${this.v.seconds}S`;
-
-    return ss;
-  }
+    save_attr(obj, elem, attr) {
+        elem.setAttribute( attr, this.to_string() );
+    }
+    load_attr(obj, elem, attr) {
+        let p = elem.getAttribute( attr );
+        if ( !p )
+            return false;
+        return this.parse( obj, elem, p );
+    }
+    
+    parse(obj, elem, s) {
+        return true;
+    }
+    to_string() {
+        return '';
+    }
 }
 
-export class any_t extends xsd_type
-{
-  constructor({ns, name, v}) {
-    super();
-    this.ns = ns;
-    this.name = name;
-    (ns !== undefined) ? this.v = v : this.v0 = v;
-  }
-  write(obj, writer) { writer.write(obj, this.ns, this.name, this.v); }
-  read(obj, reader) { reader.read(obj, "", "", this); }
+export const xsd_enum = primitive;
+
+export class xsd_boolean extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        if (s === "0" || s === "false") {
+            this.v = false;
+            return true;
+        }
+        if (s === "1" || s === "true") {
+            this.v = true;
+            return true;
+        }
+        return false;
+    }
+    to_string() { return this.v ? "true" : "false"; }
 }
 
-export class anyAttribute_t extends xsd_type
-{
-  constructor({name, v}) {
-    super();
-    this.name = name;
-    (name !== undefined) ? this.v = v : this.v0 = v;
-  }
-  write(obj, writer) { writer.write_attribute(obj, this.name, this.v); }
-  read(obj, reader) { return false; }
+export class xsd_int extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        this.v = parseInt(s, 10);
+        return s.slice(-1) === s[s.length - 1];
+    }
+    to_string() {
+        if (this.v)
+            return this.v.toString();
+        else
+            return '0';
+    }
+}
+export const xsd_integer = xsd_int;
+
+export class xsd_unsignedInt extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        this.v = parseInt(s, 10);
+        return s.slice(-1) === s[s.length - 1];
+    }
+    to_string() {
+        if (this.v)
+            return this.v.toString();
+        else
+            return '0';
+    }
+}
+export const 
+    xsd_positiveInteger = xsd_unsignedInt,
+    xsd_nonNegativeInteger = xsd_unsignedInt;
+
+export class xsd_float extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        this.v = parseFloat(s);
+        return s.slice(-1) === s[s.length - 1];
+    }
+    to_string() {
+        if (this.v)
+            return this.v.toString();
+        else
+            return '0';
+    }
 }
 
-export const xsd_enum = primitive ;
+export class xsd_string extends primitive {
+    constructor(v) { super(); this.v = v; }
+    load_elem( obj, elem ) {
+        let p = elem.childNodes[0].nodeValue;
+        if ( !p )
+            return true;
+        return this.parse( obj, elem, p );
+    }
+    parse(obj, elem, s) {
+        this.v = s;
+        return true;
+    }
+    to_string() { return this.v; }
+}
+export const
+    xsd_language = xsd_string,
+    xsd_token = xsd_string,
+    xsd_ID = xsd_string,
+    xsd_anyURI = xsd_string,
+    xsd_anySimpleType = xsd_string,
+    xsd_anyType = xsd_string,
+    xsd_NCName = xsd_string;
 
-export class xsd_list extends xsd_type
-{
-  constructor(type){
-    super();
-    this.v = [];
-    this.type = type;
-  }
-  write(obj, writer) {}
-  read(obj, reader) {}
+export class xsd_dateTime extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) { return false; }
+    to_string() { console.warn('xsd_datetime.to_string()'); return ""; }
 }
 
-export class xsd_simplelist extends primitive
-{
-  constructor(type){
-    super();
-    this.v = [];
-    this.type = type;
-  }
-  write(obj, writer) {}
-  read(obj, reader) {}
+export class xsd_time extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) { return false; }
+    to_string() { console.warn('xsd_time.to_string()'); return ""; }
+}
+
+export class xsd_duration extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        if (s.length === 0 || s[0] !== 'P')
+            return false;
+
+        this.v = {
+            years: '',
+            months: '',
+            days: '',
+            hours: '',
+            minutes: '',
+            seconds: ''
+        };
+
+        let n = 0,
+            t = false;
+
+        [...s].forEach((_s) => {
+            switch (_s) {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    n = n * 10 + _s - '0';
+                    break;
+                case 'Y':
+                    this.v.years = n;
+                    n = 0;
+                    break;
+                case 'M':
+                    if (t)
+                        this.v.minutes = n;
+                    else
+                        this.v.months = n;
+                    n = 0;
+                    break;
+                case 'D':
+                    this.v.days = n;
+                    n = 0;
+                    break;
+                case 'T':
+                    t = true;
+                    break;
+                case 'H':
+                    this.v.hours = n;
+                    n = 0;
+                    break;
+                case 'S':
+                    this.v.seconds = n;
+                    n = 0;
+                    break;
+                default:
+                    return false;
+            }
+        });
+        return true;
+    }
+    to_string() {
+        let ss = 'P';
+
+        if (this.v.years !== 0)
+            ss += `${this.v.years}Y`;
+        if (this.v.months !== 0)
+            ss += `${this.v.months}M`;
+        if (this.v.days !== 0)
+            ss += `${this.v.days}D`;
+
+        ss += 'T';
+        if (this.v.hours !== 0)
+            ss += `${this.v.hours}H`;
+        if (this.v.minutes !== 0)
+            ss += `${this.v.minutes}M`;
+        ss += `${this.v.seconds}S`;
+
+        return ss;
+    }
+}
+
+export class xsd_base64Binary extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        this.v = window.btoa(s);
+        return true;
+    }
+    to_string() { return window.atob(this.v); }
+}
+
+export class xsd_hexBinary extends primitive {
+    constructor(v) { super(); this.v = v; }
+    parse(obj, elem, s) {
+        if (s.length % 2 !== 0)
+            return false;
+
+        this.v = parseInt(s, 16);
+
+        return true;
+    }
+    to_string() { return this.v.toString(16); }
+}
+
+export class xsd_QName extends primitive {
+    constructor(prefix, name) { 
+        super(); 
+        this.v = {
+            [prefix]: name
+        }; 
+    }
+    load_v( obj, elem, s ){
+        let ss = s.split(':');
+        if ( ss.length !== 2 )
+            return false;
+
+        let ns = obj.find_namespace( elem, ss[0] );
+        if ( !ns )
+            return false;
+
+        let prefix = NS_PREFIX[ns];
+        this.v = { [prefix]: ss[1] };
+        return true;
+    }
+    save_elem( obj, elem ) {
+        SetText(elem, this.to_string());
+        obj.add_prefix( Object.keys( this.v )[0] );
+    }
+    load_elem( obj, elem ) {
+        let p = elem.childNodes[0].nodeValue;
+        if ( !p )
+            return false;
+
+        return this.load_v( obj, elem, p );
+    }
+    save_attr( obj, elem, attr ){
+        elem.setAttribute( attr, this.to_string() );
+        obj.add_prefix( Object.keys( this.v )[0] );
+    }
+    load_attr( obj, elem, attr ){
+        let p = elem.getAttribute( attr );
+        if ( !p )
+            return false;
+
+        return this.load_v( obj, elem, p );
+    }
+    parse(obj, elem, s) {
+        let ss = s.split(':');
+        if ( ss.length !== 2 )
+            return false;
+
+        let ns = obj.find_namespace( elem, ss[0] );
+        if ( !ns )
+            return false;
+
+        let prefix = NS_PREFIX[ns];
+        this.v = { [prefix]: ss[1] };
+        return true;
+    }
+    to_string() {
+        return Object.keys(this.v)[0] + ":" + Object.values(this.v)[0];
+    }
+}
+
+export class any_t extends xsd_type {
+    constructor({ prefix, name, v }) {
+        super();
+        this.elem = new window.DOMParser().parseFromString("<?xml version='1.0' encoding='UTF-8'?><ROOT></ROOT>", 'text/xml');
+        this.prefix = prefix;
+        this.name = name;
+        this.v = v;
+    }
+    save_elem( obj, elem ){
+        this.v.save_elem( obj, elem );
+    }
+    load_elem( obj, elem ){
+        this.elem = elem;
+        return true;
+    }
+}
+
+export class anyAttribute_t extends xsd_type {
+    constructor({ name, v }) {
+        super();
+        this.name = name;
+        this.v = v;
+    }
+    save_attr( obj, elem, attr ){
+        elem.setAttribute( attr, this.v );
+    }
+    load_attr( obj, elem, attr ){
+        let p = elem.getAttribute( attr );
+        if( !p )
+            return false;
+
+        this.name = attr;
+        this.v = p;
+        return true;
+    }
+}
+
+export class xsd_list extends xsd_type {
+    constructor(type) {
+        super();
+        this.v = [];
+        this.type = type;
+    }
+    save_elem( obj, elem ){
+        this.v.forEach((_v) => {
+            _v.save_elem( obj, elem );
+        });
+    }
+}
+
+export class xsd_simplelist extends primitive {
+    constructor(type) {
+        super();
+        this.v = [];
+        this.type = type;
+    }
+    parse( obj, elem, s ){
+        s.split( ' ' ).forEach((_s) => {
+            let t = new this.type();
+            if ( !t.parse( obj, elem, _s ) )
+                return false;
+            this.v.push( t );
+        });
+        return true;
+    }
+    to_string(){
+        let s = [];
+        this.v.forEach((_v) => {
+            s.push( _v.to_string() );
+        });
+        return string_join(s)
+    }
 }

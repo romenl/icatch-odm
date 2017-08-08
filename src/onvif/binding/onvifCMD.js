@@ -1,8 +1,8 @@
 /* eslint no-eval: 0 */
-
-import * as lib from '../lib/libonvif';
 import * as schemas from "../lib/onvif_schemas";
 import * as binding from "../lib/onvif_bindings";
+
+import { http_session } from '../lib/http_object';
 
 function createInput(type, cmd, ...args){
   let input = eval(`new schemas.${type}.message.${cmd}Request()`);
@@ -53,19 +53,19 @@ function getType( type ) {
 }
 
 export default function onvifCMD(type, cmd, ...args){
-  let obj = new lib.soap_object();
-  obj.host = location.host;
-  obj.username = "admin";
-  obj.password = "admin";
+  let session = new http_session();
+  session.host = location.host;
+  session.username = 'admin';
+  session.password = 'admin';
 
   let onvif = getType( type );
 
   let input  = createInput(onvif.schemas, cmd, ...args),
-      output = eval(`new schemas.${onvif.schemas}.message.${cmd}Response()`);
+      output = eval( `new schemas.${onvif.schemas}.message.${cmd}Response()` );
 
-  return new Promise( async (resolve, reject) => {
+  return new Promise( (resolve, reject) => {
     try {
-      await eval(`binding.${onvif.binding}.${cmd}(obj, input, output)`) ; 
+      eval(`binding.${onvif.binding}.${cmd}(session, input, output)`) ; 
     } catch(e) {
       reject(new Error('[Failed]'));
     }

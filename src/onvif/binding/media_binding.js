@@ -57,6 +57,10 @@ export async function GetVideoEncoderConfigurationOptions( token ) {
             Quality: {
                 Min: options.QualityRange.Min.v,
                 Max: options.QualityRange.Max.v
+            },
+            BitrateRange: {
+                Min: options.Extension.H264.BitrateRange.Min.v,
+                Max: options.Extension.H264.BitrateRange.Max.v
             }
         };
         
