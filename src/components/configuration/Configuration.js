@@ -39,7 +39,7 @@ export default class Configuration extends Component{
         };
 
         return(
-            <Layout style={{ margin: '24px 0', padding: '24px 0', background: '#fff' }}>
+            <Layout style={{ margin: '24px 0', padding: '24px 0', background: '#fff', height: 'calc(100% - 24px*2)' }}>
                 <Sider style={{ background: '#fff' }}>
                     <Menu
                         mode="inline"

@@ -46,22 +46,34 @@ class EncoderSettings extends Component{
     componentDidMount(){
         this.refreshInformation();
     }
-    // handleSubmit(e){
-    //     e.preventDefault();
-    //     this.deliver('Saving ...', 'Saved your configuration.');
-    // }
-    deliver(tip, msg='Your configuration is changed.'){
+    handleReset(){
+        const defaultSettings = {
+            main_Resolution: '2592x1520',
+            main_FPS: 30,
+            main_Bitrate: 2048,
+
+            sub_Resolution: '640x480',
+            sub_FPS: 30,
+            sub_Bitrate: 512
+        };
+
+        this.deliver('Reset Default ...', 'Reset your configuration.', defaultSettings);
+
+        this.props.form.setFieldsValue(defaultSettings);
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        this.deliver('Saving ...', 'Saved your configuration.');
+    }
+    deliver(tip, msg='Your configuration is changed.', reset){
         this.props.form.validateFields( async (err, values) => {
             if (!err) {
                 this.setState({
                     spin_tip: tip,
                     isSpinning: true
-                });
+                });                
                 
-                await SetVideoEncoderConfiguration({
-                    main: this.state.main,
-                    sub: this.state.sub
-                }, values );
+                await SetVideoEncoderConfiguration( this.setSettings( reset, values ) );
                 
                 // Close Spinning
                 this.setState({ isSpinning: false });
@@ -71,6 +83,27 @@ class EncoderSettings extends Component{
             else
                 message.error(err);
         });
+    }
+
+    setSettings( reset, values ){
+        let mainSettings = this.state.main.setting.data,
+            subSettings  = this.state.sub.setting.data;
+
+        let nextSettings = reset ? reset : values;
+
+        // Main Stream
+        mainSettings.Resolution.Width.v = parseInt(nextSettings.main_Resolution.split('x')[0], 10);
+        mainSettings.Resolution.Height.v = parseInt(nextSettings.main_Resolution.split('x')[1], 10);
+        mainSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.main_FPS, 10);
+        mainSettings.RateControl.BitrateLimit.v = parseInt(nextSettings.main_Bitrate, 10);
+        
+        // Sub Stream
+        subSettings.Resolution.Width.v = parseInt(nextSettings.sub_Resolution.split('x')[0], 10);
+        subSettings.Resolution.Height.v = parseInt(nextSettings.sub_Resolution.split('x')[1], 10);
+        subSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.sub_FPS, 10);
+        subSettings.RateControl.BitrateLimit.v = parseInt(nextSettings.sub_Bitrate, 10);
+
+        return { mainSettings, subSettings };
     }
     render() {
         const { spin_tip, isSpinning } = this.state;
@@ -84,73 +117,74 @@ class EncoderSettings extends Component{
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>Encoder Settings</h1>
-                <Form>
+                <Form onSubmit={this.handleSubmit.bind(this)}>
                     <Row gutter={16}>
                         <Col span={12}>
                             <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Main Stream</h3>}>
                                 <FormItemSelect 
                                     label='Resolution' 
-                                    id='main_resolution' 
-                                    value={ main ? main.setting.resolution : 'NaN' } 
+                                    id='main_Resolution' 
+                                    value={ main ? main.setting.Resolution : 'NaN' } 
                                     options={ main ? main.options.H264.Resolution : [{value: 0, name: 'NaN'}] } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
-                                    onChange={this.deliver.bind(this)}/>
+                                    />
                                 
                                 <FormItemSlider 
                                         label='FPS'
-                                        id='main_fps'
-                                        value={ main ? main.setting.fps : 1 }
+                                        id='main_FPS'
+                                        value={ main ? main.setting.FPS : 1 }
                                         min={ main ? main.options.H264.FrameRateRange.Min : 1 }
                                         max={ main ? main.options.H264.FrameRateRange.Max : 30 }
                                         layout={formItemLayout} decorator={getFieldDecorator}
-                                        onChange={this.deliver.bind(this)}/>
+                                        />
 
                                 <FormItemSlider 
-                                        label='Quality'
-                                        id='main_quality'
-                                        value={ main ? main.setting.quality : 1 }
-                                        min={ main ? main.options.Quality.Min : 1 }
-                                        max={ main ? main.options.Quality.Max : 5 }
+                                        label='Bitrate'
+                                        id='main_Bitrate'
+                                        value={ main ? main.setting.Bitrate : 1 }
+                                        min={ main ? main.options.BitrateRange.Min : 1024 }
+                                        max={ main ? main.options.BitrateRange.Max : 9216 }
+                                        step={ main ? main.options.BitrateRange.Min : undefined }
                                         layout={formItemLayout} decorator={getFieldDecorator}
-                                        onChange={this.deliver.bind(this)}/>
+                                        />
                             </Card>
                         </Col>
                         <Col span={12}>
                             <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Sub Stream</h3>}>
                                 <FormItemSelect 
                                     label='Resolution' 
-                                    id='sub_resolution'
-                                    value={ sub ? sub.setting.resolution : 'NaN' } 
+                                    id='sub_Resolution'
+                                    value={ sub ? sub.setting.Resolution : 'NaN' } 
                                     options={ sub ? sub.options.H264.Resolution : [{value: 0, name: 'NaN'}] } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
-                                    onChange={this.deliver.bind(this)}/>
+                                    />
                                 
                                 <FormItemSlider 
                                         label='FPS'
-                                        id='sub_fps'
-                                        value={ sub ? sub.setting.fps : 1 }
+                                        id='sub_FPS'
+                                        value={ sub ? sub.setting.FPS : 1 }
                                         min={ sub ? sub.options.H264.FrameRateRange.Min : 1 }
                                         max={ sub ? sub.options.H264.FrameRateRange.Max : 30 }
                                         layout={formItemLayout} decorator={getFieldDecorator}
-                                        onChange={this.deliver.bind(this)}/>
+                                        />
 
                                 <FormItemSlider 
-                                        label='Quality'
-                                        id='sub_quality'
-                                        value={ sub ? sub.setting.quality : 1 }
-                                        min={ sub ? sub.options.Quality.Min : 1 }
-                                        max={ sub ? sub.options.Quality.Max : 5 }
+                                        label='Bitrate'
+                                        id='sub_Bitrate'
+                                        value={ sub ? sub.setting.Bitrate : 1 }
+                                        min={ sub ? sub.options.BitrateRange.Min : 256 }
+                                        max={ sub ? sub.options.BitrateRange.Max : 2048 }
+                                        step={ sub ? sub.options.BitrateRange.Min : undefined }
                                         layout={formItemLayout} decorator={getFieldDecorator}
-                                        onChange={this.deliver.bind(this)}/>
+                                        />
                             </Card>
                         </Col>
                     </Row>
 
-                    {
-                    // <FormItem className='submit' wrapperCol={{ span: 2, offset: 20 }} style={{marginTop: 20}}>
-                    //     <Button type="primary" htmlType="submit">Save</Button>
-                    // </FormItem>
-                    }
+                    <FormItem className='submit' wrapperCol={{ span: 6, offset: 18 }} style={{marginTop: 20}}>
+                        <Button onClick={this.handleReset.bind(this)} style={{ marginRight: 10 }}>Default</Button>
+                        <Button type="primary" htmlType="submit">Save</Button>
+                    </FormItem>
                 </Form>
             </Spin>
         );

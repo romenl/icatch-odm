@@ -103,7 +103,7 @@ class SelectInput extends CustomInputComponent {
     }
     handleEnableChange(value){
         value = value === 'enable' ? true : false;
-
+        
         if (!('value' in this.props))
             this.setState({ enable: value });
 
@@ -113,6 +113,8 @@ class SelectInput extends CustomInputComponent {
     render(){
         let { enable, content } = this.state;
         enable = enable ? 'enable' : 'disable';
+
+        const { options } = this.props;
         
         return(
             <Input 
@@ -125,8 +127,8 @@ class SelectInput extends CustomInputComponent {
                         value={ enable }
                         style={{ width: 80 }}
                         onChange={this.handleEnableChange.bind(this)}>
-                        <Option value='enable'>Enable</Option>
-                        <Option value='disable'>Disable</Option>
+                        <Option value='enable'>{ options ? options.on : 'Enable' }</Option>
+                        <Option value='disable'>{ options ? options.off : 'Disable' }</Option>
                     </Select>
                 }
             />
@@ -311,32 +313,48 @@ class FormItemIPInput extends Component {
 }
 
 class FormItemSelectInput extends Component {
-    handleChange(){
+    constructor( props ) {
+        super( props );
+
+        this.state = {
+            error: false,
+            msg: ''
+        };
+    }
+    handleChange( value ){
         const { onChange } = this.props;
         
-        if( onChange )
+        if( onChange && this.validate( value ) )
             setTimeout(()=>{onChange();}, 250);
     }
-    validatePort(rule, value, callback) {
+    validate(value) {
         const { min=0, max=65535 } = this.props;
-
-        for( let k of Object.keys(value) ){
-            if (value[k] < min || value[k] > max)
-                callback(`Out of range, please check. (${min} - ${max})`);
-        }
         
-        callback();
+        if (value.content < min || value.content > max){
+            this.setState({
+                error: true,
+                msg: `Out of range, please check. (${min} - ${max})`
+            });
+
+            return false;
+        }
+        else{
+            this.setState({ error: false, msg: '' });
+
+            return true;
+        }
     }
     render(){
         const { label, layout, id, decorator,
+                options,
                 value={enable: false, content: 80} } = this.props;
 
+        const { error, msg } = this.state;
         return (
-            <FormItem label={label} {...layout} colon={false}>
+            <FormItem label={label} {...layout} colon={false} validateStatus={ error ? 'error' : '' } help={ msg }>
                 {decorator( id, {
-                    initialValue: {...value},
-                    rules: [{ validator: this.validatePort.bind(this) }]
-                })(<SelectInput onChange={this.handleChange.bind(this)}/>)}
+                    initialValue: {...value}
+                })(<SelectInput options={options} onChange={this.handleChange.bind(this)}/>)}
             </FormItem>
         );
     }
@@ -530,7 +548,8 @@ class FormItemSlider extends Component {
     }
     render(){
         const { label, layout, id, decorator,
-                min, max, value } = this.props;
+                min, max, marks, step,
+                value } = this.props;
 
         return (        
             <FormItem label={ label } {...layout} colon={false}>
@@ -540,7 +559,8 @@ class FormItemSlider extends Component {
                     <Slider 
                         min={min} 
                         max={max} 
-                        marks={{ [min]: min, [max]: max }} 
+                        step={step ? step : 1}
+                        marks={marks ? marks : { [min]: min, [max]: max }} 
                         onAfterChange={this.handleChange.bind(this)}/>
                 ) }
             </FormItem>
