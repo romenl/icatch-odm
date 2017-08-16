@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/web",
   "dependencies": {
-    "antd": "^2.10.2",
+    "antd": "^2.12.6",
     "react": "^15.4.2",
     "react-cookie": "^1.0.5",
     "react-dom": "^15.4.2",
