@@ -33,6 +33,14 @@ export async function GetOptions( token ) {
             name: 'AUTO'
         }];
 
+        const whiteBalanceOptions =[{
+            value: '0',
+            name: 'MANUAL'
+        },{
+            value: '1',
+            name: 'AUTO'
+        }];
+
         const onOffMode = {
             OFF: 0,
             ON: 1
@@ -59,7 +67,10 @@ export async function GetOptions( token ) {
                 Max: options.Contrast.Max.v
             },
             Exposure: {
-                Mode: onOffMode,
+                Mode: {
+                    AUTO: 0,
+                    MANUAL: 1
+                },
                 ExposureTime: {
                     Min: options.Exposure.ExposureTime.Min.v,
                     Max: options.Exposure.ExposureTime.Max.v
@@ -77,7 +88,18 @@ export async function GetOptions( token ) {
                     Max: options.WideDynamicRange.Level.Max.v
                 }
             },
-            //Focus, WhiteBalance
+            WhiteBalance: {
+                Mode: whiteBalanceOptions,
+                CbGain:{
+                    Min: options.WhiteBalance.YbGain.Min.v,
+                    Max: options.WhiteBalance.YbGain.Max.v,
+                },
+                CrGain:{
+                    Min: options.WhiteBalance.YrGain.Min.v,
+                    Max: options.WhiteBalance.YrGain.Max.v,
+                }
+            }
+            //Focus
         }
         
     } catch(e) {
@@ -89,7 +111,7 @@ export async function GetImagingSettings( token ) {
     try {
         let res = await onvifCMD( 'imaging', 'GetImagingSettings', token );
         let settings = res.ImagingSettings;
-        
+
         return {
             data: settings,
             BacklightCompensation: {
@@ -99,12 +121,20 @@ export async function GetImagingSettings( token ) {
             Brightness: settings.Brightness.v,
             ColorSaturation: settings.ColorSaturation.v,
             Contrast: settings.Contrast.v,
-            Exposure: settings.Exposure.ExposureTime.v,
+            Exposure: {
+                Mode: getKey( settings.Exposure.Mode ),
+                ExposureTime: settings.Exposure.ExposureTime.v
+            },
             IrCutFilter: getKey(settings.IrCutFilter),
             Sharpness: settings.Sharpness.v,
             WideDynamicRange: {
                 Mode: getKey(settings.WideDynamicRange.Mode),
                 Level: settings.WideDynamicRange.Level.v
+            },
+            WhiteBalance: {
+                Mode: getKey( settings.WhiteBalance.Mode ),
+                CbGain: settings.WhiteBalance.CbGain.v,
+                CrGain: settings.WhiteBalance.CrGain.v
             }
         };
     } catch(e) {
@@ -112,23 +142,12 @@ export async function GetImagingSettings( token ) {
     }
 }
 
-export async function SetImagingSettings( settings, nextSettings ) {
+export async function SetImagingSettings( settings ) {
     try {
         let setImagingSettings = new schemas.timg_SetImagingSettings();
         setImagingSettings.VideoSourceToken.v = '0';
         
-        settings.BacklightCompensation.Mode.v = nextSettings.backlight_compensation === 0 ? 0 : 1;
-        settings.BacklightCompensation.Level.v = nextSettings.backlight_compensation;
-        settings.Brightness.v = nextSettings.brightness;
-        settings.ColorSaturation.v = nextSettings.color_saturation;
-        settings.Contrast.v = nextSettings.contrast;
-        //settings.Exposure.ExposureTime.v = nextSettings.exposure;
-        settings.IrCutFilter.v = settings.IrCutFilter[ nextSettings.ircut_filter ];
-        settings.Sharpness.v = nextSettings.sharpness;
-        settings.WideDynamicRange.Mode.v = !nextSettings.wide_dynamic_range.enable ? 0 : 1;
-        settings.WideDynamicRange.Level.v = nextSettings.wide_dynamic_range.content ;
-        
-        setImagingSettings.ImagingSettings = settings;        
+        setImagingSettings.ImagingSettings = settings;
         await onvifCMD( 'imaging', 'SetImagingSettings', setImagingSettings );
     } catch(e) {
         console.log("[SetImagingSettings] ", e);
