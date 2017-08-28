@@ -40,7 +40,7 @@ class EncoderSettings extends Component{
                 isSpinning: false
             });
         } catch(e) {
-            console.log( '[ERROR] Users: ', e );
+            console.log( '[ERROR] ', e );
         }
     }
     componentDidMount(){
@@ -125,7 +125,7 @@ class EncoderSettings extends Component{
                                     label='Resolution' 
                                     id='main_Resolution' 
                                     value={ main ? main.setting.Resolution : 'NaN' } 
-                                    options={ main ? main.options.H264.Resolution : [{value: 0, name: 'NaN'}] } 
+                                    options={ main ? main.options.Resolution : [{value: 0, name: 'NaN'}] } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     />
                                 
@@ -133,8 +133,8 @@ class EncoderSettings extends Component{
                                         label='FPS'
                                         id='main_FPS'
                                         value={ main ? main.setting.FPS : 1 }
-                                        min={ main ? main.options.H264.FrameRateRange.Min : 1 }
-                                        max={ main ? main.options.H264.FrameRateRange.Max : 30 }
+                                        min={ main ? main.options.FrameRateRange.Min : 1 }
+                                        max={ main ? main.options.FrameRateRange.Max : 30 }
                                         layout={formItemLayout} decorator={getFieldDecorator}
                                         />
 
@@ -155,7 +155,7 @@ class EncoderSettings extends Component{
                                     label='Resolution' 
                                     id='sub_Resolution'
                                     value={ sub ? sub.setting.Resolution : 'NaN' } 
-                                    options={ sub ? sub.options.H264.Resolution : [{value: 0, name: 'NaN'}] } 
+                                    options={ sub ? sub.options.Resolution : [{value: 0, name: 'NaN'}] } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     />
                                 
@@ -163,8 +163,8 @@ class EncoderSettings extends Component{
                                         label='FPS'
                                         id='sub_FPS'
                                         value={ sub ? sub.setting.FPS : 1 }
-                                        min={ sub ? sub.options.H264.FrameRateRange.Min : 1 }
-                                        max={ sub ? sub.options.H264.FrameRateRange.Max : 30 }
+                                        min={ sub ? sub.options.FrameRateRange.Min : 1 }
+                                        max={ sub ? sub.options.FrameRateRange.Max : 30 }
                                         layout={formItemLayout} decorator={getFieldDecorator}
                                         />
 

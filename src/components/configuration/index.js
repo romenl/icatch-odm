@@ -4,6 +4,7 @@ export default Configuration;
 // Video
 export { default as EncoderSettings } from './EncoderSettings';
 export { default as ImageSettings } from './ImageSettings';
+export { default as OSDSettings } from './OSDSettings';
 // System
 export { default as DeviceInformation } from './DeviceInformation';
 export { default as TimeSettings } from './TimeSettings';

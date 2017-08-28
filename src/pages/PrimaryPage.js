@@ -10,7 +10,7 @@ import {
 const { Header, Content, Footer } = Layout;
 
 const About = () => (
-  <Layout style={{ margin: '24px 0', padding: '24px 0', background: '#fff', height: 'calc(100% - 24px*2)' }}>
+  <Layout style={{ padding: '24px 0', background: '#fff', height: '100%' }}>
     <Content style={{ padding: '0 24px', minHeight: 280 }}>
       <h1>About</h1>
     </Content>
@@ -39,7 +39,7 @@ const Primary = (routes, locale) => (
       </LocaleProvider>,
     content: 
       <LocaleProvider locale={locale}>
-        <Content style={{ padding: '0 50px', height:'100vh' }}>
+        <Content style={{ marginTop: 24, padding: '0 50px', height:'calc(100vh - 180px)' }}>
           <Route path={ routes.root } render={ ()=>( <Redirect to={ routes.liveView } /> ) } />
           <Route path={routes.liveView} component={LiveView}/>
           <Route path={routes.configuration} component={Configuration}/>

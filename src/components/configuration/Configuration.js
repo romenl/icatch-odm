@@ -3,7 +3,7 @@ import { Route, Link, Switch } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd';
 
 import { 
-    EncoderSettings, ImageSettings,
+    EncoderSettings, ImageSettings, OSDSettings,
     DeviceInformation, TimeSettings, Maintenance,
     NetworkSettings, HttpHttps, Wsd,
     Users 
@@ -22,6 +22,7 @@ export default class Configuration extends Component{
             video: {
                 encoder_settings: `${match.url}/video_encoder_settings`,
                 image_settings: `${match.url}/video_image_settings`,
+                osd_settings: `${match.url}/video_osd_settings`
             },
             system: {
                 device_infomation: `${match.url}/system_device_infomation`,
@@ -39,7 +40,7 @@ export default class Configuration extends Component{
         };
 
         return(
-            <Layout style={{ margin: '24px 0', padding: '24px 0', background: '#fff', height: 'calc(100% - 24px*2)' }}>
+            <Layout style={{ padding: '24px 0', background: '#fff', height: '100%' }}>
                 <Sider style={{ background: '#fff' }}>
                     <Menu
                         mode="inline"
@@ -52,7 +53,9 @@ export default class Configuration extends Component{
                             <Menu.Item key="image_settings">
                                 <Link to={ routes.video.image_settings }>Image Settings</Link>
                             </Menu.Item>
-                            <Menu.Item key="osd_settings">OSD Settings</Menu.Item>
+                            <Menu.Item key="osd_settings">
+                                <Link to={ routes.video.osd_settings }>OSD Settings</Link>
+                            </Menu.Item>
                         </SubMenu>
                         <SubMenu key="system" title={<span><Icon type="laptop" />System</span>}>
                             <Menu.Item key="device_infomation">
@@ -90,6 +93,7 @@ export default class Configuration extends Component{
                             </div>)} />
                         <Route path={ routes.video.encoder_settings } component={EncoderSettings}/>
                         <Route path={ routes.video.image_settings } component={ImageSettings}/>
+                        <Route path={ routes.video.osd_settings } component={OSDSettings}/>
                         <Route path={ routes.system.device_infomation } component={DeviceInformation}/>
                         <Route path={ routes.system.time_settings } component={TimeSettings}/>
                         <Route path={ routes.system.maintenance } component={Maintenance}/>

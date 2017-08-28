@@ -54,7 +54,7 @@ class DeviceInformation extends Component{
                 isSpinning: false
             });
         } catch(e) {
-            console.log( '[ERROR] Users: ', e );
+            console.log( '[ERROR] ', e );
         }
     }
     componentDidMount(){
