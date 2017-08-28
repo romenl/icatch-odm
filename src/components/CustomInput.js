@@ -5,6 +5,7 @@ import {
     DatePicker, Button, Upload, Icon, 
     message 
 } from 'antd';
+import { ChromePicker } from 'react-color'
 import moment from 'moment';
 
 const FormItem    = Form.Item,
@@ -132,6 +133,82 @@ class SelectInput extends CustomInputComponent {
                     </Select>
                 }
             />
+        );
+    }
+}
+
+class ColorPicker extends CustomInputComponent{
+    constructor(props){
+        super(props);
+        
+        const value = this.props.value || {};
+        
+        this.state = {
+            displayColorPicker: false,
+            color: {
+                r: value.r,
+                g: value.g,
+                b: value.b,
+                a: value.a,
+            }
+        };
+    }
+    handleClick(){
+        this.setState({ displayColorPicker: !this.state.displayColorPicker });
+        this.triggerChange({ displayColorPicker: !this.state.displayColorPicker });
+    }
+    handleClose(){
+        this.setState({ displayColorPicker: false });
+        this.triggerChange({ displayColorPicker: false });
+    }
+    handleChange(color) {
+        if (!('value' in this.props))
+            this.setState({ color: color.rgb });
+
+        this.triggerChange({ color: color.rgb });
+    }
+    render() {
+        const { color } = this.state;
+        const styles = {
+            color: {
+                width: '36px',
+                height: '14px',
+                borderRadius: '2px',
+                background: `rgba(${ color.r }, ${ color.g }, ${ color.b }, ${ color.a })`,
+            },
+            swatch: {
+                padding: '5px',
+                background: '#fff',
+                borderRadius: '1px',
+                boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+                display: 'inline-block',
+                cursor: 'pointer',
+            },
+            popover: {
+                position: 'absolute',
+                zIndex: '2',
+            },
+            cover: {
+                position: 'fixed',
+                top: '0px',
+                right: '0px',
+                bottom: '0px',
+                left: '0px',
+            }
+        };
+        return (
+            <div>
+                <div style={ styles.swatch } onClick={ this.handleClick.bind(this) }>
+                    <div style={ styles.color } />
+                </div>
+                { 
+                    this.state.displayColorPicker ? 
+                    <div style={ styles.popover }>
+                        <div style={ styles.cover } onClick={ this.handleClose.bind(this) }/>
+                        <ChromePicker color={ this.state.color } onChange={ this.handleChange.bind(this) } />
+                    </div> : null 
+                }    
+          </div>
         );
     }
 }
@@ -273,6 +350,7 @@ class FormItemInputNumber extends Component {
         const { label, id, layout, decorator, 
                 hasFeedback=false,
                 placeholder,
+                disabled,
                 min, max, value } = this.props;
 
         return (
@@ -280,7 +358,7 @@ class FormItemInputNumber extends Component {
             { decorator(id, { 
                 valuePropName: 'value', 
                 initialValue: value
-            })( <InputNumber min={min} max={max} placeholder={ placeholder }/> )}
+            })( <InputNumber min={min} max={max} disabled={disabled} placeholder={ placeholder }/> )}
             </FormItem>
         );
     }
@@ -568,6 +646,29 @@ class FormItemSlider extends Component {
     }
 }
 
+class FormColorPicker extends Component {
+    handleChange(){
+        const { onChange } = this.props;
+        if (onChange)
+            onChange();
+    }
+    render(){
+        const { label, layout, id, decorator,
+                value } = this.props;
+        
+        return (        
+            <FormItem label={ label } {...layout} colon={false}>
+                { decorator(id, {
+                    initialValue :  {
+                        color: value
+                    }
+                })( 
+                    <ColorPicker />
+                ) }
+            </FormItem>
+        );
+    }
+}
 
 const FormItemUserModal = Form.create()(UserModal);
 
@@ -583,5 +684,6 @@ export {
     FormItemUserModal,
     FormItemButtom,
     FormItemUpdateFirmware,
-    FormItemSlider
+    FormItemSlider,
+    FormColorPicker
 } ;
