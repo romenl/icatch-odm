@@ -15,7 +15,7 @@ install:
 	cp -a scripts/ $(DES_PATH)
 	cp -a src/ $(DES_PATH)
 	cp -a package.json $(DES_PATH)
-	cp -a yarn.lock $(DES_PATH)
+	cp -a package-lock.json $(DES_PATH)
 
 clean:
 	@echo '╔===========================╗'
@@ -26,4 +26,4 @@ clean:
 	rm -rf $(DES_PATH)/scripts/
 	rm -rf $(DES_PATH)/src/
 	rm -rf $(DES_PATH)/package.json
-	rm -rf $(DES_PATH)/yarn.lock
+	rm -rf $(DES_PATH)/package-lock.json
