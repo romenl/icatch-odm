@@ -20,9 +20,14 @@ export {
 } from './binding/device_binding';
 
 export {
+    // Encoder
     GetVideoEncoderConfigurationOptions,
     GetVideoEncoderConfiguration,
-    SetVideoEncoderConfiguration
+    SetVideoEncoderConfiguration,
+    // OSD
+    GetOSDOptions,
+    GetOSDs,
+    SetOSD
 } from './binding/media_binding';
 
 export {

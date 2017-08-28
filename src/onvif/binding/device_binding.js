@@ -1,4 +1,5 @@
 import * as schemas from "../lib/onvif_schemas";
+import { curryCMD, getKey } from './utils';
 import onvifCMD from './onvifCMD';
 
 /** User's Level **/
@@ -11,46 +12,29 @@ const UserLevel = {
 }
 
 /**
- * Get key value from option object. (eg: { 'Manual': 0, 'NTP': 1 })
- * 
- * @param {any} obj 
- * @returns string
- */
-function getValue( obj ) {
-    if ( obj && obj.v !== undefined )
-        return Object.keys( obj )[obj.v + 1];
-    else
-        return false;
-}
-
-/**
  * GetUsers()
  * 
  * @export
  * @returns array [{key, user_name, user_level}]
  */
-export async function GetUsers() {
-    try {
-        let res = await onvifCMD( 'device', 'GetUsers' );
-        let users = res.User.v;
-        let datas = [];
+export const GetUsers = 
+curryCMD( 'GetUsers', async () => {
+    let res = await onvifCMD( 'device', 'GetUsers' );
+    let users = res.User.v;
+    let datas = [];
 
-        users.forEach((user, index) => {
-            let u = {
-                key: index,
-                user_name: user.Username.v,
-                user_level: getValue( user.UserLevel )
-            }
+    users.forEach((user, index) => {
+        let u = {
+            key: index,
+            user_name: user.Username.v,
+            user_level: getKey( user.UserLevel )
+        }
 
-            datas.push(u);
-        });
+        datas.push(u);
+    });
 
-        return datas;
-
-    } catch(e) {
-        console.log("[GetUsers] ", e);
-    }
-}
+    return datas;
+});
 
 /**
  * CreateUsers()
@@ -58,18 +42,16 @@ export async function GetUsers() {
  * @export
  * @param {key, user_name, user_level} user 
  */
-export async function CreateUsers( user ) {
-    try {
-        let _user = new schemas.tt_User();
+export const CreateUsers = 
+curryCMD( 'CreateUsers', async (arg) => {
+    let user = arg[0];
+    let _user = new schemas.tt_User();
         _user.Username.v = user.name;
         _user.Password.v = user.password;
         _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => v === user.level );
 
-        await onvifCMD( 'device', 'CreateUsers', _user );
-    } catch(e) {
-        console.log("[CreateUsers] ", e);
-    }
-}
+    await onvifCMD( 'device', 'CreateUsers', _user );
+});
 
 /**
  * SetUser()
@@ -77,18 +59,16 @@ export async function CreateUsers( user ) {
  * @export
  * @param {key, user_name, user_level} user 
  */
-export async function SetUser( user ) {
-    try {
-        let _user = new schemas.tt_User();
+export const SetUser = 
+curryCMD( 'SetUser', async (arg) => {
+    let user = arg[0];
+    let _user = new schemas.tt_User();        
         _user.Username.v = user.name;
         _user.Password.v = user.password;
         _user.UserLevel.v = Object.values( UserLevel ).findIndex( (v) => user.level === v );
 
         await onvifCMD( 'device', 'SetUser', _user );
-    } catch(e) {
-        console.log("[SetUser] ", e);
-    }
-}
+});
 
 /**
  * DeleteUsers() by pass user's name.
@@ -96,13 +76,12 @@ export async function SetUser( user ) {
  * @export
  * @param string userName 
  */
-export async function DeleteUsers( userName ) {
-    try {
-        await onvifCMD( 'device', 'DeleteUsers', userName );
-    } catch(e) {
-        console.log("[SetUser] ", e);
-    }
-}
+export const DeleteUsers = 
+curryCMD( 'DeleteUsers', async (arg) => {
+    let userName = new schemas.xsd_string();
+    userName.v = arg[0];
+    await onvifCMD( 'device', 'DeleteUsers', userName );
+});
 
 /**
  * GetDeviceInformation()
@@ -110,22 +89,19 @@ export async function DeleteUsers( userName ) {
  * @export
  * @return object {Model, FirmwareVersion, Manufacturer, SerialNumber, HardwareId}
  */
-export async function GetDeviceInformation() {
-    try {
-        let res = await onvifCMD( 'device', 'GetDeviceInformation' );
-        let info = {
-            Model: res.Model.v,
-            FirmwareVersion: res.FirmwareVersion.v,
-            Manufacturer: res.Manufacturer.v,
-            SerialNumber: res.SerialNumber.v,
-            HardwareId: res.HardwareId.v
-        };
+export const GetDeviceInformation = 
+curryCMD( 'GetDeviceInformation', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetDeviceInformation' );
+    let info = {
+        Model: res.Model.v,
+        FirmwareVersion: res.FirmwareVersion.v,
+        Manufacturer: res.Manufacturer.v,
+        SerialNumber: res.SerialNumber.v,
+        HardwareId: res.HardwareId.v
+    };
 
-        return info;
-    } catch(e) {
-        console.log("[GetDeviceInformation] ", e);
-    }    
-}
+    return info;
+});
 
 /**
  * GetHostname()
@@ -133,16 +109,13 @@ export async function GetDeviceInformation() {
  * @export
  * @return string hostname
  */
-export async function GetHostname() {
-    try {
-        let res = await onvifCMD( 'device', 'GetHostname' );
-        let hostname = res.HostnameInformation.Name.v;
-        
-        return hostname;
-    } catch(e) {
-        console.log("[GetHostname] ", e);
-    }    
-}
+export const GetHostname = 
+curryCMD( 'GetHostname', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetHostname' );
+    let hostname = res.HostnameInformation.Name.v;
+    
+    return hostname;
+});
 
 /**
  * SetHostname()
@@ -150,26 +123,21 @@ export async function GetHostname() {
  * @export
  * @param string hostname 
  */
-export async function SetHostname( hostname ) {
-    try {
-        await onvifCMD( 'device', 'SetHostname', hostname );
-    } catch(e) {
-        console.log("[SetUser] ", e);
-    }
-}
+export const SetHostname = 
+curryCMD( 'SetHostname', async (arg) => {
+    let hostname = arg[0];
+    await onvifCMD( 'device', 'SetHostname', hostname );
+});
 
 /**
  * SystemReboot()
  * 
  * @export
  */
-export async function SystemReboot() {
-    try {
-        await onvifCMD( 'device', 'SystemReboot' );
-    } catch(e) {
-        console.log("[SystemReboot] ", e);
-    }
-}
+export const SystemReboot = 
+curryCMD( 'SystemReboot', async (arg) => {
+    await onvifCMD( 'device', 'SystemReboot' );
+});
 
 /**
  * GetNetworkInterfaces()
@@ -177,16 +145,13 @@ export async function SystemReboot() {
  * @export
  * @return object networkinterface
  */
-export async function GetNetworkInterfaces() {
-    try {
-        let res = await onvifCMD( 'device', 'GetNetworkInterfaces' );
-        let networkinterface = res.NetworkInterfaces.v;
-    
-        return networkinterface;
-    } catch(e) {
-        console.log("[GetNetworkInterfaces] ", e);
-    }
-}
+export const GetNetworkInterfaces = 
+curryCMD( 'GetNetworkInterfaces', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetNetworkInterfaces' );
+    let networkinterface = res.NetworkInterfaces.v;
+
+    return networkinterface;
+});
 
 /**
  * GetDiscoveryMode()
@@ -194,16 +159,13 @@ export async function GetNetworkInterfaces() {
  * @export
  * @returns boolean
  */
-export async function GetDiscoveryMode() {
-    try {
-        let res = await onvifCMD( 'device', 'GetDiscoveryMode' );
-        let discoveryMode = res.DiscoveryMode.v;
+export const GetDiscoveryMode = 
+curryCMD( 'GetDiscoveryMode', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetDiscoveryMode' );
+    let discoveryMode = res.DiscoveryMode.v;
 
-        return discoveryMode === 0 ? true : false;
-    } catch(e) {
-        console.log("[GetDiscoveryMode] ", e);
-    }
-}
+    return discoveryMode === 0 ? true : false;
+});
 
 /**
  * GetNTP()
@@ -211,22 +173,19 @@ export async function GetDiscoveryMode() {
  * @export
  * @returns array
  */
-export async function GetNTP() {
-    try {
-        let res = await onvifCMD( 'device', 'GetNTP' );
-        let ntp = res.NTPInformation;
-        let info = [];
+export const GetNTP = 
+curryCMD( 'GetNTP', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetNTP' );
+    let ntp = res.NTPInformation;
+    let info = [];
 
-        if ( ntp.FromDHCP.v )
-            ntp.NTPFromDHCP.v.forEach( (n) => info.push(n) );
-        else
-            ntp.NTPManual.v.forEach( (n) => info.push(n) );
-        
-        return info;
-    } catch(e) {
-        console.log("[GetNTP] ", e);
-    }
-}
+    if ( ntp.FromDHCP.v )
+        ntp.NTPFromDHCP.v.forEach( (n) => info.push(n) );
+    else
+        ntp.NTPManual.v.forEach( (n) => info.push(n) );
+    
+    return info;
+});
 
 /**
  * GetDNS()
@@ -234,22 +193,19 @@ export async function GetNTP() {
  * @export
  * @returns array
  */
-export async function GetDNS() {
-    try {
-        let res = await onvifCMD( 'device', 'GetDNS' );
-        let dns = res.DNSInformation;
-        let ip_address = [];
+export const GetDNS = 
+curryCMD( 'GetDNS', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetDNS' );
+    let dns = res.DNSInformation;
+    let ip_address = [];
 
-        if ( dns.FromDHCP.v )
-            dns.DNSFromDHCP.v.forEach( (d) => ip_address.push(d));
-        else
-            dns.DNSManual.v.forEach( (d) => ip_address.push(d));
+    if ( dns.FromDHCP.v )
+        dns.DNSFromDHCP.v.forEach( (d) => ip_address.push(d));
+    else
+        dns.DNSManual.v.forEach( (d) => ip_address.push(d));
 
-        return ip_address;
-    } catch(e) {
-        console.log("[GetDNS] ", e);
-    }
-}
+    return ip_address;
+});
 
 /**
  * GetNetworkProtocols()
@@ -257,28 +213,25 @@ export async function GetDNS() {
  * @export
  * @returns object {[name]: {enable, port[]}}
  */
-export async function GetNetworkProtocols() {
-    try {
-        let res = await onvifCMD( 'device', 'GetNetworkProtocols' );
-        let protocols = {};
+export const GetNetworkProtocols = 
+curryCMD( 'GetNetworkProtocols', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetNetworkProtocols' );
+    let protocols = {};
 
-        res.NetworkProtocols.v.forEach((p) => {
-            let name = getValue(p.Name);
-            let ports = [];
+    res.NetworkProtocols.v.forEach((p) => {
+        let name = getKey(p.Name);
+        let ports = [];
 
-            p.Port.v.forEach((port) => ports.push(port.v));
+        p.Port.v.forEach((port) => ports.push(port.v));
 
-            protocols[name] = {
-                enable: p.Enabled.v,
-                port: ports
-            };
-        });
+        protocols[name] = {
+            enable: p.Enabled.v,
+            port: ports
+        };
+    });
 
-        return protocols;
-    } catch(e) {
-        console.log("[GetNetworkProtocols] ", e);
-    }
-}
+    return protocols;
+});
 
 /**
  * GetSystemDateAndTime()
@@ -286,34 +239,31 @@ export async function GetNetworkProtocols() {
  * @export
  * @returns object sdt
  */
-export async function GetSystemDateAndTime() {
-    try {
-        let res = await onvifCMD( 'device', 'GetSystemDateAndTime' );
-        let dt = res.SystemDateAndTime;
-        let sdt = {
-            sync_type: getValue(dt.DateTimeType),
-            daylightSavings: dt.DaylightSavings.v,
-            tz: dt.TimeZone.TZ.v,
-            local: new Date(
-                dt.LocalDateTime.Date.Year.v,   // year
-                dt.LocalDateTime.Date.Month.v,  // month
-                dt.LocalDateTime.Date.Day.v,    // day
-                dt.LocalDateTime.Time.Hour.v,   // hour
-                dt.LocalDateTime.Time.Minute.v, // minute
-                dt.LocalDateTime.Time.Second.v, // second
-            ),
-            utc: new Date(
-                dt.UTCDateTime.Date.Year.v,   // year
-                dt.UTCDateTime.Date.Month.v,  // month
-                dt.UTCDateTime.Date.Day.v,    // day
-                dt.UTCDateTime.Time.Hour.v,   // hour
-                dt.UTCDateTime.Time.Minute.v, // minute
-                dt.UTCDateTime.Time.Second.v, // second
-            )
-        };
+export const GetSystemDateAndTime = 
+curryCMD( 'GetSystemDateAndTime', async (arg) => {
+    let res = await onvifCMD( 'device', 'GetSystemDateAndTime' );
+    let dt = res.SystemDateAndTime;
+    let sdt = {
+        sync_type: getKey(dt.DateTimeType),
+        daylightSavings: dt.DaylightSavings.v,
+        tz: dt.TimeZone.TZ.v,
+        local: new Date(
+            dt.LocalDateTime.Date.Year.v,   // year
+            dt.LocalDateTime.Date.Month.v,  // month
+            dt.LocalDateTime.Date.Day.v,    // day
+            dt.LocalDateTime.Time.Hour.v,   // hour
+            dt.LocalDateTime.Time.Minute.v, // minute
+            dt.LocalDateTime.Time.Second.v, // second
+        ),
+        utc: new Date(
+            dt.UTCDateTime.Date.Year.v,   // year
+            dt.UTCDateTime.Date.Month.v,  // month
+            dt.UTCDateTime.Date.Day.v,    // day
+            dt.UTCDateTime.Time.Hour.v,   // hour
+            dt.UTCDateTime.Time.Minute.v, // minute
+            dt.UTCDateTime.Time.Second.v, // second
+        )
+    };
 
-        return sdt;
-    } catch(e) {
-        console.log("[GetSystemDateAndTime] ", e);
-    }
-}
+    return sdt;
+});

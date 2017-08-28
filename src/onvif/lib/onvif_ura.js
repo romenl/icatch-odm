@@ -7,7 +7,7 @@ import * as libonvif from './libonvif';
     SAVE ELEMENT, ATTRIBUTE, ANY
 */
 function save_element( obj, elem, prefix, name, v ){
-    if ( !v )
+    if ( v === null )
         return;
         
     if (v instanceof types.xsd_list) {
@@ -23,14 +23,14 @@ function save_element( obj, elem, prefix, name, v ){
 }
 
 function save_attribute( obj, elem, prefix, name, v ){
-    if ( !v || !v.v ) 
+    if ( v === null || v.v === null || v.v === undefined ) 
         return;
 
     v.save_attr( obj, elem, name );
 }
 
 function save_any( obj, elem, any ){
-    if ( !any || !any.v )
+    if ( any === null || any.v === null)
         return;
 
     if (any instanceof types.xsd_list)
@@ -90,7 +90,7 @@ function load_element( obj, elem, prefix, name, v ){
     }
     else if ( v instanceof types.xsd_type ){
         let p = obj.find_child( elem, prefix, name );
-        if ( !p )
+        if ( p === null || p === undefined )
             return false;
 
         // 2017.08.08 OA
@@ -170,7 +170,7 @@ function load_any( obj, elem, any ){
     }
     else if ( any instanceof types.any_t ){
         let p = elem.firstElementChild;
-        if ( !p )
+        if ( p === null )
             return false;
         if ( obj.is_deleted(p) )
             return false;
@@ -284,6 +284,7 @@ export async function onvif_one_way_operation(
 
     if( !(await session.post()) )
         return false;
+
     return true;
 }
 
