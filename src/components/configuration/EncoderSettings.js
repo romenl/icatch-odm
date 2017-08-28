@@ -120,7 +120,7 @@ class EncoderSettings extends Component{
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Main Stream</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Main Stream</h3>}>
                                 <FormItemSelect 
                                     label='Resolution' 
                                     id='main_Resolution' 
@@ -150,7 +150,7 @@ class EncoderSettings extends Component{
                             </Card>
                         </Col>
                         <Col span={12}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Sub Stream</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Sub Stream</h3>}>
                                 <FormItemSelect 
                                     label='Resolution' 
                                     id='sub_Resolution'

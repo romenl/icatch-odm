@@ -165,7 +165,7 @@ class OSDSettings extends Component{
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <Row gutter={16}>
                         <Col span={8}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Position</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Position</h3>}>
                                 <FormItemSelect 
                                     label='Type' 
                                     id='position_type' 
@@ -193,7 +193,7 @@ class OSDSettings extends Component{
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Format</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Format</h3>}>
                                 <FormItemSelect 
                                     label='Text Type'
                                     id='text_type' 
@@ -218,7 +218,7 @@ class OSDSettings extends Component{
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Style</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Style</h3>}>
                                 <FormItemSlider 
                                     label='Font Size'
                                     id='font_size'

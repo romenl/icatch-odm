@@ -189,7 +189,7 @@ class ImageSettings extends Component{
                 <Form>
                     <Row gutter={16}>
                         <Col span={7}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Images</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Images</h3>}>
                                 {
                                     sliderList.map((s, index) => (
                                         <FormItemSlider 
@@ -206,7 +206,7 @@ class ImageSettings extends Component{
                             </Card>
                         </Col>
                         <Col span={7}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>White Balance</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>White Balance</h3>}>
                                 <FormItemSelect 
                                     label='Mode'
                                     id='white_balance_mode' 
@@ -235,7 +235,7 @@ class ImageSettings extends Component{
                             </Card>
                         </Col>
                         <Col span={10}>
-                            <Card title={<h3 style={{marginBottom: 24, textAlign: 'center'}}>Others</h3>}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Others</h3>}>
                                 <FormItemSelect 
                                     label='IrCut Filter' 
                                     id='ircut_filter'
