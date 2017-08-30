@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import update from 'react/lib/update';
 import { Row, Col, Spin, Card , Form, Button, message } from 'antd';
 import { FormItemSelect, FormItemSlider } from '../CustomInput';
 
@@ -6,6 +7,7 @@ import { FormItemSelect, FormItemSlider } from '../CustomInput';
 import { 
     GetVideoEncoderConfigurationOptions,
     GetVideoEncoderConfiguration,
+    GetVideoEncoderConfigurations,
     SetVideoEncoderConfiguration
 } from '../../onvif/';
 
@@ -23,9 +25,9 @@ class EncoderSettings extends Component{
         try {
             let data = await Promise.all([
                 GetVideoEncoderConfigurationOptions(0),
-                GetVideoEncoderConfiguration(0),
+                GetVideoEncoderConfigurations(0),
                 GetVideoEncoderConfigurationOptions(1),
-                GetVideoEncoderConfiguration(1)
+                GetVideoEncoderConfigurations(1)
             ]);
             
             this.setState({
@@ -46,12 +48,27 @@ class EncoderSettings extends Component{
     componentDidMount(){
         this.refreshInformation();
     }
+    handleEncoderChange(stream){
+        const encoding = this.props.form.getFieldValue(`${stream}_Encoding`);
+
+        if ( this.state[stream] )
+            this.setState( update( this.state, {
+                [stream]: {
+                    setting: {
+                        Encoding: { $set: encoding }
+                    }
+                }
+            }));
+        
+    }
     handleReset(){
         const defaultSettings = {
+            main_Encoding: 'H264',
             main_Resolution: '2592x1520',
             main_FPS: 30,
             main_Bitrate: 2048,
 
+            sub_Encoding: 'H265',
             sub_Resolution: '640x480',
             sub_FPS: 30,
             sub_Bitrate: 512
@@ -114,6 +131,35 @@ class EncoderSettings extends Component{
             wrapperCol: { span: 12 },
         };
         
+        const encoder = {
+            main: main ? ( main.setting.Encoding === 'H265' ? 0 : 1 ) : 0,
+            sub: sub ? ( sub.setting.Encoding === 'H265' ? 0 : 1 ) : 0
+        };
+        const options = {
+            main: {
+                Resolution: main ? main.options[ encoder.main ].Resolution : [{value: 0, name: 'NaN'}],
+                FrameRateRange: {
+                    Min: main ? main.options[ encoder.main ].FrameRateRange.Min : 1,
+                    Max: main ? main.options[ encoder.main ].FrameRateRange.Max : 30
+                },
+                BitrateRange: {
+                    Min: main ? main.options[ encoder.main ].BitrateRange.Min : 1024,
+                    Max: main ? main.options[ encoder.main ].BitrateRange.Max : 9216
+                }
+            },
+            sub: {
+                Resolution: sub ? sub.options[ encoder.sub ].Resolution : [{value: 0, name: 'NaN'}],
+                FrameRateRange: {
+                    Min: sub ? sub.options[ encoder.sub ].FrameRateRange.Min : 1,
+                    Max: sub ? sub.options[ encoder.sub ].FrameRateRange.Max : 30
+                },
+                BitrateRange: {
+                    Min: sub ? sub.options[ encoder.sub ].BitrateRange.Min : 256,
+                    Max: sub ? sub.options[ encoder.sub ].BitrateRange.Max : 2048
+                }
+            }
+        };
+        
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>Encoder Settings</h1>
@@ -122,61 +168,79 @@ class EncoderSettings extends Component{
                         <Col span={12}>
                             <Card title={<h3 style={{textAlign: 'center'}}>Main Stream</h3>}>
                                 <FormItemSelect 
+                                    label='Encoder' 
+                                    id='main_Encoding' 
+                                    value={ main ? main.setting.Encoding : 'NaN' } 
+                                    options={ [{value: 0, name: 'H265'}, {value: 1, name: 'H264'}] } 
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    onChange={this.handleEncoderChange.bind(this, 'main')}
+                                    />
+
+                                <FormItemSelect 
                                     label='Resolution' 
                                     id='main_Resolution' 
                                     value={ main ? main.setting.Resolution : 'NaN' } 
-                                    options={ main ? main.options.Resolution : [{value: 0, name: 'NaN'}] } 
+                                    options={ options.main.Resolution } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     />
                                 
                                 <FormItemSlider 
-                                        label='FPS'
-                                        id='main_FPS'
-                                        value={ main ? main.setting.FPS : 1 }
-                                        min={ main ? main.options.FrameRateRange.Min : 1 }
-                                        max={ main ? main.options.FrameRateRange.Max : 30 }
-                                        layout={formItemLayout} decorator={getFieldDecorator}
-                                        />
+                                    label='FPS'
+                                    id='main_FPS'
+                                    value={ main ? main.setting.FPS : 1 }
+                                    min={ options.main.FrameRateRange.Min }
+                                    max={ options.main.FrameRateRange.Max }
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    />
 
                                 <FormItemSlider 
-                                        label='Bitrate'
-                                        id='main_Bitrate'
-                                        value={ main ? main.setting.Bitrate : 1 }
-                                        min={ main ? main.options.BitrateRange.Min : 1024 }
-                                        max={ main ? main.options.BitrateRange.Max : 9216 }
-                                        step={ main ? main.options.BitrateRange.Min : undefined }
-                                        layout={formItemLayout} decorator={getFieldDecorator}
-                                        />
+                                    label='Bitrate'
+                                    id='main_Bitrate'
+                                    value={ main ? main.setting.Bitrate : 1 }
+                                    min={ options.main.BitrateRange.Min }
+                                    max={ options.main.BitrateRange.Max }
+                                    step={ main ? options.main.BitrateRange.Min : undefined }
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    />
                             </Card>
                         </Col>
                         <Col span={12}>
                             <Card title={<h3 style={{textAlign: 'center'}}>Sub Stream</h3>}>
                                 <FormItemSelect 
+                                    label='Encoder' 
+                                    id='sub_Encoding' 
+                                    value={ sub ? sub.setting.Encoding : 'NaN' } 
+                                    options={ [{value: 0, name: 'H265'}, {value: 1, name: 'H264'}] } 
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    onChange={this.handleEncoderChange.bind(this, 'sub')}
+                                    />
+
+                                <FormItemSelect 
                                     label='Resolution' 
                                     id='sub_Resolution'
                                     value={ sub ? sub.setting.Resolution : 'NaN' } 
-                                    options={ sub ? sub.options.Resolution : [{value: 0, name: 'NaN'}] } 
+                                    options={ options.sub.Resolution } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     />
                                 
                                 <FormItemSlider 
-                                        label='FPS'
-                                        id='sub_FPS'
-                                        value={ sub ? sub.setting.FPS : 1 }
-                                        min={ sub ? sub.options.FrameRateRange.Min : 1 }
-                                        max={ sub ? sub.options.FrameRateRange.Max : 30 }
-                                        layout={formItemLayout} decorator={getFieldDecorator}
-                                        />
+                                    label='FPS'
+                                    id='sub_FPS'
+                                    value={ sub ? sub.setting.FPS : 1 }
+                                    min={ options.sub.FrameRateRange.Min }
+                                    max={ options.sub.FrameRateRange.Max }
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    />
 
                                 <FormItemSlider 
-                                        label='Bitrate'
-                                        id='sub_Bitrate'
-                                        value={ sub ? sub.setting.Bitrate : 1 }
-                                        min={ sub ? sub.options.BitrateRange.Min : 256 }
-                                        max={ sub ? sub.options.BitrateRange.Max : 2048 }
-                                        step={ sub ? sub.options.BitrateRange.Min : undefined }
-                                        layout={formItemLayout} decorator={getFieldDecorator}
-                                        />
+                                    label='Bitrate'
+                                    id='sub_Bitrate'
+                                    value={ sub ? sub.setting.Bitrate : 1 }
+                                    min={ options.sub.BitrateRange.Min }
+                                    max={ options.sub.BitrateRange.Max }
+                                    step={ sub ? options.sub.BitrateRange.Min : undefined }
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    />
                             </Card>
                         </Col>
                     </Row>
