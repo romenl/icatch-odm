@@ -431,26 +431,28 @@ export class xsd_list extends xsd_type {
     }
 }
 
-export class xsd_simplelist extends primitive {
-    constructor(type) {
-        super();
-        this.v = [];
-        this.type = type;
-    }
-    parse( obj, elem, s ){
-        s.split( ' ' ).forEach((_s) => {
-            let t = new this.type();
-            if ( !t.parse( obj, elem, _s ) )
-                return false;
-            this.v.push( t );
-        });
-        return true;
-    }
-    to_string(){
-        let s = [];
-        this.v.forEach((_v) => {
-            s.push( _v.to_string() );
-        });
-        return string_join(s)
+export function xsd_simplelist(type){
+    return class xsd_simplelist extends primitive{
+        constructor() {
+            super();
+            this.v = [];
+            this.type = type;
+        }
+        parse( obj, elem, s ){
+            s.split( ' ' ).forEach((_s) => {
+                let t = new this.type();
+                if ( !t.parse( obj, elem, _s ) )
+                    return false;
+                this.v.push( t );
+            });
+            return true;
+        }
+        to_string(){
+            let s = [];
+            this.v.forEach((_v) => {
+                s.push( _v.to_string() );
+            });
+            return string_join(s)
+        }
     }
 }

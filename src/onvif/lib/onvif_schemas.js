@@ -1643,7 +1643,7 @@ export class tt_OnvifVersion extends types.xsd_type
         return true;
     }
 }
-export const tt_StringAttrList = new types.xsd_simplelist(xsd_string); // xsd_simplelist<xsd_string>;
+export const tt_StringAttrList = types.xsd_simplelist(xsd_string); // xsd_simplelist<xsd_string>;
 export class tt_SetDateTimeType extends types.xsd_enum // enum
 {
     constructor(e){
@@ -9707,8 +9707,8 @@ export class tt_AudioEncoder2Configuration extends tt_ConfigurationEntity
         return true;
     }
 }
-export const tt_IntAttrList = new types.xsd_simplelist(xsd_int_); // xsd_simplelist<xsd_int_>;
-export const tt_FloatAttrList = new types.xsd_simplelist(xsd_float_); // xsd_simplelist<xsd_float_>;
+export const tt_IntAttrList = types.xsd_simplelist(xsd_int_); // xsd_simplelist<xsd_int_>;
+export const tt_FloatAttrList = types.xsd_simplelist(xsd_float_); // xsd_simplelist<xsd_float_>;
 export class tt_VideoEncoder2ConfigurationOptions extends types.xsd_type
 {
     constructor(){
@@ -14813,7 +14813,7 @@ export class tt_StorageReferencePath extends types.xsd_type
         return true;
     }
 }
-export const tt_ReferenceTokenList = new types.xsd_simplelist(tt_ReferenceToken); // xsd_simplelist<tt_ReferenceToken>;
+export const tt_ReferenceTokenList = types.xsd_simplelist(tt_ReferenceToken); // xsd_simplelist<tt_ReferenceToken>;
 export class tt_VideoEncodingMimeNames extends types.xsd_enum // enum
 {
     constructor(e){
@@ -16093,7 +16093,7 @@ export class tr2_GetVideoSourceModes extends types.xsd_type
         return true;
     }
 }
-export const tr2_EncodingTypes = new types.xsd_simplelist(xsd_string); // xsd_simplelist<xsd_string>;
+export const tr2_EncodingTypes = types.xsd_simplelist(xsd_string); // xsd_simplelist<xsd_string>;
 export class tr2_VideoSourceMode extends types.xsd_type
 {
     constructor(){
@@ -16447,7 +16447,7 @@ export class tds_NetworkCapabilities extends types.xsd_type
         return true;
     }
 }
-export const tds_EAPMethodTypes = new types.xsd_simplelist(xsd_int_); // xsd_simplelist<xsd_int_>;
+export const tds_EAPMethodTypes = types.xsd_simplelist(xsd_int_); // xsd_simplelist<xsd_int_>;
 export class tds_SecurityCapabilities extends types.xsd_type
 {
     constructor(){
@@ -21757,7 +21757,7 @@ export class trt_GetVideoSourceModes extends types.xsd_type
         return true;
     }
 }
-export const trt_EncodingTypes = new types.xsd_simplelist(xsd_string); // xsd_simplelist<xsd_string>;
+export const trt_EncodingTypes = types.xsd_simplelist(xsd_string); // xsd_simplelist<xsd_string>;
 export class trt_VideoSourceModeExtension extends types.xsd_type
 {
     constructor(){
