@@ -23,6 +23,7 @@ export {
     // Encoder
     GetVideoEncoderConfigurationOptions,
     GetVideoEncoderConfiguration,
+    GetVideoEncoderConfigurations,
     SetVideoEncoderConfiguration,
     // OSD
     GetOSDOptions,

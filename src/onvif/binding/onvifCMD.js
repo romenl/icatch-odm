@@ -16,6 +16,7 @@ function createInput(type, cmd, ...args){
     args.forEach((arg) => { input.Name.v = arg; });
   // Media
   else if ( cmd === 'GetVideoEncoderConfiguration' || 
+            cmd === 'GetVideoEncoderConfigurations' ||
             cmd === 'GetVideoEncoderConfigurationOptions' ||
             cmd === 'GetOSDOptions' ||
             cmd === 'GetOSDs'
@@ -38,8 +39,11 @@ function createInput(type, cmd, ...args){
 function createOutput(type, cmd){
   
   // Media
-  if ( cmd === 'SetOSD' )
-    cmd = 'SetConfiguration';  
+  if ( type === 'tr2' ){
+    if ( cmd === 'SetOSD' ||
+         cmd === 'SetVideoEncoderConfiguration' )
+      cmd = 'SetConfiguration';  
+  }
   
   return eval(`new schemas.${type}.message.${cmd}Response()`);
 }
@@ -79,7 +83,7 @@ export default function onvifCMD(type, cmd, ...args){
   let onvif = getType( type );
 
   let input  = createInput(onvif.schemas, cmd, ...args),
-      output = createOutput( onvif.schemas, cmd );
+      output = createOutput(onvif.schemas, cmd);
 
   return new Promise( (resolve, reject) => {
     try {
