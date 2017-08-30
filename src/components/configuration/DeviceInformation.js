@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spin, Form, Button, message } from 'antd';
+import { Row, Col, Card, Spin, Form, Button, message } from 'antd';
 import { FormItemInput, FormItemIPInput } from '../CustomInput';
 
 // Onvif API
@@ -85,21 +85,27 @@ class DeviceInformation extends Component{
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
-            wrapperCol: { span: 8 },
+            wrapperCol: { span: 12 },
         };
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>Device Information</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
-                    <FormItemInput label='Name' id='name' value={ name } placeholder="Device's name" layout={formItemLayout} decorator={getFieldDecorator} />
-                    
-                    <FormItemInput label='Model' id='model' value={ model } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemInput label='Firmware' id='firmware' value={ firmware } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemInput label='MAC Address' id='mac_address' value={ mac_address } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemIPInput label='IP Address' id='ip_address' value={ ip_address } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
+                    <Row gutter={16}>
+                        <Col span={12} offset={6}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Infomation</h3>}>
+                                <FormItemInput label='Name' id='name' value={ name } placeholder="Device's name" layout={formItemLayout} decorator={getFieldDecorator} />
+                                
+                                <FormItemInput label='Model' id='model' value={ model } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
+                                <FormItemInput label='Firmware' id='firmware' value={ firmware } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
+                                <FormItemInput label='MAC Address' id='mac_address' value={ mac_address } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
+                                <FormItemIPInput label='IP Address' id='ip_address' value={ ip_address } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
+                            </Card>
+                        </Col>
+                    </Row>
 
-                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 14 }}>
+                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 16 }} style={{marginTop: 20}}>
                         <Button type="primary" htmlType="submit">Save</Button>
                     </FormItem>
                 </Form>

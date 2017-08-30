@@ -217,7 +217,7 @@ export const GetNetworkProtocols =
 curryCMD( 'GetNetworkProtocols', async (arg) => {
     let res = await onvifCMD( 'device', 'GetNetworkProtocols' );
     let protocols = {};
-
+    
     res.NetworkProtocols.v.forEach((p) => {
         let name = getKey(p.Name);
         let ports = [];
@@ -226,7 +226,7 @@ curryCMD( 'GetNetworkProtocols', async (arg) => {
 
         protocols[name] = {
             enable: p.Enabled.v,
-            port: ports
+            port: ports[0]
         };
     });
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Spin, message } from 'antd';
+import { Row, Col, Card, Form, Spin, message } from 'antd';
 import { FormItemInput, FormItemButtom, FormItemUpdateFirmware } from '../CustomInput';
 
 // Onvif API
@@ -88,20 +88,26 @@ class Maintenance extends Component{
         const { spin_tip, isSpinning, firmware, rebooting, restoring, defaulting, updating } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
-            labelCol: { span: 8 },
-            wrapperCol: { span: 8 },
+            labelCol: { span: 12 },
+            wrapperCol: { span: 12 },
         };
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>Maintenance</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
-                    <FormItemButtom label='Reboot device' type='primary' context='Reboot' loading={ rebooting } layout={formItemLayout} onClick={this.handleReboot.bind(this)} />
-                    <FormItemButtom label='Recovery device parameters to the factory settings' context='Restore' loading={ restoring } layout={formItemLayout} onClick={this.handleRestore.bind(this)} />
-                    <FormItemButtom label='Restore all parameters to default settings' context='Default' loading={ defaulting } layout={formItemLayout} onClick={this.handleDefault.bind(this)} />
-                    
-                    <FormItemInput label='Firmware' id='firmware' value={ firmware } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
-                    <FormItemUpdateFirmware label='Firmware Update' id='firmware_update' loading={ updating } layout={formItemLayout} decorator={getFieldDecorator} onClick={this.handleUpdate.bind(this)}/>
+                    <Row gutter={16}>
+                        <Col span={12} offset={6}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Maintenance</h3>}>
+                                <FormItemButtom label='Reboot device' type='primary' context='Reboot' loading={ rebooting } layout={formItemLayout} onClick={this.handleReboot.bind(this)} />
+                                <FormItemButtom label='Recovery device parameters to the factory settings' context='Restore' loading={ restoring } layout={formItemLayout} onClick={this.handleRestore.bind(this)} />
+                                <FormItemButtom label='Restore all parameters to default settings' context='Default' loading={ defaulting } layout={formItemLayout} onClick={this.handleDefault.bind(this)} />
+                                
+                                <FormItemInput label='Firmware' id='firmware' value={ firmware } disabled={true} layout={formItemLayout} decorator={getFieldDecorator} />
+                                <FormItemUpdateFirmware label='Firmware Update' id='firmware_update' loading={ updating } layout={formItemLayout} decorator={getFieldDecorator} onClick={this.handleUpdate.bind(this)}/>
+                            </Card>
+                        </Col>
+                    </Row>
                 </Form>
             </Spin>
         );

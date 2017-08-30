@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import update from 'react/lib/update';
-import { Spin, Table, Button, Icon, Popconfirm, message } from 'antd';
+import { Row, Col, Card, Spin, Table, Button, Icon, Popconfirm, message } from 'antd';
 import { FormItemUserModal } from '../CustomInput';
 
 // Onvif API
@@ -133,17 +133,22 @@ export default class Users extends Component{
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>User Management</h1>
                 <br />
-                <section id='user-management'>
-                    <Button onClick={this.handleCreate.bind(this)} style={{marginBottom: 5}}>Add</Button>
-                    <Table columns={this.columns} dataSource={ datas } locale={{emptyText: <span><Icon type="info-circle" />Have no any users now.</span>}}></Table>
-                    <FormItemUserModal 
-                        title={modify_user.name === '' ? "Create a new User" : `Modify ${ modify_user.name }`}
-                        visible={this.state.isOpen}
-                        modify_user={modify_user}
-                        onOk={this.handleSubmit.bind(this)}
-                        onCancel={this.handleCancel.bind(this)}
-                        ref={this.saveFormRef.bind(this)} />
-                </section>
+                <Row gutter={16}>
+                    <Col span={12} offset={6}>
+                        <Card title={<h3 style={{textAlign: 'center'}}>Users Information</h3>}>
+                            <section id='user-management'>
+                                <Button onClick={this.handleCreate.bind(this)} style={{marginBottom: 5}}>Add</Button>
+                                <Table columns={this.columns} dataSource={ datas } locale={{emptyText: <span><Icon type="info-circle" />Have no any users now.</span>}}></Table>
+                                <FormItemUserModal 
+                                    visible={this.state.isOpen}
+                                    modify_user={modify_user}
+                                    onOk={this.handleSubmit.bind(this)}
+                                    onCancel={this.handleCancel.bind(this)}
+                                    ref={this.saveFormRef.bind(this)} />
+                            </section>
+                        </Card>
+                    </Col>
+                </Row>
             </Spin>
         );
     }
