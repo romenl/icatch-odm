@@ -5,7 +5,7 @@ import { Layout, Menu, Icon } from 'antd';
 import { 
     EncoderSettings, ImageSettings, OSDSettings,
     DeviceInformation, TimeSettings, Maintenance,
-    NetworkSettings, HttpHttps, Wsd,
+    NetworkSettings, PortsWSD,
     Users 
 } from './';
 
@@ -31,8 +31,7 @@ export default class Configuration extends Component{
             },
             network: {
                 network_settings: `${match.url}/network_settings`,
-                http_https: `${match.url}/network_http_https`,
-                wsd: `${match.url}/network_wsd`
+                ports_wsd: `${match.url}/network_ports_wsd`
             },
             users: {
                 management: `${match.url}/users_management`
@@ -71,11 +70,8 @@ export default class Configuration extends Component{
                             <Menu.Item key="network_settings">
                                 <Link to={ routes.network.network_settings }>Network Settings</Link>
                             </Menu.Item>
-                            <Menu.Item key="http_https">
-                                <Link to={ routes.network.http_https }>HTTP/HTTPS</Link>
-                            </Menu.Item>
-                            <Menu.Item key="wsd">
-                                <Link to={ routes.network.wsd }>WSD</Link>
+                            <Menu.Item key="ports_wsd">
+                                <Link to={ routes.network.ports_wsd }>PortsWSD</Link>
                             </Menu.Item>
                         </SubMenu>
                         <SubMenu key="users" title={<span><Icon type="user" />Users</span>}>
@@ -98,8 +94,7 @@ export default class Configuration extends Component{
                         <Route path={ routes.system.time_settings } component={TimeSettings}/>
                         <Route path={ routes.system.maintenance } component={Maintenance}/>
                         <Route path={ routes.network.network_settings } component={NetworkSettings}/>
-                        <Route path={ routes.network.http_https } component={HttpHttps}/>
-                        <Route path={ routes.network.wsd } component={Wsd}/>
+                        <Route path={ routes.network.ports_wsd } component={PortsWSD}/>
                         <Route path={ routes.users.management } component={Users}/>
                     </Switch>
                 </Content>
