@@ -258,7 +258,7 @@ class UserModal extends Component {
         callback();
     }
     render(){
-        const { title, visible, modify_user, onCancel } = this.props;
+        const { visible, modify_user, onCancel } = this.props;
         const { confirmLoading } = this.state;
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -278,7 +278,7 @@ class UserModal extends Component {
 
         return (
             <Modal 
-                title={ title }
+                title={ modify_user.name === '' ? "Create a new User" : `Modify ${ modify_user.name }` }
                 visible={ visible }
                 confirmLoading={ confirmLoading }
                 onOk={ this.handleOk.bind(this) }
@@ -293,21 +293,26 @@ class UserModal extends Component {
                     <FormItemSelect 
                         label='User level' id='level' value={ modify_user.level !== '' ? modify_user.level : 'Operator' } options={ userlevels } layout={formItemLayout} decorator={getFieldDecorator}/>
 
-                    <FormItemInput 
-                        label='User password' id='password' type='password' hasFeedback={true} placeholder='User Password' layout={formItemLayout} decorator={getFieldDecorator}
-                        rules={[{
-                            required: true, message: 'Please input user password!'
-                        },{
-                            validator: this.checkConfirm.bind(this),
-                        }]}/>
-                    <FormItemInput 
-                        label='Password confirm' id='password_confirm' type='password' hasFeedback={true} placeholder='Confirm User Password' layout={formItemLayout} decorator={getFieldDecorator}
-                        onBlur={this.handleConfirmBlur.bind(this)}
-                        rules={[{
-                            required: true, message: 'Please confirm the password!'
-                        },{
-                            validator: this.checkPassword.bind(this)
-                        }]}/>
+                    {
+                        modify_user.name.length === 0 ?
+                        <div>
+                            <FormItemInput 
+                                label='User password' id='password' type='password' hasFeedback={true} placeholder='User Password' layout={formItemLayout} decorator={getFieldDecorator}
+                                rules={[{
+                                    required: true, message: 'Please input user password!'
+                                },{
+                                    validator: this.checkConfirm.bind(this),
+                                }]}/>
+                            <FormItemInput 
+                                label='Password confirm' id='password_confirm' type='password' hasFeedback={true} placeholder='Confirm User Password' layout={formItemLayout} decorator={getFieldDecorator}
+                                onBlur={this.handleConfirmBlur.bind(this)}
+                                rules={[{
+                                    required: true, message: 'Please confirm the password!'
+                                },{
+                                    validator: this.checkPassword.bind(this)
+                                }]}/>
+                        </div> : ''
+                    }
                 </Form>
             </Modal>
         );
@@ -446,7 +451,7 @@ class FormItemSwitch extends Component {
         
         if ( value === 'ON' )
             value = true;
-        else 
+        else if ( value === 'OFF' )
             value = false;
 
 
