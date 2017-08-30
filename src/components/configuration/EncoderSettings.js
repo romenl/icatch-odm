@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import update from 'react/lib/update';
-import { Row, Col, Spin, Card , Form, Button, message } from 'antd';
+import { Row, Col, Spin, Card, Form, Button, message } from 'antd';
 import { FormItemSelect, FormItemSlider } from '../CustomInput';
 
 // Onvif API
@@ -77,6 +77,8 @@ class EncoderSettings extends Component{
         this.deliver('Reset Default ...', 'Reset your configuration.', defaultSettings);
 
         this.props.form.setFieldsValue(defaultSettings);
+        this.handleEncoderChange('main');
+        this.handleEncoderChange('sub');
     }
     handleSubmit(e){
         e.preventDefault();
@@ -109,12 +111,14 @@ class EncoderSettings extends Component{
         let nextSettings = reset ? reset : values;
 
         // Main Stream
+        mainSettings.Encoding.v = nextSettings.main_Encoding;
         mainSettings.Resolution.Width.v = parseInt(nextSettings.main_Resolution.split('x')[0], 10);
         mainSettings.Resolution.Height.v = parseInt(nextSettings.main_Resolution.split('x')[1], 10);
         mainSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.main_FPS, 10);
         mainSettings.RateControl.BitrateLimit.v = parseInt(nextSettings.main_Bitrate, 10);
         
         // Sub Stream
+        subSettings.Encoding.v = nextSettings.sub_Encoding;
         subSettings.Resolution.Width.v = parseInt(nextSettings.sub_Resolution.split('x')[0], 10);
         subSettings.Resolution.Height.v = parseInt(nextSettings.sub_Resolution.split('x')[1], 10);
         subSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.sub_FPS, 10);

@@ -143,7 +143,7 @@ class OSDSettings extends Component{
             r: 255,
             g: 255,
             b: 255,
-            a: 100
+            a: 1
         };
         const bgColor = settings ? {
             r: settings.TextString.BackgroundColor.Color.X,
@@ -154,7 +154,7 @@ class OSDSettings extends Component{
             r: 255,
             g: 255,
             b: 255,
-            a: 100
+            a: 1
         };
 
         const costum_pos = (settings && settings.Position.Type === 'Custom') ? true : false;

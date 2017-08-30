@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import update from 'react/lib/update';
-import { Spin, Form, Tabs, Button } from 'antd';
+import { Row, Col, Card, Spin, Form, Tabs, Button } from 'antd';
 import { FormItemInput, FormItemIPInput, FormItemSwitch } from '../CustomInput';
 
 // Onvif API
@@ -239,40 +239,46 @@ class NetworkSettings extends Component{
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 8 },
-            wrapperCol: { span: 8 },
+            wrapperCol: { span: 12 },
         };
         
         return (
             <Spin tip={ spin_tip } spinning={ isSpinning }>
                 <h1>Network Settings</h1>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
-                    <FormItemInput label='Hostname' id='hostname' value={ hostname } placeholder='localhost' layout={formItemLayout} decorator={getFieldDecorator} />
-                    
-                    <Tabs activeKey={ ni_activeKey } type="editable-card" onChange={ this.handleChangeNI.bind(this) } onEdit={this.handleEditNI.bind(this)}>
-                    {
-                        networkinterface.map((n, index) => (
-                            <TabPane tab={ `${index + 1}` } key={ `${ n.key }` } closable={ index === 0 ? false : true }>
-                                <FormItemSwitch label='Zero Config' id={ `zero_config_${ n.key }` } layout={formItemLayout} decorator={getFieldDecorator} />
-                                <FormItemSwitch label='DHCP' id={ `dhcp_${ n.key }` } value={ n.dhcp } layout={formItemLayout} decorator={getFieldDecorator} />
-                                <FormItemIPInput label='IP Address' id={ `ip_address_${ n.key }` } value={ n.ip_address } layout={formItemLayout} decorator={getFieldDecorator} />
-                                <FormItemIPInput label='Subnet mask' id={ `subnet_mask_${ n.key }` } value={ n.subnet_mask } layout={formItemLayout} decorator={getFieldDecorator} />
-                            </TabPane>
-                        ))
-                    }
-                    </Tabs>
-                    
-                    <Tabs activeKey={ dns_activeKey } type="editable-card" onChange={ this.handleChangeDNS.bind(this) } onEdit={this.handleEditDNS.bind(this)}>
-                    {
-                        dns.map((d, index) => (
-                            <TabPane tab={ `${index + 1}` } key={ `${ d.key }` } closable={ index === 0 ? false : true }>
-                                <FormItemIPInput label='Default gateway' id={ `default_gateway_${ d.key }` } layout={formItemLayout} decorator={getFieldDecorator} />
-                                <FormItemIPInput label='DNS' id={ `dns_${ d.key }` } value={ d.address } layout={formItemLayout} decorator={getFieldDecorator} />
-                            </TabPane>
-                        ))
-                    }
-                    </Tabs>
+                    <Row gutter={16}>
+                        <Col span={12} offset={6}>
+                            <Card title={<h3 style={{textAlign: 'center'}}>Network Settings</h3>}>
+                                <FormItemInput label='Hostname' id='hostname' value={ hostname } placeholder='localhost' layout={formItemLayout} decorator={getFieldDecorator} />
+                                
+                                <Tabs activeKey={ ni_activeKey } type="editable-card" onChange={ this.handleChangeNI.bind(this) } onEdit={this.handleEditNI.bind(this)}>
+                                {
+                                    networkinterface.map((n, index) => (
+                                        <TabPane tab={ `${index + 1}` } key={ `${ n.key }` } closable={ index === 0 ? false : true }>
+                                            <FormItemSwitch label='Zero Config' id={ `zero_config_${ n.key }` } layout={formItemLayout} decorator={getFieldDecorator} />
+                                            <FormItemSwitch label='DHCP' id={ `dhcp_${ n.key }` } value={ n.dhcp } layout={formItemLayout} decorator={getFieldDecorator} />
+                                            <FormItemIPInput label='IP Address' id={ `ip_address_${ n.key }` } value={ n.ip_address } layout={formItemLayout} decorator={getFieldDecorator} />
+                                            <FormItemIPInput label='Subnet mask' id={ `subnet_mask_${ n.key }` } value={ n.subnet_mask } layout={formItemLayout} decorator={getFieldDecorator} />
+                                        </TabPane>
+                                    ))
+                                }
+                                </Tabs>
+                                
+                                <Tabs activeKey={ dns_activeKey } type="editable-card" onChange={ this.handleChangeDNS.bind(this) } onEdit={this.handleEditDNS.bind(this)}>
+                                {
+                                    dns.map((d, index) => (
+                                        <TabPane tab={ `${index + 1}` } key={ `${ d.key }` } closable={ index === 0 ? false : true }>
+                                            <FormItemIPInput label='Default gateway' id={ `default_gateway_${ d.key }` } layout={formItemLayout} decorator={getFieldDecorator} />
+                                            <FormItemIPInput label='DNS' id={ `dns_${ d.key }` } value={ d.address } layout={formItemLayout} decorator={getFieldDecorator} />
+                                        </TabPane>
+                                    ))
+                                }
+                                </Tabs>
+                            </Card>
+                        </Col>
+                    </Row>
 
-                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 14 }}>
+                    <FormItem className='submit' wrapperCol={{ span: 2, offset: 16 }} style={{marginTop: 20}}>
                         <Button type="primary" htmlType="submit">Save</Button>
                     </FormItem>
                 </Form>
