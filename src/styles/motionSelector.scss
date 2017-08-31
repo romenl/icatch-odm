@@ -1,0 +1,14 @@
+.motion_grid{
+    outline: 1px solid black;
+    float: left;
+    
+    &.selected{
+      background: rgba(0,0,0,.4);
+      &.selecting{
+        background: #fff;
+      }
+    }
+    &.selecting{
+      background: rgba(0,0,0,.3);
+    }
+}
