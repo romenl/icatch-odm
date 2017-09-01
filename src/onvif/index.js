@@ -21,15 +21,23 @@ export {
 
 export {
     // Encoder
-    GetVideoEncoderConfigurationOptions,
+    // GetVideoEncoderConfigurationOptions,
     GetVideoEncoderConfiguration,
+    // SetVideoEncoderConfiguration,
+    // Motion
+    GetAnalyticsConfigurations
+} from './binding/media_binding';
+
+export {
+    // Encoder
+    GetVideoEncoderConfigurationOptions,
     GetVideoEncoderConfigurations,
     SetVideoEncoderConfiguration,
     // OSD
     GetOSDOptions,
     GetOSDs,
-    SetOSD
-} from './binding/media_binding';
+    SetOSD,
+} from './binding/media2_binding';
 
 export {
     GetOptions,
