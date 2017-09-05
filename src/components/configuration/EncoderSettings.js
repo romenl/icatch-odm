@@ -63,12 +63,15 @@ class EncoderSettings extends Component{
     }
     handleReset(){
         const defaultSettings = {
+            // Main Stream
             main_Encoding: 'H264',
+            main_RateControl: 'CBR',
             main_Resolution: '2592x1520',
             main_FPS: 30,
             main_Bitrate: 2048,
-
+            // Sub Stream
             sub_Encoding: 'H265',
+            sub_RateControl: 'CBR',
             sub_Resolution: '640x480',
             sub_FPS: 30,
             sub_Bitrate: 512
@@ -112,6 +115,7 @@ class EncoderSettings extends Component{
 
         // Main Stream
         mainSettings.Encoding.v = nextSettings.main_Encoding;
+        mainSettings.RateControl.ConstantBitRate.v = ( nextSettings.main_RateControl === 'CBR' ? true : false );
         mainSettings.Resolution.Width.v = parseInt(nextSettings.main_Resolution.split('x')[0], 10);
         mainSettings.Resolution.Height.v = parseInt(nextSettings.main_Resolution.split('x')[1], 10);
         mainSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.main_FPS, 10);
@@ -119,6 +123,7 @@ class EncoderSettings extends Component{
         
         // Sub Stream
         subSettings.Encoding.v = nextSettings.sub_Encoding;
+        subSettings.RateControl.ConstantBitRate.v = ( nextSettings.sub_RateControl === 'CBR' ? true : false );
         subSettings.Resolution.Width.v = parseInt(nextSettings.sub_Resolution.split('x')[0], 10);
         subSettings.Resolution.Height.v = parseInt(nextSettings.sub_Resolution.split('x')[1], 10);
         subSettings.RateControl.FrameRateLimit.v = parseInt(nextSettings.sub_FPS, 10);
@@ -181,6 +186,14 @@ class EncoderSettings extends Component{
                                     />
 
                                 <FormItemSelect 
+                                    label='Rate Control' 
+                                    id='main_RateControl' 
+                                    value={ main ? ( main.setting.CBR ? 'CBR' : 'VBR' ) : 'NaN' } 
+                                    options={ [{value: 0, name: 'CBR'}, {value: 1, name: 'VBR'}] } 
+                                    layout={formItemLayout} decorator={getFieldDecorator}
+                                    />
+
+                                <FormItemSelect 
                                     label='Resolution' 
                                     id='main_Resolution' 
                                     value={ main ? main.setting.Resolution : 'NaN' } 
@@ -217,6 +230,14 @@ class EncoderSettings extends Component{
                                     options={ [{value: 0, name: 'H265'}, {value: 1, name: 'H264'}] } 
                                     layout={formItemLayout} decorator={getFieldDecorator}
                                     onChange={this.handleEncoderChange.bind(this, 'sub')}
+                                    />
+
+                                <FormItemSelect 
+                                    label='Rate Control' 
+                                    id='sub_RateControl' 
+                                    value={ sub ? ( sub.setting.CBR ? 'CBR' : 'VBR' ) : 'NaN' } 
+                                    options={ [{value: 0, name: 'CBR'}, {value: 1, name: 'VBR'}] } 
+                                    layout={formItemLayout} decorator={getFieldDecorator}
                                     />
 
                                 <FormItemSelect 

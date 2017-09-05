@@ -5,6 +5,7 @@
   "homepage": "/web",
   "dependencies": {
     "antd": "^2.12.6",
+    "packbits": "^1.0.0",
     "react": "^15.4.2",
     "react-color": "^2.13.5",
     "react-cookie": "^1.0.5",
