@@ -3,7 +3,7 @@ import { Route, Link, Switch } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd';
 
 import { 
-    EncoderSettings, ImageSettings, OSDSettings,
+    EncoderSettings, ImageSettings, OSDSettings, MotionSettings,
     DeviceInformation, TimeSettings, Maintenance,
     NetworkSettings, PortsWSD,
     Users 
@@ -22,7 +22,8 @@ export default class Configuration extends Component{
             video: {
                 encoder_settings: `${match.url}/video_encoder_settings`,
                 image_settings: `${match.url}/video_image_settings`,
-                osd_settings: `${match.url}/video_osd_settings`
+                osd_settings: `${match.url}/video_osd_settings`,
+                motion_settings: `${match.url}/video_motion_settings`
             },
             system: {
                 device_infomation: `${match.url}/system_device_infomation`,
@@ -54,6 +55,9 @@ export default class Configuration extends Component{
                             </Menu.Item>
                             <Menu.Item key="osd_settings">
                                 <Link to={ routes.video.osd_settings }>OSD Settings</Link>
+                            </Menu.Item>
+                            <Menu.Item key="motion_settings">
+                                <Link to={ routes.video.motion_settings }>Motion Settings</Link>
                             </Menu.Item>
                         </SubMenu>
                         <SubMenu key="system" title={<span><Icon type="laptop" />System</span>}>
@@ -90,6 +94,7 @@ export default class Configuration extends Component{
                         <Route path={ routes.video.encoder_settings } component={EncoderSettings}/>
                         <Route path={ routes.video.image_settings } component={ImageSettings}/>
                         <Route path={ routes.video.osd_settings } component={OSDSettings}/>
+                        <Route path={ routes.video.motion_settings } component={MotionSettings}/>
                         <Route path={ routes.system.device_infomation } component={DeviceInformation}/>
                         <Route path={ routes.system.time_settings } component={TimeSettings}/>
                         <Route path={ routes.system.maintenance } component={Maintenance}/>

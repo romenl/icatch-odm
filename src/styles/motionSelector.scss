@@ -1,14 +1,24 @@
 .motion_grid{
-    outline: 1px solid black;
-    float: left;
-    
-    &.selected{
-      background: rgba(0,0,0,.4);
-      &.selecting{
-        background: #fff;
-      }
+  float: left;
+  
+  &:hover{
+    background: #65799B;
+    opacity: .3;
+  }
+  
+  &.selected{
+    background: #555273;
+    opacity: .7;
+
+    &:hover{
+      opacity: .4;
     }
     &.selecting{
-      background: rgba(0,0,0,.3);
+      background: transparent;
     }
+  }
+  &.selecting{
+    background: #65799B;
+    opacity: .7;
+  }
 }

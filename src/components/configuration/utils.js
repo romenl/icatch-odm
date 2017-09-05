@@ -34,14 +34,42 @@ function formatBin(bin){
     }
     return result;
 }
+function fillin(source){
+    let fill = source.length % 8;
+    for( let i = 0; i < fill; i++ ){
+        source += '0';
+    }    
+    return source;
+}
+function hexToBase64(str) {
+    return btoa(String.fromCharCode.apply(null,
+      str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
+    );
+}  
+function base64ToHex(str) {
+    let hex = [];
+    for (let i = 0, bin = atob(str.replace(/[ \r\n]+$/, "")); i < bin.length; ++i) {
+        let tmp = bin.charCodeAt(i).toString(16);
+        if (tmp.length === 1) tmp = "0" + tmp;
+        hex[hex.length] = tmp;
+    }
+    return hex.join(" ");
+}
+function packBitsEncode( source ){
+    return packbits.encode( formatHex( bin2hex( fillin(source) ) ) );
+}
+function packBitsDecode( source ){
+    return hex2bin( packbits.decode( source ) );
+}
 
-export function packBitsEncode( source ){
-    source = bin2hex(source);
-    source = formatHex(source);
-    return packbits.encode(source);
+function motionAreaEncode( source ){
+    return hexToBase64( packBitsEncode( source ) );
 }
-export function packBitsDecode( source ){        
-    source = formatHex(source);
-    source = packbits.decode(source);
-    return hex2bin(source);
+function motionAreaDecode( source ){
+    return packBitsDecode( base64ToHex( source ) );
 }
+
+export {
+    motionAreaEncode,
+    motionAreaDecode
+};

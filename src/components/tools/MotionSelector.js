@@ -6,25 +6,33 @@ export default class MotionSelector extends Component {
     constructor(props){
         super(props);
         const {
-            width = 480,
-            height = 360,
+            value = '',
+            width = 520,
+            height = 420,
             columns = 24,
             rows = 18
         } = this.props;
 
         this.state = {
             // Init from props
-            width, height, columns, rows,
+            width, height, columns, rows, value,
             selecting: false,
             start: '0-0'
         };
     }
-    handleClick(e){
-        const target = e.target;        
-        target.classList.toggle('selected');
+    componentDidMount(){
+        let { value } = this.props;
+        let motionGrids = document.getElementsByClassName('motion_grid');
+
+        if ( value )
+            value.split("").forEach((v, index) => {
+                if( index < motionGrids.length && v === '1' )
+                    motionGrids[index].classList.add('selected');
+            });
     }
     handleMouseDown(e) {
         const target = e.target;
+        target.classList.add('selecting', 'dirty');
         this.setState({
             selecting: true,
             start: target.id
@@ -32,9 +40,6 @@ export default class MotionSelector extends Component {
     }
     handleMouseUp(e) {
         const { columns, rows } = this.state;
-
-        this.setState({ selecting: false });
-
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
                 if (this.refs[`${x}-${y}`].classList.contains('selecting'))
@@ -43,6 +48,11 @@ export default class MotionSelector extends Component {
                 this.refs[`${x}-${y}`].classList.remove('selecting', 'dirty');
             }
         }
+
+        this.setState({ 
+            selecting: false,
+            value: this.getSelected()
+         });
     }
     handleMouseOver(e) {
         const target = e.target;
@@ -62,7 +72,7 @@ export default class MotionSelector extends Component {
             current_x = [start_x, start_x = current_x][0];
         if (current_y < start_y)
             current_y = [start_y, start_y = current_y][0];
-        // Select    
+        // Select
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
                 if (x >= start_x && x <= current_x &&
@@ -78,9 +88,8 @@ export default class MotionSelector extends Component {
             }
         }
     }
-    outputSelected() {
+    getSelected() {
         let result = '';
-
         Object.keys(this.refs).forEach((ref) => {
             if (this.refs[ref].classList.contains('selected'))
                 result += '1';
@@ -88,25 +97,56 @@ export default class MotionSelector extends Component {
                 result += '0';
         });
 
-        console.log(result);
+        return result;
     }
     handleEnableAll(){
         const { columns, rows } = this.state;
-        
+        let result = '';
+
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
                 this.refs[`${x}-${y}`].classList.add('selected');
+                result += '1';
             }
         }
+
+        this.setState({ value: result });
     }
     handleDisableAll(){
         const { columns, rows } = this.state;
-        
+        let result = '';
+
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
                 this.refs[`${x}-${y}`].classList.remove('selected');
+                result += '0';
             }
         }
+
+        this.setState({ value: result });
+    }
+    
+    GetMotionGrids(style){
+        const { columns, rows } = this.state;
+        let motionGrids = [], index = 0;
+
+        for (let r = 0; r < rows; r++, index++) {
+            for (let c = 0; c < columns; c++, index++) {
+                motionGrids.push(
+                    <div
+                        id={`${c}-${r}`}
+                        ref={`${c}-${r}`}
+                        key={`${c}-${r}`}
+                        className={'motion_grid'}
+                        style={style}
+                        onMouseDown={this.handleMouseDown.bind(this)}
+                        onMouseUp={this.handleMouseUp.bind(this)}
+                        onMouseOver={this.handleMouseOver.bind(this)}>
+                    </div>
+                )
+            }
+        }
+        return motionGrids;
     }
     render() {
         const { width, height, columns, rows } = this.state;
@@ -125,14 +165,16 @@ export default class MotionSelector extends Component {
             }, 'Disable all Region' );
 
         const style = {
-            cover: {
+            cover:{
                 width: width,
                 height: height,
-                outline: '1px solid black'
+                outline: '1px solid #404040',
+                background: 'transparent'
             },
-            grid: {
+            grid:{
                 width: width / columns,
-                height: height / rows
+                height: height / rows,
+                outline: '1px solid #404040' 
             },
             buttonBlock: {
                 textAlign: 'center'
@@ -141,33 +183,13 @@ export default class MotionSelector extends Component {
                 display: 'inline-block',
                 margin: '15px 10px'
             }
-        };
-
-        const motionGrids = [];
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < columns; c++) {
-                motionGrids.push(
-                    <div
-                        id={`${c}-${r}`}
-                        ref={`${c}-${r}`}
-                        key={`${c}-${r}`}
-                        className='motion_grid'
-                        style={style.grid}
-                        onClick={this.handleClick.bind(this)}
-                        onMouseDown={this.handleMouseDown.bind(this)}
-                        onMouseUp={this.handleMouseUp.bind(this)}
-                        onMouseOver={this.handleMouseOver.bind(this)}>
-                    </div>
-                )
-            }
-        }
-
+        };  
 
         return (
             <div>
                 <div style={style.cover}>
                 {
-                    motionGrids
+                    this.GetMotionGrids(style.grid)
                 }
                 </div>
                 <div style={style.buttonBlock}>
