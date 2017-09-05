@@ -61,7 +61,7 @@ class MotionSettings extends Component{
                 
                 let motion_area = this.refs['motion_area'].state.value; 
                 motion_area = motionAreaEncode( motion_area );
-                values['motion_area'] = motion_area;                
+                values['motion_area'] = motion_area;          
                 //await SetVideoEncoderConfiguration( this.setSettings( reset, values ) );
                 
                 // Close Spinning
