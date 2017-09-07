@@ -3,11 +3,11 @@ import update from 'react/lib/update';
 import { Row, Col, Spin, Card, Form, Button, message } from 'antd';
 import { FormItemSelect, FormItemSlider } from '../CustomInput';
 import { MotionSelector } from '../tools';
-import { motionAreaEncode, motionAreaDecode } from './utils';
+import motionarea from '../tools/motionarea';
 
 // Onvif API
 import { 
-    //GetAnalyticsConfigurations
+    GetAnalyticsModules
 } from '../../onvif/';
 
 const FormItem = Form.Item;
@@ -22,7 +22,7 @@ class MotionSettings extends Component{
     }
     async refreshInformation() {
         try {
-            //let data = await GetAnalyticsConfigurations(0);
+            let data = await GetAnalyticsModules();
             
             this.setState({
                 // Set options and datas here
@@ -60,8 +60,8 @@ class MotionSettings extends Component{
                 });
                 
                 let motion_area = this.refs['motion_area'].state.value; 
-                motion_area = motionAreaEncode( motion_area );
-                values['motion_area'] = motion_area;          
+                motion_area = motionarea.encode( motion_area );
+                values['motion_area'] = motion_area;
                 //await SetVideoEncoderConfiguration( this.setSettings( reset, values ) );
                 
                 // Close Spinning
