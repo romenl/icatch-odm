@@ -4,7 +4,7 @@ import onvifCMD from './onvifCMD';
 
 export const GetAnalyticsModules = 
 curryCMD( 'GetAnalyticsModules', async () => {
-    let token = 'VideoAnalyticsToken';
+    let token = 'CellMotion';
     let res = await onvifCMD( 'analytics', 'GetAnalyticsModules', token );
     
     // deal response
