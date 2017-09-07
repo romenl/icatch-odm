@@ -25,7 +25,6 @@ export {
     GetVideoEncoderConfiguration,
     // SetVideoEncoderConfiguration,
     // Motion
-    GetAnalyticsConfigurations
 } from './binding/media_binding';
 
 export {
@@ -44,3 +43,7 @@ export {
     GetImagingSettings,
     SetImagingSettings
 } from './binding/imaging_binding';
+
+export {
+    GetAnalyticsModules
+} from './binding/analytics_engine_binding';

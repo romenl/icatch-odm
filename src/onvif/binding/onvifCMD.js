@@ -32,6 +32,10 @@ function createInput(type, cmd, ...args){
   else if ( cmd === 'SetImagingSettings' ){
     args.forEach(arg => { input = arg });
   }
+  // Analytics
+  else if ( cmd === 'GetAnalyticsModules' ){
+    args.forEach(arg => { input.ConfigurationToken.v = arg });
+  }
   
   return input;
 }
@@ -69,6 +73,11 @@ function getType( type ) {
       schemas: 'timg',
       binding: 'ImagingBinding'
     };
+  else if ( type === 'analytics' )
+    return {
+      schemas: 'tan_',
+      binding: 'AnalyticsEngineBinding'
+    }
 
   console.error( 'Wrong type!!' );
   return {};
