@@ -62,7 +62,7 @@
 
 * React 入門: [ReactJS 101](https://www.gitbook.com/book/kdchang/react101/details)
 * React Component Lifecycle: [官方](https://facebook.github.io/react/docs/state-and-lifecycle.html)、[AndyYou's Blog](http://andyyou.logdown.com/posts/178998-reactjs-assembly-operation-and-life-cycle)
-* ES6 (ES2015): [阮一峰 ES6 入門]((http://es6.ruanyifeng.com/))
+* ES6 (ES2015): [阮一峰 ES6 入門](http://es6.ruanyifeng.com/)
 * ES5 vs ES6+: [一看就懂的語法對照表](http://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/)
 * Async/Await: [ES7 Async Await 聖經](https://medium.com/@peterchang_82818/javascript-es7-async-await-%E6%95%99%E5%AD%B8-703473854f29-tutorial-example-703473854f29)
 * Promise, Generator, Async: [Callback 到 Promise 到 Async](http://huli.logdown.com/posts/292655-javascript-promise-generator-async-es6)
@@ -70,7 +70,7 @@
 
 ### CSS
 
-* Position: [關於 Position 屬性](http://huli.logdown.com/posts/292655-javascript-promise-generator-async-es6)
+* Position: [關於 Position 屬性](http://zh-tw.learnlayout.com/position.html)
 * 置中技巧: [垂直置中的七個方法](http://www.oxxostudio.tw/articles/201502/css-vertical-align-7methods.html)
 * SASS/SCSS: [使用 SCSS 來加速寫 CSS 吧!](http://blog.visioncan.com/2011/sass-scss-your-css/)
  
